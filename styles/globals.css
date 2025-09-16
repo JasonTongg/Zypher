@@ -44,3 +44,38 @@ img {
 .MuiList-padding {
   padding: 0 !important;
 }
+
+.bg-home {
+  background-image: url("/assets/HomeBackgroundDesktop.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  @media only screen and (max-width: 640px) {
+    background-image: url("/assets/HomeBackgroundMobile.png");
+  }
+}
+
+.bg-jokes {
+  background-image: url("/assets/jokesBackgroundDesktop.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  @media only screen and (max-width: 640px) {
+    background-image: url("/assets/JokesBackgroundMobile.png");
+  }
+}
+
+  .bg-jokes::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4); /* ubah 0.5 sesuai gelap yg kamu mau */
+    z-index: 0;
+  }
+
+  .bg-jokes > * {
+    position: relative;
+    z-index: 1; /* supaya konten tampil di atas overlay */
+  }

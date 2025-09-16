@@ -1,87 +1,116 @@
 import Link from "next/link";
+import React, { useEffect, useState } from "react";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAccount, useToken, useReadContract } from "wagmi";
+import { ethers } from "ethers";
+import { useDispatch, useSelector } from "react-redux";
+import { setBalance } from "../store/data";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import ConnectWalletButton from "../public/assets/ConnectWalletButton.png";
 import Image from "next/image";
-import React from "react";
-import Logo from "../public/assets/Logo.webp";
-import { GiHamburgerMenu } from "react-icons/gi";
-import Button from "@mui/material/Button";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+import TellAJokeButton from "../public/assets/TellAJokeButton.png";
+import LuckyDrawButton from "../public/assets/LuckyDrawButton.png";
+import Coin from "../public/assets/coin.png";
 
-export default function Navbar({
-  address,
-  twitter,
-  telegram,
-  dextoolsUrl,
-  uniswapUrl,
-  dexscreenerUrl,
-}) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+const ERC20_ABI = [
+  {
+    constant: true,
+    inputs: [{ name: "_owner", type: "address" }],
+    name: "balanceOf",
+    outputs: [{ name: "balance", type: "uint256" }],
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "decimals",
+    outputs: [{ name: "", type: "uint8" }],
+    type: "function",
+  },
+];
+
+export default function Navbar() {
+  const [symbol, setSymbol] = useState("TOKEN");
+  const dispatch = useDispatch();
+  const balance = useSelector((state) => state.data.balance);
+
+  const { address: userAddress, isConnected } = useAccount();
+  const tokenAddress = "0xAad8792DdDbE35e49D3E7b39359B6cBBDF712f0f";
+
+  const { data: tokenData } = useToken({
+    address: tokenAddress,
+    enabled: isConnected,
+  });
+
+  const { data: balanceData, refetch: refetchBalance } = useReadContract({
+    address: tokenAddress,
+    abi: ERC20_ABI,
+    functionName: "balanceOf",
+    args: [userAddress],
+    enabled: isConnected && !!userAddress,
+    watch: true,
+  });
+
+  useEffect(() => {
+    if (tokenData?.symbol) setSymbol(tokenData.symbol);
+    if (balanceData && tokenData?.decimals != null) {
+      const formatted = ethers.formatUnits(balanceData, tokenData.decimals);
+      dispatch(setBalance(formatted));
+    }
+    console.log();
+  }, [balanceData, tokenData, isConnected, userAddress, dispatch]);
+
   return (
-    <nav className="flex w-full z-[99] p-4 items-center justify-between gap-4 padding-section fixed max-w-screen-2xl px-4 sm:px-6 lg:px-8 top-0 left-1/2 translate-x-[-50%]">
-      <Image src={Logo} className="w-[65px]" />
-      <div className="items-center justify-center gap-5 md:flex hidden">
-        <Link href="#about">About</Link>
-        <Link href="#how">How to Buy</Link>
-        <Link href="#token">Tokenomics</Link>
-        <Link href="#social">Social</Link>
+    <nav className="fixed top-0 left-1/2 translate-x-[-50%] w-full z-50 px-4 py-2 flex items-center justify-between gap-4">
+      {window.location.pathname === "/game" ?
+        <Link href="/jokes">
+          <Image src={TellAJokeButton} className="w-[180px] h-auto"></Image>
+        </Link> :
+        <Link href="/game">
+          <Image src={LuckyDrawButton} className="w-[180px] h-auto"></Image>
+        </Link>}
+      <div className="flex items-center justify-center gap-4">
+        {isConnected && (
+          <div
+            className="
+            w-fill max-w-md
+            rounded-xl
+            bg-[#FDE5B2]
+            border-4 border-[#F5BE52]
+            shadow-[inset_0_1px_4px_rgba(0,0,0,0.3)]
+            px-4 py-1
+            font-serif text-lg
+            placeholder:text-[#8b6a2b]
+            focus:outline-none focus:ring-2 focus:ring-[#e0c98d]
+            flex items-center justify-center gap-1
+          "
+          >
+            {Number(balance).toFixed(0)} <Image src={Coin} className="w-[30px] h-auto translate-y-[3px]"></Image>
+          </div>
+        )}
+        {isConnected ? (
+          <ConnectButton></ConnectButton>
+        ) : (
+          <ConnectButton.Custom>
+            {({ account, chain, openConnectModal, mounted }) => {
+              return (
+                <button
+                  onClick={openConnectModal}
+                  className="focus:outline-none"
+                >
+                  <Image
+                    src={ConnectWalletButton}
+                    alt="Connect wallet"
+                    className="w-[200px] h-auto"
+                  />
+                </button>
+              );
+            }}
+          </ConnectButton.Custom>
+        )}
       </div>
-      <Link
-        href={uniswapUrl}
-        target="_blank"
-        className="text-primary py-2 px-4 border-2 border-primary rounded-[20px] font-bold md:block hidden"
-      >
-        BUYNOW
-      </Link>
-      <GiHamburgerMenu
-        className="text-3xl md:hidden block cursor-pointer"
-        onClick={handleClick}
-      />
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
-        <div className="bg-black text-white">
-          <Link href="#about" onClick={handleClose}>
-            <MenuItem>About</MenuItem>
-          </Link>
-          <Link href="#how" onClick={handleClose}>
-            <MenuItem>How to Buy</MenuItem>
-          </Link>
-          <Link href="#token" onClick={handleClose}>
-            <MenuItem>Tokenomics</MenuItem>
-          </Link>
-          <Link href="#social" onClick={handleClose}>
-            <MenuItem>Social</MenuItem>
-          </Link>
-          <Link href={twitter} onClick={handleClose} target="_blank">
-            <MenuItem>Twitter</MenuItem>
-          </Link>
-          <Link href={telegram} onClick={handleClose} target="_blank">
-            <MenuItem>Telegram</MenuItem>
-          </Link>
-          <Link href={uniswapUrl} onClick={handleClose} target="_blank">
-            <MenuItem>Uniswap</MenuItem>
-          </Link>
-          <Link href={dextoolsUrl} onClick={handleClose} target="_blank">
-            <MenuItem>Dextools</MenuItem>
-          </Link>
-          <Link href={dexscreenerUrl} onClick={handleClose} target="_blank">
-            <MenuItem>Dexscreener</MenuItem>
-          </Link>
-        </div>
-      </Menu>
+
     </nav>
   );
 }

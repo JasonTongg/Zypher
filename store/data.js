@@ -9,6 +9,7 @@ const initialState = {
   dextoolsUrl: "",
   uniswapUrl: "",
   dexscreenerUrl: "",
+  balance: "0",
 };
 
 // Create async thunks for fetching URLs
@@ -38,7 +39,9 @@ const datas = createSlice({
   name: "Datas",
   initialState,
   reducers: {
-    // Any additional reducers can be added here
+    setBalance(state, action) {
+      state.balance = action.payload;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -56,3 +59,5 @@ const datas = createSlice({
 
 // Export the reducer
 export default datas.reducer;
+
+export const { setBalance } = datas.actions;

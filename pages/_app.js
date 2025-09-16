@@ -6,11 +6,13 @@ import "@rainbow-me/rainbowkit/styles.css";
 import {
   getDefaultConfig,
   RainbowKitProvider,
-  darkTheme,
+  midnightTheme,
+  lightTheme,
 } from "@rainbow-me/rainbowkit";
 import { WagmiProvider } from "wagmi";
 import { mainnet, polygon, optimism, arbitrum, base } from "wagmi/chains";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { ToastContainer } from "react-toastify";
 
 const monad = {
   id: 10143,
@@ -31,10 +33,27 @@ const monad = {
   testnet: true,
 };
 
+const helachain = {
+  id: 666888,
+  name: "Helachain testnet",
+  iconBackground: "#fff",
+  nativeCurrency: { name: "Hela", symbol: "HLUSD", decimals: 18 },
+  rpcUrls: {
+    default: { http: ["https://testnet-rpc.helachain.com"] },
+  },
+  blockExplorers: {
+    default: {
+      name: "Helascan",
+      url: "https://testnet.helascan.io/",
+    },
+  },
+  testnet: true,
+};
+
 const config = getDefaultConfig({
   appName: "My RainbowKit App",
   projectId: "0e50ad124798913a4af212355f956d06",
-  chains: [mainnet, polygon, optimism, arbitrum, base, monad],
+  chains: [helachain],
   ssr: true,
 });
 
@@ -42,9 +61,15 @@ function MyApp({ Component, pageProps }) {
   const queryClient = new QueryClient();
   return (
     <Provider store={Store}>
+      <ToastContainer />
       <WagmiProvider config={config}>
         <QueryClientProvider client={queryClient}>
-          <RainbowKitProvider theme={darkTheme()} coolMode={true}>
+          <RainbowKitProvider theme={lightTheme({
+            accentColor: '#F5BE52',
+            accentColorForeground: '#000000',
+            borderRadius: 'large',
+            overlayBlur: 'small',
+          })} coolMode={true}>
             <Layout>
               <Component {...pageProps} />
             </Layout>
