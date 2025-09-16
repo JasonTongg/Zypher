@@ -14,21 +14,21 @@ export default function Document() {
           rel="stylesheet"
         />
         <link rel="icon" href="https://Domain/assets/Logo" />
-        <title>Title Content</title>
+        <title>King Jokes</title>
 
-        <meta name="title" content="Title Content" />
-        <meta name="description" content="Description Content" />
+        <meta name="title" content="King Jokes" />
+        <meta name="description" content="Helachain King Jokes" />
 
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://Domain/assets/FileName" />
-        <meta property="og:title" content="Title Content" />
-        <meta property="og:description" content="Description Content" />
+        <meta property="og:title" content="King Jokes" />
+        <meta property="og:description" content="Helachain King Jokes" />
         <meta property="og:image" content="https://Domain/assets/FileName" />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta property="twitter:url" content="https://Domain/assets/FileName" />
-        <meta property="twitter:title" content="Title Content" />
-        <meta property="twitter:description" content="Description Content" />
+        <meta property="twitter:title" content="King Jokes" />
+        <meta property="twitter:description" content="Helachain King Jokes" />
         <meta
           property="twitter:image"
           content="https://Domain/assets/FileName"
