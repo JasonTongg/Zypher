@@ -95,10 +95,7 @@ export default function Navbar() {
           '
 					>
 						{Number(balance).toFixed(0)}{" "}
-						<Image
-							src={Coin}
-							className='w-[30px] h-auto translate-y-[3px]'
-						></Image>
+						<Image src={Coin} className='w-[25px] h-auto'></Image>
 					</div>
 				)}
 				{isConnected ? (

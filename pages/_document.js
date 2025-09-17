@@ -17,7 +17,7 @@ export default function Document() {
 					href='https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;1,300&family=Ubuntu:wght@300&display=swap'
 					rel='stylesheet'
 				/>
-				<link rel='icon' href='https://Domain/assets/Logo' />
+				<link rel='icon' href='./assets/coin.png' />
 			</Head>
 			<body>
 				<Main />
