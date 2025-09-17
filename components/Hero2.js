@@ -8,6 +8,10 @@ import { ToastContainer, toast } from "react-toastify";
 // import { waitForTransactionReceipt } from "wagmi/actions";
 import { useWaitForTransactionReceipt } from "wagmi";
 import JokesTitle from "../public/assets/JokesTitle.png";
+import JokesTitleBad from "../public/assets/JokesTitleBad.png";
+import JokesTitleFunny from "../public/assets/JokesTitleFunny.png";
+import JokesTitleGood from "../public/assets/JokesTitleGood.png";
+import JokesTitleOkey from "../public/assets/JokesTitleOkey.png";
 import Image from "next/image";
 import JokesResult from "../public/assets/JokesResult.png";
 import StartButton from "../public/assets/SubmitButton.png";
@@ -49,6 +53,7 @@ export default function Hero() {
 	const tokenAddress = "0xAad8792DdDbE35e49D3E7b39359B6cBBDF712f0f";
 	const dispatch = useDispatch();
 	const [jokes, setJokes] = useState("");
+	const [titleImage, setTitleImage] = useState(JokesTitle);
 
 	const { data: tokenData } = useToken({
 		address: tokenAddress,
@@ -133,7 +138,7 @@ export default function Hero() {
 				toast.dark("Transaction failed on-chain.");
 			}
 		} catch (err) {
-			toast.dark(`Error: ${err.message || err}`);
+			toast.dark(`Transaction Failed`);
 		} finally {
 			setIsMinting(false);
 		}
@@ -149,6 +154,7 @@ export default function Hero() {
 		console.log(resp);
 		if (Number(resp.rating) < 5) {
 			toast.dark("Your joke is bad");
+			setTitleImage(JokesTitleBad);
 		} else if (
 			Number(resp.rating) === 5 ||
 			Number(resp.rating) === 7 ||
@@ -156,13 +162,18 @@ export default function Hero() {
 		) {
 			toast.dark("Your joke is okay");
 			sendTokenToMe("25");
+			setTitleImage(JokesTitleOkey);
 		} else if (Number(resp.rating) === 8 || Number(resp.rating) === 9) {
 			toast.dark("Your joke is good");
 			sendTokenToMe("100");
+			setTitleImage(JokesTitleGood);
 		} else {
 			toast.dark("Your joke is very funny!");
 			sendTokenToMe("300");
+			setTitleImage(JokesTitleFunny);
 		}
+
+		setJokes("");
 	}
 
 	return (
@@ -177,7 +188,7 @@ export default function Hero() {
 				className='flex flex-col items-center justify-center gap-6 w-full'
 			>
 				<Image
-					src={JokesTitle}
+					src={titleImage}
 					alt='Jokes title'
 					className='h-auto sm:!h-[30vh] w-[100%] sm:w-auto '
 				/>
@@ -186,6 +197,7 @@ export default function Hero() {
 					rows={2}
 					type='text'
 					placeholder='Tell your joke here…'
+					value={jokes}
 					onChange={(e) => setJokes(e.target.value)}
 					className='
             w-full max-w-md

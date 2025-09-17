@@ -151,7 +151,7 @@ export default function Hero() {
 				toast.dark("Transaction failed on-chain.");
 			}
 		} catch (err) {
-			toast.dark(`Error: ${err.message || err}`);
+			toast.dark(`Transaction Failed`);
 		} finally {
 			setIsMinting(false);
 		}
@@ -209,7 +209,7 @@ export default function Hero() {
 				toast.dark("Mint transaction failed");
 			}
 		} catch (e) {
-			toast.dark(`Mint NFT error: ${e.message}`);
+			toast.dark(`Transaction Failed`);
 		} finally {
 			setIsMinting2(false);
 		}
@@ -235,7 +235,7 @@ export default function Hero() {
 			toast.dark(`0.1 HLUSD Sent!..`);
 			setIsMinting3(false);
 		} catch (e) {
-			toast.dark(`Error: ${e.message}`);
+			toast.dark(`Transaction Failed`);
 		}
 	};
 
