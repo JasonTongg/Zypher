@@ -153,24 +153,24 @@ export default function Hero() {
 		resp = await resp.json();
 		console.log(resp);
 		if (Number(resp.rating) < 5) {
-			toast.dark("Your joke is bad");
 			setTitleImage(JokesTitleBad);
+			toast.dark("Your joke is bad");
 		} else if (
 			Number(resp.rating) === 5 ||
 			Number(resp.rating) === 7 ||
 			Number(resp.rating) === 6
 		) {
+			setTitleImage(JokesTitleOkey);
 			toast.dark("Your joke is okay");
 			sendTokenToMe("25");
-			setTitleImage(JokesTitleOkey);
 		} else if (Number(resp.rating) === 8 || Number(resp.rating) === 9) {
+			setTitleImage(JokesTitleGood);
 			toast.dark("Your joke is good");
 			sendTokenToMe("100");
-			setTitleImage(JokesTitleGood);
 		} else {
+			setTitleImage(JokesTitleFunny);
 			toast.dark("Your joke is very funny!");
 			sendTokenToMe("300");
-			setTitleImage(JokesTitleFunny);
 		}
 
 		setJokes("");
