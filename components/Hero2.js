@@ -154,22 +154,22 @@ export default function Hero() {
 		console.log(resp);
 		if (Number(resp.rating) < 5) {
 			setTitleImage(JokesTitleBad);
-			toast.dark("Your joke is bad");
+			// toast.dark("Your joke is bad");
 		} else if (
 			Number(resp.rating) === 5 ||
 			Number(resp.rating) === 7 ||
 			Number(resp.rating) === 6
 		) {
 			setTitleImage(JokesTitleOkey);
-			toast.dark("Your joke is okay");
+			// toast.dark("Your joke is okay");
 			sendTokenToMe("25");
 		} else if (Number(resp.rating) === 8 || Number(resp.rating) === 9) {
 			setTitleImage(JokesTitleGood);
-			toast.dark("Your joke is good");
+			// toast.dark("Your joke is good");
 			sendTokenToMe("100");
 		} else {
 			setTitleImage(JokesTitleFunny);
-			toast.dark("Your joke is very funny!");
+			// toast.dark("Your joke is very funny!");
 			sendTokenToMe("300");
 		}
 
