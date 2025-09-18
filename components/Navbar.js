@@ -11,6 +11,7 @@ import ConnectWalletButton from "../public/assets/ConnectWalletButton.png";
 import Image from "next/image";
 import TellAJokeButton from "../public/assets/TellAJokeButton.png";
 import LuckyDrawButton from "../public/assets/LuckyDrawButton.png";
+import LeaderboardButton from "../public/assets/LeaderboardButton.png";
 import Coin from "../public/assets/coin.png";
 
 const ERC20_ABI = [
@@ -52,47 +53,68 @@ export default function Navbar() {
 		watch: true,
 	});
 
+	async function savePoints(address, point) {
+		const res = await fetch("/api/savePoints", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ address, point }),
+		});
+
+		return res.json();
+	}
+
 	useEffect(() => {
 		if (tokenData?.symbol) setSymbol(tokenData.symbol);
 		if (balanceData && tokenData?.decimals != null) {
 			const formatted = ethers.formatUnits(balanceData, tokenData.decimals);
 			dispatch(setBalance(formatted));
+			savePoints(userAddress, Number(formatted));
 		}
 		console.log();
 	}, [balanceData, tokenData, isConnected, userAddress, dispatch]);
 
 	return (
 		<nav className='w-full z-50 px-4 py-2 flex items-center sm:flex-row flex-col justify-between gap-4'>
-			{window.location.pathname === "/game" ? (
-				<Link href='/jokes'>
+			<div className='flex items-center justify-center gap-4'>
+				{window.location.pathname === "/game" ? (
+					<Link href='/jokes'>
+						<Image
+							src={TellAJokeButton}
+							className='min-w-[150px] w-[150px] h-auto'
+						></Image>
+					</Link>
+				) : (
+					<Link href='/game'>
+						<Image
+							src={LuckyDrawButton}
+							className='min-w-[150px] w-[150px] h-auto'
+						></Image>
+					</Link>
+				)}
+				<Link href='/leaderboard'>
 					<Image
-						src={TellAJokeButton}
+						src={LeaderboardButton}
 						className='min-w-[150px] w-[150px] h-auto'
 					></Image>
 				</Link>
-			) : (
-				<Link href='/game'>
-					<Image
-						src={LuckyDrawButton}
-						className='min-w-[150px] w-[150px] h-auto'
-					></Image>
-				</Link>
-			)}
+			</div>
 			<div className='flex items-center justify-center gap-4'>
 				{isConnected && (
 					<div
 						className='
-            w-fill max-w-md
-            rounded-xl
-            bg-[#FDE5B2]
-            border-4 border-[#F5BE52]
-            shadow-[inset_0_1px_4px_rgba(0,0,0,0.3)]
-            px-4 py-1
-            font-serif text-lg
-            placeholder:text-[#8b6a2b]
-            focus:outline-none focus:ring-2 focus:ring-[#e0c98d]
-            flex items-center justify-center gap-1
-          '
+							w-fill max-w-md
+							rounded-xl
+							bg-[#FDE5B2]
+							border-4 border-[#F5BE52]
+							shadow-[inset_0_1px_4px_rgba(0,0,0,0.3)]
+							px-4 py-1
+							font-serif text-lg
+							placeholder:text-[#8b6a2b]
+							focus:outline-none focus:ring-2 focus:ring-[#e0c98d]
+							flex items-center justify-center gap-1
+						'
 					>
 						{Number(balance).toFixed(0)}{" "}
 						<Image src={Coin} className='w-[25px] h-auto'></Image>

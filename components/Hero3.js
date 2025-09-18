@@ -82,10 +82,23 @@ export default function Hero() {
 		watch: true,
 	});
 
+	async function savePoints(address, point) {
+		const res = await fetch("/api/savePoints", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ address, point }),
+		});
+
+		return res.json();
+	}
+
 	useEffect(() => {
 		if (balanceData && tokenData?.decimals != null) {
 			const formatted = ethers.formatUnits(balanceData, tokenData.decimals);
 			dispatch(setBalance(formatted));
+			savePoints(userAddress, Number(formatted));
 		}
 	}, [balanceData, tokenData, isConnected, userAddress]);
 
