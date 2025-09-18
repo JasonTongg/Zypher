@@ -50,7 +50,7 @@ const ERC20_ABI = [
 export default function Hero() {
 	const [isMinting, setIsMinting] = useState(false);
 	const { address: userAddress, isConnected, chainId } = useAccount();
-	const tokenAddress = "0xAad8792DdDbE35e49D3E7b39359B6cBBDF712f0f";
+	const tokenAddress = "0xc1a846B294a19604d6E99C0a426B0719bBaA7747";
 	const dispatch = useDispatch();
 	const [jokes, setJokes] = useState("");
 	const [titleImage, setTitleImage] = useState(JokesTitle);
@@ -119,7 +119,7 @@ export default function Hero() {
 
 			// 3️⃣ Setup contract & call mintWithSig
 			const contract = new ethers.Contract(
-				"0xAad8792DdDbE35e49D3E7b39359B6cBBDF712f0f",
+				"0xc1a846B294a19604d6E99C0a426B0719bBaA7747",
 				[
 					{
 						inputs: [
@@ -157,6 +157,28 @@ export default function Hero() {
 		}
 	};
 
+	async function mintToken(userAddress, amount) {
+		const amountInWei = ethers.parseUnits(amount, 18).toString();
+		try {
+			const res = await fetch("/api/mintGasless", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ userAddress, amount: amountInWei }),
+			});
+
+			await res.json();
+
+			toast.dark(`Successfully received ${amount} Gold Coin!`);
+			refetchBalance?.();
+		} catch (err) {
+			toast.dark(`Transaction Failed`);
+		} finally {
+			setIsMinting(false);
+		}
+	}
+
 	async function rateJoke(joke) {
 		let resp = await fetch("/api/rate", {
 			method: "POST",
@@ -175,15 +197,18 @@ export default function Hero() {
 		) {
 			setTitleImage(JokesTitleOkey);
 			// toast.dark("Your joke is okay");
-			sendTokenToMe("25");
+			toast.dark(`Congratulations! You won: 25 Gold Coin`);
+			mintToken(userAddress, "25");
 		} else if (Number(resp.rating) === 8 || Number(resp.rating) === 9) {
 			setTitleImage(JokesTitleGood);
 			// toast.dark("Your joke is good");
-			sendTokenToMe("100");
+			toast.dark(`Congratulations! You won: 100 Gold Coin`);
+			mintToken(userAddress, "100");
 		} else {
 			setTitleImage(JokesTitleFunny);
 			// toast.dark("Your joke is very funny!");
-			sendTokenToMe("300");
+			toast.dark(`Congratulations! You won: 300 Gold Coin`);
+			mintToken(userAddress, "300");
 		}
 
 		setJokes("");

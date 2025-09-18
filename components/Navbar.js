@@ -37,7 +37,7 @@ export default function Navbar() {
 	const balance = useSelector((state) => state.data.balance);
 
 	const { address: userAddress, isConnected } = useAccount();
-	const tokenAddress = "0xAad8792DdDbE35e49D3E7b39359B6cBBDF712f0f";
+	const tokenAddress = "0xc1a846B294a19604d6E99C0a426B0719bBaA7747";
 
 	const { data: tokenData } = useToken({
 		address: tokenAddress,
@@ -78,17 +78,17 @@ export default function Navbar() {
 	return (
 		<nav className='w-full z-50 px-4 py-2 flex items-center sm:flex-row flex-col justify-between gap-4'>
 			<div className='flex items-center justify-center gap-4'>
-				{window.location.pathname === "/game" ? (
-					<Link href='/jokes'>
+				{window.location.pathname === "/jokes" ? (
+					<Link href='/game'>
 						<Image
-							src={TellAJokeButton}
+							src={LuckyDrawButton}
 							className='min-w-[150px] w-[150px] h-auto'
 						></Image>
 					</Link>
 				) : (
-					<Link href='/game'>
+					<Link href='/jokes'>
 						<Image
-							src={LuckyDrawButton}
+							src={TellAJokeButton}
 							className='min-w-[150px] w-[150px] h-auto'
 						></Image>
 					</Link>

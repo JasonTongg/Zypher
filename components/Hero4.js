@@ -9,6 +9,10 @@ import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import ConnectWalletButton from "../public/assets/ConnectWalletButton.png";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import LeaderboardContainer from "../public/assets/Leaderboard.png";
+import MyRank from "../public/assets/MyRank.png";
+import Coin from "../public/assets/coin.png";
+import { useSelector } from "react-redux";
 
 const ERC20_ABI = [
 	{
@@ -29,10 +33,11 @@ const ERC20_ABI = [
 
 export default function Hero() {
 	const { address: userAddress, isConnected, chainId } = useAccount();
-	const tokenAddress = "0xAad8792DdDbE35e49D3E7b39359B6cBBDF712f0f";
+	const tokenAddress = "0xc1a846B294a19604d6E99C0a426B0719bBaA7747";
 	const dispatch = useDispatch();
 	const [data, setData] = useState([]);
 	const [user, setUser] = useState([]);
+	const balance = useSelector((state) => state.data.balance);
 
 	const { data: tokenData } = useToken({
 		address: tokenAddress,
@@ -92,18 +97,58 @@ export default function Hero() {
 				initial={{ scale: 0.9, opacity: 0 }}
 				animate={{ scale: 1, opacity: 1 }}
 				transition={{ duration: 0.5 }}
-				className='flex flex-col items-center justify-center gap-6 w-full bg-white'
+				className='flex flex-col items-center justify-center gap-8 w-full'
 			>
-				{data?.length > 0 &&
-					data?.map((Items, index) => (
-						<p key={index}>
-							{Items.address}, Point: {Items.point}
-						</p>
-					))}
+				<div className='max-w-3xl p-4'>
+					<div className='flex flex-col md:flex-row items-center md:items-start gap-4 relative w-fit sm:px-[10rem] px-[3rem] pt-[2rem]'>
+						<Image
+							src={LeaderboardContainer}
+							alt='Deskripsi gambar'
+							className='w-[500px] h-auto rounded-lg object-cover absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%]'
+						/>
+						<div className='sm:h-[150px] h-[100px] sx:h-[120px] overflow-auto relative z-[10] gap-[8px] flex flex-col items-start w-[200px] sx:w-[300px]'>
+							{data?.length > 0 &&
+								data
+									?.filter((_, index) => index <= 19)
+									.map((Items, index) => (
+										<div
+											key={index}
+											className='flex items-center justify-between w-full'
+										>
+											<p>
+												{index + 1}. {Items.address.slice(0, 5)}...
+												{Items.address.slice(-5)}
+											</p>
+											<p className='flex flex-row items-center justify-center gap-1'>
+												{Items.point}
+												<Image src={Coin} className='w-[15px] h-auto' />
+											</p>
+										</div>
+									))}
+						</div>
+					</div>
+				</div>
 				{isConnected ? (
-					<button>
-						{user.address} My Rank: {user.rank || 0}, {user.point || 0}
-					</button>
+					<div className='relative py-[5px] px-[1.5rem]'>
+						<Image
+							src={MyRank}
+							alt='Deskripsi gambar'
+							className='w-[500px] h-auto rounded-lg object-cover absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%] flex items-center justify-center'
+						/>
+						<div className='flex items-center justify-center w-full relative z-[10] gap-[1rem]'>
+							<p className='flex items-center justify-center'>
+								Your Rank: {user.rank || 0}.{" "}
+								<span className='sx:block hidden'>
+									{userAddress.slice(0, 5)}...
+									{userAddress.slice(-5)}
+								</span>
+							</p>
+							<p className='flex flex-row items-center justify-center gap-1'>
+								{Number(balance).toFixed(0)}
+								<Image src={Coin} className='w-[15px] h-auto' />
+							</p>
+						</div>
+					</div>
 				) : (
 					<ConnectButton.Custom>
 						{({ account, chain, openConnectModal, mounted }) => {

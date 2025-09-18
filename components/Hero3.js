@@ -63,7 +63,7 @@ export default function Hero() {
 	const [isMinting2, setIsMinting2] = useState(false);
 	const [isMinting3, setIsMinting3] = useState(false);
 	const { address: userAddress, isConnected, chainId } = useAccount();
-	const tokenAddress = "0xAad8792DdDbE35e49D3E7b39359B6cBBDF712f0f";
+	const tokenAddress = "0xc1a846B294a19604d6E99C0a426B0719bBaA7747";
 	const dispatch = useDispatch();
 	const [reward, setReward] = useState(null);
 	const [isBurnFailed, setIsBurnFailed] = useState(false);
@@ -132,7 +132,7 @@ export default function Hero() {
 
 			// 3️⃣ Setup contract & call mintWithSig
 			const contract = new ethers.Contract(
-				"0xAad8792DdDbE35e49D3E7b39359B6cBBDF712f0f",
+				"0xc1a846B294a19604d6E99C0a426B0719bBaA7747",
 				[
 					{
 						inputs: [

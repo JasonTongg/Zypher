@@ -1,6 +1,6 @@
 :root {
-  --primary-color: #1da1f2;
-  --secondary-color: #14171a;
+	--primary-color: #1da1f2;
+	--secondary-color: #14171a;
 }
 
 @tailwind base;
@@ -8,74 +8,90 @@
 @tailwind utilities;
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+	.text-balance {
+		text-wrap: balance;
+	}
 }
 
 @font-face {
-  font-family: "Hashiba";
-  src: url("../public/assets/Hashiba.ttf") format("truetype");
-  font-weight: 700;
-  font-style: normal;
+	font-family: "Hashiba";
+	src: url("../public/assets/Hashiba.ttf") format("truetype");
+	font-weight: 700;
+	font-style: normal;
 }
 
 * {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
 }
 
 html {
-  scroll-behavior: smooth;
-  /* font-family: "Hashiba", sans-serif; */
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+	scroll-behavior: smooth;
+	/* font-family: "Hashiba", sans-serif; */
+	-ms-overflow-style: none;
+	scrollbar-width: none;
 }
 
 html::-webkit-scrollbar {
-  display: none;
+	display: none;
 }
 
 img {
-  pointer-events: none;
+	pointer-events: none;
 }
 
 .MuiList-padding {
-  padding: 0 !important;
+	padding: 0 !important;
 }
 
 .bg-home {
-  background-image: url("/assets/HomeBackgroundDesktop.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
+	background-image: url("/assets/HomeBackgroundDesktop.png");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
 
-  @media only screen and (max-width: 640px) {
-    background-image: url("/assets/HomeBackgroundMobile.png");
-  }
+	@media only screen and (max-width: 640px) {
+		background-image: url("/assets/HomeBackgroundMobile.png");
+	}
 }
 
 .bg-jokes {
-  background-image: url("/assets/jokesBackgroundDesktop.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
+	background-image: url("/assets/jokesBackgroundDesktop.png");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
 
-  @media only screen and (max-width: 640px) {
-    background-image: url("/assets/JokesBackgroundMobile.png");
-  }
+	@media only screen and (max-width: 640px) {
+		background-image: url("/assets/JokesBackgroundMobile.png");
+	}
 }
 
-  .bg-jokes::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.4); /* ubah 0.5 sesuai gelap yg kamu mau */
-    z-index: 0;
-  }
+.bg-jokes::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.4); /* ubah 0.5 sesuai gelap yg kamu mau */
+	z-index: 0;
+}
 
-  .bg-jokes > * {
-    position: relative;
-    z-index: 1; /* supaya konten tampil di atas overlay */
-  }
+.bg-jokes > * {
+	position: relative;
+	z-index: 1; /* supaya konten tampil di atas overlay */
+}
+
+.bg-leaderboard {
+	background-image: url("../public/assets/Leaderboard.png");
+	background-position: center;
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+
+*::-webkit-scrollbar {
+	display: none;
+}
+
+* {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
