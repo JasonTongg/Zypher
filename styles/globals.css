@@ -28,7 +28,7 @@
 
 html {
 	scroll-behavior: smooth;
-	/* font-family: "Hashiba", sans-serif; */
+	font-family: "Hashiba", sans-serif;
 	-ms-overflow-style: none;
 	scrollbar-width: none;
 }

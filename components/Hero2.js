@@ -15,6 +15,7 @@ import JokesTitleOkey from "../public/assets/JokesTitleOkey.png";
 import Image from "next/image";
 import JokesResult from "../public/assets/JokesResult.png";
 import StartButton from "../public/assets/SubmitButton.png";
+import StartButton2 from "../public/assets/SubmittingButton.png";
 import Navbar from "@/components/Navbar";
 import ConnectWalletButton from "../public/assets/ConnectWalletButton.png";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
@@ -54,6 +55,7 @@ export default function Hero() {
 	const dispatch = useDispatch();
 	const [jokes, setJokes] = useState("");
 	const [titleImage, setTitleImage] = useState(JokesTitle);
+	const [buttonType, setButtonType] = useState(StartButton);
 
 	const { data: tokenData } = useToken({
 		address: tokenAddress,
@@ -172,14 +174,18 @@ export default function Hero() {
 
 			toast.dark(`Successfully received ${amount} Gold Coin!`);
 			refetchBalance?.();
+			setButtonType(StartButton);
 		} catch (err) {
 			toast.dark(`Transaction Failed`);
+			setButtonType(StartButton);
 		} finally {
 			setIsMinting(false);
+			setButtonType(StartButton);
 		}
 	}
 
 	async function rateJoke(joke) {
+		setButtonType(StartButton2);
 		let resp = await fetch("/api/rate", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
@@ -190,6 +196,7 @@ export default function Hero() {
 		if (Number(resp.rating) < 5) {
 			setTitleImage(JokesTitleBad);
 			// toast.dark("Your joke is bad");
+			setButtonType(StartButton);
 		} else if (
 			Number(resp.rating) === 5 ||
 			Number(resp.rating) === 7 ||
@@ -251,7 +258,11 @@ export default function Hero() {
 				/>
 				{isConnected ? (
 					<button onClick={() => rateJoke(jokes)}>
-						<Image src={StartButton} className='w-[150px] h-auto' />
+						{buttonType === StartButton ? (
+							<Image src={buttonType} className='w-[150px] h-auto' />
+						) : (
+							<Image src={buttonType} className='w-[180px] h-auto' />
+						)}
 					</button>
 				) : (
 					<ConnectButton.Custom>
