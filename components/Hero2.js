@@ -231,9 +231,17 @@ export default function Hero() {
 		let resp = await fetch("/api/rate", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ joke }),
+			body: JSON.stringify({ joke, wallet: userAddress }),
 		});
 		resp = await resp.json();
+
+		if (resp?.error?.length > 0) {
+			setTitleImage(JokesTitleOkeyEmpty);
+			setFeedback("I wasn't listening, tell me again?");
+			setButtonType(StartButton);
+			return;
+		}
+
 		setFeedback(resp.response);
 		if (Number(resp.rating) < 5) {
 			setTitleImage(JokesTitleBadEmpty);
