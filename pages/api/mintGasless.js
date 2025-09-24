@@ -34,7 +34,7 @@ export default async function handler(req, res) {
 		);
 		const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
 
-		const tokenAddress = "0xc1a846B294a19604d6E99C0a426B0719bBaA7747";
+		const tokenAddress = "0x4C0461c8C48E90F9664Ab981cdBbFB12f6fdD547";
 		const contract = new ethers.Contract(tokenAddress, TOKEN_ABI, wallet);
 
 		// directly mint tokens for the user

@@ -11,8 +11,9 @@ module.exports = {
 	],
 	theme: {
 		screens: {
-			...defaultTheme.screens, // ← keep Tailwind’s sm, md, lg, xl, 2xl
-			sx: "400px", // ← your custom breakpoint
+			...defaultTheme.screens,
+			sx: "400px",
+			sxl: "470px",
 		},
 		extend: {
 			backgroundImage: {

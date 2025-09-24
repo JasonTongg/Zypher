@@ -63,7 +63,7 @@ export default function Hero() {
 	const [isMinting2, setIsMinting2] = useState(false);
 	const [isMinting3, setIsMinting3] = useState(false);
 	const { address: userAddress, isConnected, chainId } = useAccount();
-	const tokenAddress = "0xc1a846B294a19604d6E99C0a426B0719bBaA7747";
+	const tokenAddress = "0x4C0461c8C48E90F9664Ab981cdBbFB12f6fdD547";
 	const dispatch = useDispatch();
 	const [reward, setReward] = useState(null);
 	const [isBurnFailed, setIsBurnFailed] = useState(false);
@@ -109,6 +109,10 @@ export default function Hero() {
 			return;
 		}
 
+		if (chainId !== 666888) {
+			await switchToHelaTestnet();
+		}
+
 		setIsMinting(true);
 		try {
 			// Convert amount (ETH string) to wei string
@@ -132,7 +136,7 @@ export default function Hero() {
 
 			// 3️⃣ Setup contract & call mintWithSig
 			const contract = new ethers.Contract(
-				"0xc1a846B294a19604d6E99C0a426B0719bBaA7747",
+				"0x4C0461c8C48E90F9664Ab981cdBbFB12f6fdD547",
 				[
 					{
 						inputs: [
@@ -158,7 +162,7 @@ export default function Hero() {
 			const receipt = await tx.wait();
 
 			if (receipt.status === 1) {
-				toast.dark(`Successfully received ${amount} Gold Coin!`);
+				toast.dark(`Successfully received ${amount} ATK Gold!`);
 				refetchBalance?.();
 			} else {
 				toast.dark("Transaction failed on-chain.");
@@ -174,6 +178,9 @@ export default function Hero() {
 		if (!isConnected) {
 			toast.dark("Please connect your wallet first");
 			return;
+		}
+		if (chainId !== 666888) {
+			await switchToHelaTestnet();
 		}
 
 		try {
@@ -230,6 +237,9 @@ export default function Hero() {
 
 	const handleSendEth = async () => {
 		if (!isConnected) return toast.dark("Connect your wallet first");
+		if (chainId !== 666888) {
+			await switchToHelaTestnet();
+		}
 
 		try {
 			setIsMinting3(true);
@@ -256,6 +266,9 @@ export default function Hero() {
 	const [txHash, setTxHash] = useState("");
 
 	const burnToken = async () => {
+		if (chainId !== 666888) {
+			await switchToHelaTestnet();
+		}
 		try {
 			setLoading(true);
 			setTxHash("");
@@ -291,8 +304,48 @@ export default function Hero() {
 		}
 	};
 
+	async function switchToHelaTestnet() {
+		if (!window.ethereum) {
+			throw new Error("No crypto wallet found. Please install MetaMask.");
+		}
+
+		try {
+			await window.ethereum.request({
+				method: "wallet_switchEthereumChain",
+				params: [{ chainId: "0xA2D08" }],
+			});
+		} catch (switchError) {
+			if (switchError.code === 4902) {
+				try {
+					await window.ethereum.request({
+						method: "wallet_addEthereumChain",
+						params: [
+							{
+								chainId: "0xA2D08",
+								chainName: "Hela Testnet",
+								nativeCurrency: {
+									name: "Hela Testnet",
+									symbol: "HLUSD",
+									decimals: 18,
+								},
+								rpcUrls: ["https://testnet-rpc.helachain.com"],
+								blockExplorerUrls: [
+									"https://testnet-blockexplorer.helachain.com",
+								],
+							},
+						],
+					});
+				} catch (addError) {
+					console.error("Failed to add Hela Testnet:", addError);
+				}
+			} else {
+				console.error("Failed to switch network:", switchError);
+			}
+		}
+	}
+
 	return (
-		<div className='bg-jokes w-full min-h-screen flex flex-col items-center justify-center p-4'>
+		<div className='bg-game w-full min-h-screen flex flex-col items-center justify-center p-4'>
 			<div className='w-full !fixed top-[20px] left-1/2 translate-x-[-50%]'>
 				<Navbar />
 			</div>

@@ -8,6 +8,9 @@ import StartButton from "../public/assets/StartButton.png";
 import StartingButton from "../public/assets/StartingButton.png";
 import ConnectWalletButton from "../public/assets/ConnectWalletButton.png";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import Frame from "../public/assets/Frame.png";
+import GameCharacter from "../public/assets/GameCharacter.png";
+import Bubble from "../public/assets/Bubble.png";
 
 const ScratchCard = ({
 	txHash,
@@ -28,15 +31,13 @@ const ScratchCard = ({
 
 	// Select a random reward on component mount
 	const rewards = [
-		{ id: 1, text: "0.1 HLUSD", color: "bg-purple-500" },
-		{ id: 2, text: "200 Gold Coin", color: "bg-blue-500" },
-		{ id: 3, text: "50 Gold Coin", color: "bg-green-500" },
-		{ id: 4, text: "King NFT", color: "bg-yellow-500" },
-		{ id: 5, text: "75 Gold Coin", color: "bg-green-500" },
-		{ id: 6, text: "100 Gold Coin", color: "bg-green-500" },
+		{ id: 2, text: "200 ATK Gold", color: "bg-yellow-500" },
+		{ id: 3, text: "50 ATK Gold", color: "bg-green-500" },
+		{ id: 5, text: "75 ATK Gold", color: "bg-green-500" },
+		{ id: 6, text: "100 ATK Gold", color: "bg-purple-500" },
 	];
 
-	const weights = [1, 1, 4, 1, 3, 3];
+	const weights = [1, 5, 3, 2];
 
 	const pickWeightedIndex = (weights) => {
 		const total = weights.reduce((sum, w) => sum + w, 0);
@@ -60,7 +61,24 @@ const ScratchCard = ({
 
 		const ctx = canvas.getContext("2d");
 		ctx.globalCompositeOperation = "source-over";
-		ctx.fillStyle = "#fef8e6";
+		const centerX = canvas.width / 2;
+		const centerY = canvas.height / 2;
+
+		// Radius (make it big enough to cover the canvas)
+		const radius = Math.max(canvas.width, canvas.height) / 1.5;
+
+		const gradient = ctx.createRadialGradient(
+			centerX,
+			centerY,
+			0,
+			centerX,
+			centerY,
+			radius
+		);
+		gradient.addColorStop(0, "#801319");
+		gradient.addColorStop(1, "#2B0202");
+
+		ctx.fillStyle = gradient;
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 		ctx.globalCompositeOperation = "destination-out";
 	};
@@ -117,17 +135,13 @@ const ScratchCard = ({
 				setHasRevealed(true);
 
 				toast.dark(`Congratulations! You won: ${result.text}`);
-				if (result.text === "King NFT") {
-					mintNft();
-				} else if (result.text === "0.1 HLUSD") {
-					sendEth();
-				} else if (result.text === "200 Gold Coin") {
+				if (result.text === "200 ATK Gold") {
 					sendToken("200");
-				} else if (result.text === "50 Gold Coin") {
+				} else if (result.text === "50 ATK Gold") {
 					sendToken("50");
-				} else if (result.text === "75 Gold Coin") {
+				} else if (result.text === "75 ATK Gold") {
 					sendToken("75");
-				} else if (result.text === "100 Gold Coin") {
+				} else if (result.text === "100 ATK Gold") {
 					sendToken("100");
 				}
 			}
@@ -153,7 +167,7 @@ const ScratchCard = ({
 		setIsStarted(true);
 		if (balance < 100) {
 			toast.dark(
-				"Not enough balance to try again (need at least 100 Gold Coins)"
+				"Not enough balance to try again (need at least 100 ATK Gold)"
 			);
 			return;
 		}
@@ -168,7 +182,24 @@ const ScratchCard = ({
 
 		const ctx = canvas.getContext("2d");
 		ctx.globalCompositeOperation = "source-over";
-		ctx.fillStyle = "#fef8e6";
+		const centerX = canvas.width / 2;
+		const centerY = canvas.height / 2;
+
+		// Radius (make it big enough to cover the canvas)
+		const radius = Math.max(canvas.width, canvas.height) / 1.5;
+
+		const gradient = ctx.createRadialGradient(
+			centerX,
+			centerY,
+			0,
+			centerX,
+			centerY,
+			radius
+		);
+		gradient.addColorStop(0, "#801319");
+		gradient.addColorStop(1, "#2B0202");
+
+		ctx.fillStyle = gradient;
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 		ctx.globalCompositeOperation = "destination-out";
 
@@ -178,85 +209,100 @@ const ScratchCard = ({
 	};
 
 	return (
-		<div className='flex flex-col items-center justify-center'>
-			<Image src={ScratchButton} className='w-[500px]'></Image>
-
-			{txHash && isBurnFailed !== true && (
-				<div
-					ref={containerRef}
-					className='
-                    max-w-md
-                    rounded-xl
-                    bg-[#ffffff]           /* warna perkamen */
-                    border-4 border-[#d4b06a]  /* bingkai emas/cokelat */
-                    shadow-[inset_0_1px_4px_rgba(0,0,0,0.3)]
-                    px-4 py-3
-                    font-serif text-lg
-                    placeholder:text-[#8b6a2b]
-                    focus:outline-none focus:ring-2 focus:ring-[#e0c98d]
-                    relative
-                    w-64 h-64 mb-6 cursor-pointer overflow-hidden
-                '
-					onMouseDown={handleMouseDown}
-					onMouseMove={handleMouseMove}
-					onMouseUp={handleMouseUp}
-					onMouseLeave={handleMouseUp}
-					onTouchStart={handleMouseDown}
-					onTouchMove={handleMouseMove}
-					onTouchEnd={handleMouseUp}
-				>
-					{/* Reward background - always visible behind scratch layer */}
-					<div className='absolute inset-0 flex items-center justify-center rounded-lg'>
-						<div
-							className={`p-4 rounded-lg text-center ${result.color} text-white font-bold`}
-						>
-							<p className='text-xl'>{result.text}</p>
+		<div className='flex items-center justify-center gap-6 sm:flex-row flex-col'>
+			<Image src={GameCharacter} className='w-[300px] h-auto sm:block hidden' />
+			<Image src={Bubble} className='w-[200px] h-auto sm:hidden block' />
+			{/* {txHash && isBurnFailed !== true && ( */}
+			<div className='flex flex-col items-center justify-center gap-6'>
+				{txHash && isBurnFailed !== true && (
+					<div
+						ref={containerRef}
+						className='
+						max-w-md
+						rounded-xl
+						bg-[#ffffff]
+						border-4 border-[#d4b06a]
+						shadow-[inset_0_1px_4px_rgba(0,0,0,0.3)]
+						px-4 py-3
+						font-serif text-lg
+						placeholder:text-[#8b6a2b]
+						focus:outline-none focus:ring-2 focus:ring-[#e0c98d]
+						relative
+						w-64 h-64 mb-6 cursor-pointer
+					'
+						onMouseDown={handleMouseDown}
+						onMouseMove={handleMouseMove}
+						onMouseUp={handleMouseUp}
+						onMouseLeave={handleMouseUp}
+						onTouchStart={handleMouseDown}
+						onTouchMove={handleMouseMove}
+						onTouchEnd={handleMouseUp}
+					>
+						{/* Reward background - always visible behind scratch layer */}
+						<div className='absolute inset-0 flex items-center justify-center rounded-lg'>
+							<div
+								className={`p-4 rounded-lg text-center ${result.color} text-white font-bold`}
+							>
+								<p className='text-xl'>{result.text}</p>
+							</div>
 						</div>
-					</div>
 
-					{/* Scratch overlay canvas */}
-					<canvas
-						ref={canvasRef}
-						width={256}
-						height={256}
-						className='absolute inset-0 w-full h-full rounded-lg'
-					/>
-				</div>
-			)}
-
-			<div className='flex flex-col items-center gap-4'>
-				{loading ? (
-					<Image
-						src={StartingButton}
-						role='button'
-						className='w-[170px] h-auto cursor-pointer'
-					/>
-				) : isConnected ? (
-					<button onClick={resetScratchCard}>
-						<Image
-							src={StartButton}
-							role='button'
-							className='w-[150px] h-auto cursor-pointer'
+						{/* Scratch overlay canvas */}
+						<canvas
+							ref={canvasRef}
+							width={256}
+							height={256}
+							className='absolute inset-0 w-full h-full rounded-lg'
 						/>
-					</button>
-				) : (
-					<ConnectButton.Custom>
-						{({ account, chain, openConnectModal, mounted }) => {
-							return (
-								<button
-									onClick={openConnectModal}
-									className='focus:outline-none'
-								>
-									<Image
-										src={ConnectWalletButton}
-										alt='Connect wallet'
-										className='w-[200px] h-auto'
-									/>
-								</button>
-							);
-						}}
-					</ConnectButton.Custom>
+						<Image
+							src={Frame}
+							className='absolute inset-0 w-full h-full rounded-lg left-[-25px] top-[-40px] !w-[300px] !max-w-[500px] !h-auto pointer-events-none'
+						/>
+					</div>
 				)}
+
+				<div
+					className={
+						loading
+							? `flex flex-col items-center gap-4 w-[190px]`
+							: isConnected
+							? `flex flex-col items-center gap-4 w-[150px]`
+							: `flex flex-col items-center gap-4 w-[200px]`
+					}
+				>
+					{loading ? (
+						<Image
+							src={StartingButton}
+							role='button'
+							className='w-[190px] h-auto cursor-pointer'
+						/>
+					) : isConnected ? (
+						<button onClick={resetScratchCard}>
+							<Image
+								src={StartButton}
+								role='button'
+								className='w-[150px] h-auto cursor-pointer'
+							/>
+						</button>
+					) : (
+						<ConnectButton.Custom>
+							{({ account, chain, openConnectModal, mounted }) => {
+								return (
+									<button
+										onClick={openConnectModal}
+										className='focus:outline-none w-[200px]'
+									>
+										<Image
+											src={ConnectWalletButton}
+											alt='Connect wallet'
+											className='w-[200px] h-auto'
+										/>
+									</button>
+								);
+							}}
+						</ConnectButton.Custom>
+					)}
+				</div>
 			</div>
 		</div>
 	);

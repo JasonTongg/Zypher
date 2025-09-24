@@ -14,7 +14,7 @@
 }
 
 @font-face {
-	font-family: "Hashiba";
+	font-family: "KingFont";
 	src: url("../public/assets/Hashiba.ttf") format("truetype");
 	font-weight: 700;
 	font-style: normal;
@@ -24,11 +24,12 @@
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
+	font-family: "KingFont", sans-serif;
 }
 
 html {
 	scroll-behavior: smooth;
-	font-family: "Hashiba", sans-serif;
+	font-family: "KingFont", sans-serif;
 	-ms-overflow-style: none;
 	scrollbar-width: none;
 }
@@ -53,6 +54,17 @@ img {
 
 	@media only screen and (max-width: 640px) {
 		background-image: url("/assets/HomeBackgroundMobile.png");
+	}
+}
+
+.bg-game {
+	background-image: url("/assets/GameBackgroundDesktop.png");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+
+	@media only screen and (max-width: 640px) {
+		background-image: url("/assets/GameBackgroundMobile.png");
 	}
 }
 

@@ -23,7 +23,7 @@ export default function Hero() {
 				whileInView={{ transform: "translateX(0px)", opacity: 1 }}
 				exit={{ transform: "translateX(-100px)", opacity: 0 }}
 				transition={{ duration: 0.5 }}
-				className='max-w-screen-2xl py-[2rem] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center gap-5'
+				className='max-w-screen-2xl py-[2rem] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center gap-5 relative'
 			>
 				<Image
 					src={HomeTitle}
@@ -31,28 +31,30 @@ export default function Hero() {
 					className='max-w-[477px] w-[90vw]'
 				/>
 
-				{isConnected ? (
-					<Link href='/jokes'>
-						<Image src={StartButton} className='w-[150px] h-auto'></Image>
-					</Link>
-				) : (
-					<ConnectButton.Custom>
-						{({ account, chain, openConnectModal, mounted }) => {
-							return (
-								<button
-									onClick={openConnectModal}
-									className='focus:outline-none'
-								>
-									<Image
-										src={ConnectWalletButton}
-										alt='Connect wallet'
-										className='w-[200px] h-auto hover:scale-105 transition-transform active:scale-95'
-									/>
-								</button>
-							);
-						}}
-					</ConnectButton.Custom>
-				)}
+				<div className='flex items-center justify-center absolute left-1/2 translate-x-[-50%] bottom-[20%]'>
+					{isConnected ? (
+						<Link href='/jokes'>
+							<Image src={StartButton} className='w-[150px] h-auto'></Image>
+						</Link>
+					) : (
+						<ConnectButton.Custom>
+							{({ account, chain, openConnectModal, mounted }) => {
+								return (
+									<button
+										onClick={openConnectModal}
+										className='focus:outline-none'
+									>
+										<Image
+											src={ConnectWalletButton}
+											alt='Connect wallet'
+											className='w-[200px] h-auto hover:scale-105 transition-transform active:scale-95'
+										/>
+									</button>
+								);
+							}}
+						</ConnectButton.Custom>
+					)}
+				</div>
 			</motion.div>
 		</div>
 	);

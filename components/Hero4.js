@@ -33,7 +33,7 @@ const ERC20_ABI = [
 
 export default function Hero() {
 	const { address: userAddress, isConnected, chainId } = useAccount();
-	const tokenAddress = "0xc1a846B294a19604d6E99C0a426B0719bBaA7747";
+	const tokenAddress = "0x4C0461c8C48E90F9664Ab981cdBbFB12f6fdD547";
 	const dispatch = useDispatch();
 	const [data, setData] = useState([]);
 	const [user, setUser] = useState([]);
@@ -100,13 +100,13 @@ export default function Hero() {
 				className='flex flex-col items-center justify-center gap-8 w-full'
 			>
 				<div className='max-w-3xl p-4'>
-					<div className='flex flex-col md:flex-row items-center md:items-start gap-4 relative w-fit sm:px-[10rem] px-[3rem] pt-[2rem]'>
+					<div className='flex flex-col md:flex-row items-center md:items-start gap-4 relative w-fit sm:px-[10rem] px-[3rem] pt-[2rem] sx:pt-[3.5rem]'>
 						<Image
 							src={LeaderboardContainer}
 							alt='Deskripsi gambar'
 							className='w-[500px] h-auto rounded-lg object-cover absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%]'
 						/>
-						<div className='sm:h-[150px] h-[100px] sx:h-[120px] overflow-auto relative z-[10] gap-[8px] flex flex-col items-start w-[200px] sx:w-[300px]'>
+						<div className='sm:h-[330px] h-[200px] sx:h-[290px] overflow-auto relative z-[10] gap-[4px] sm:gap-[10px] flex flex-col items-start w-[200px] sx:w-[300px]'>
 							{data?.length > 0 &&
 								data
 									?.filter((_, index) => index <= 19)

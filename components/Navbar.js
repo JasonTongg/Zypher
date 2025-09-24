@@ -37,7 +37,7 @@ export default function Navbar() {
 	const balance = useSelector((state) => state.data.balance);
 
 	const { address: userAddress, isConnected } = useAccount();
-	const tokenAddress = "0xc1a846B294a19604d6E99C0a426B0719bBaA7747";
+	const tokenAddress = "0x4C0461c8C48E90F9664Ab981cdBbFB12f6fdD547";
 
 	const { data: tokenData } = useToken({
 		address: tokenAddress,
@@ -120,7 +120,7 @@ export default function Navbar() {
 						<Image src={Coin} className='w-[25px] h-auto'></Image>
 					</div>
 				)}
-				{isConnected ? (
+				{/* {isConnected ? (
 					<ConnectButton></ConnectButton>
 				) : (
 					<ConnectButton.Custom>
@@ -139,7 +139,7 @@ export default function Navbar() {
 							);
 						}}
 					</ConnectButton.Custom>
-				)}
+				)} */}
 			</div>
 		</nav>
 	);
