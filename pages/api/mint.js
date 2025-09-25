@@ -45,7 +45,7 @@ export default async function handler(req, res) {
 		const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
 
 		const contract = new ethers.Contract(
-			"0x4C0461c8C48E90F9664Ab981cdBbFB12f6fdD547",
+			"0x676Ad0906096FAcF6657Ada95a29196E5eB94A05",
 			TOKEN_ABI,
 			wallet
 		);
@@ -56,7 +56,7 @@ export default async function handler(req, res) {
 		// Buat hash sama seperti di Solidity
 		const messageHash = ethers.solidityPackedKeccak256(
 			["address", "address", "uint256", "uint256"],
-			["0x4C0461c8C48E90F9664Ab981cdBbFB12f6fdD547", to, amount, nonce]
+			["0x676Ad0906096FAcF6657Ada95a29196E5eB94A05", to, amount, nonce]
 		);
 
 		// Sign message EIP-191

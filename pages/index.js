@@ -64,7 +64,7 @@ export default function Index() {
 					className='w-[20vw] h-auto min-w-[300px]'
 				/>
 			</div>
-			<div className='min-h-screen flex items-end justify-center gap-6 pb-[1.5rem]'>
+			<div className='min-h-[600px] flex items-end justify-center gap-6 pb-[1.5rem]'>
 				<div className='flex items-center justify-center gap-6 md:flex-row flex-col'>
 					<div className='flex items-center gap-2 justify-center flex-col'>
 						<h1 className='text-3xl sm:text-5xl beleren text-white font-bold text-center'>

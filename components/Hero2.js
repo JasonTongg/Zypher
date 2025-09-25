@@ -54,7 +54,7 @@ const ERC20_ABI = [
 export default function Hero() {
 	const [isMinting, setIsMinting] = useState(false);
 	const { address: userAddress, isConnected, chainId } = useAccount();
-	const tokenAddress = "0x4C0461c8C48E90F9664Ab981cdBbFB12f6fdD547";
+	const tokenAddress = "0x676Ad0906096FAcF6657Ada95a29196E5eB94A05";
 	const dispatch = useDispatch();
 	const [jokes, setJokes] = useState("");
 	const [feedback, setFeedback] = useState(
@@ -130,7 +130,7 @@ export default function Hero() {
 
 			// 3️⃣ Setup contract & call mintWithSig
 			const contract = new ethers.Contract(
-				"0x4C0461c8C48E90F9664Ab981cdBbFB12f6fdD547",
+				"0x676Ad0906096FAcF6657Ada95a29196E5eB94A05",
 				[
 					{
 						inputs: [

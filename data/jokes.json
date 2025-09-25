@@ -1,6 +1,16 @@
 {
   "0xea1556DbEE0995100eF3d639c5Fb70f00A756DF5": [
-    "why did the golfer bring two pairs of pants?\nin case he got a hole in one."
+    "why did the golfer bring two pairs of pants?\nin case he got a hole in one.",
+    "why did the golfer bring two pairs of pants?\nin case he got a hole in onee.",
+    "why don’t cows have any money?\nbecause the farmers milk them dry.",
+    "deccision maker",
+    "0x00f5ac73ec8e9d75a27f3a49eff64fe21426447c",
+    "require(\n        hasrole(default_admin_role, msg.sender) || hasrole(minter_role, msg.sender),\n        \"not admin or minter\"\n    );",
+    "why did the belt get arrested?\nbecause it was holding up a pair of pants.",
+    "why did the belt get arrested?\nbecause it was holding up a pair of pantss.",
+    "why did the belt get arrested?\nbecause it was holding up a pair of pantsss."
   ],
-  "0xeFF3521fb13228C767Ad6Dc3b934F9eFAC9c56aD": []
+  "0xeFF3521fb13228C767Ad6Dc3b934F9eFAC9c56aD": [
+    "https://talesofgoldglory.com/"
+  ]
 }
