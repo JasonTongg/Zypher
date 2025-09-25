@@ -4,9 +4,10 @@ import Image from "next/image";
 import LandingFrame from "../public/assets/LandingFrame.png";
 import LandingFrameMobile from "../public/assets/LandingFrameMobile.png";
 import PlayNowButton from "../public/assets/PlayNowButton.png";
+import Link from "next/link";
 
 export default function Index() {
-	const [jokesCount, setJokesCount] = useState(0);
+	const [jokesCount, setJokesCount] = useState([]);
 	const [data, setData] = useState([]);
 	const [user, setUser] = useState([]);
 
@@ -73,10 +74,12 @@ export default function Index() {
 							A CLAIMING ADVENTURE WHERE WILL MEETS WEALTH.
 						</p>
 					</div>
-					<Image src={PlayNowButton} className='w-[220px] h-auto'></Image>
+					<Link href='/play'>
+						<Image src={PlayNowButton} className='w-[220px] h-auto'></Image>
+					</Link>
 				</div>
 			</div>
-			<div className='w-full relative'>
+			<div className='w-full relative max-w-[900px]'>
 				<Image
 					src={LandingFrame}
 					alt='Landing Frame'
@@ -87,9 +90,47 @@ export default function Index() {
 					alt='Landing Frame Mobile'
 					className='w-screen h-auto pointer-events-none block sm:hidden'
 				/>
-				<div className='w-full bg-red-400 grid grid-cols-1 sm:grid-cols-2 gap-3 absolute top-[28.4%] sm:top-[41.5%] left-1/2 translate-x-[-50%] max-h-[55.7%] sm:max-h-[35.2%] h-[100%] max-w-[74.5%]'>
-					<div className='w-full h-[100%] bg-blue-400'>1</div>
-					<div className='w-full h-[100%] bg-green-400'>2</div>
+				<div className='w-full grid grid-cols-1 sm:grid-cols-2 gap-3 absolute top-[28.4%] sm:top-[41.5%] left-1/2 translate-x-[-50%] overflow-auto max-h-[55.7%] sm:max-h-[35.2%] h-[100%] max-w-[74.5%]'>
+					<div className='w-full h-[100%] flex flex-col items-center justify-start gap-1 p-4'>
+						<h2 className='text-[#5A5149] text-2xl font-bold'>
+							Top Witty Jesters
+						</h2>
+						<div className='w-full'>
+							{jokesCount
+								?.filter((_, index) => index < 8)
+								?.map((joke, index) => (
+									<div
+										key={index}
+										className='w-full flex items-center justify-between'
+									>
+										<p className='text-[#5A5149] text-lg'>
+											{joke.wallet.slice(0, 5)}...{joke.wallet.slice(-5)}
+										</p>
+										<p className='text-[#5A5149] text-lg'>{joke.totalJokes}</p>
+									</div>
+								))}
+						</div>
+					</div>
+					<div className='w-full h-[100%] flex flex-col items-center justify-start gap-1 p-4'>
+						<h2 className='text-[#5A5149] text-2xl font-bold'>
+							Top Token Earners
+						</h2>
+						<div className='w-full'>
+							{data
+								?.filter((_, index) => index < 8)
+								?.map((item, index) => (
+									<div
+										key={index}
+										className='w-full flex items-center justify-between'
+									>
+										<p className='text-[#5A5149] text-lg'>
+											{item.address.slice(0, 5)}...{item.address.slice(-5)}
+										</p>
+										<p className='text-[#5A5149] text-lg'>{item.point}</p>
+									</div>
+								))}
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
