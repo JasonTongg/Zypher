@@ -156,7 +156,7 @@ export default function Hero() {
 			const receipt = await tx.wait();
 
 			if (receipt.status === 1) {
-				toast.dark(`Successfully received ${amount} ATK Gold!`);
+				toast.dark(`Successfully received ${amount} TGG Gold!`);
 				refetchBalance?.();
 			} else {
 				toast.dark("Transaction failed on-chain.");
@@ -184,7 +184,7 @@ export default function Hero() {
 
 			await res.json();
 
-			toast.dark(`Successfully received ${amount} ATK Gold!`);
+			toast.dark(`Successfully received ${amount} TGG Gold!`);
 			refetchBalance?.();
 			setButtonType(StartButton);
 		} catch (err) {
@@ -247,7 +247,7 @@ export default function Hero() {
 			setTitleImage(JokesTitleBadEmpty);
 			// toast.dark("Your joke is bad");
 			toast.dark(
-				`Congratulations! You won: ${Number(resp.gold).toString()} ATK Gold`
+				`Congratulations! You won: ${Number(resp.gold).toString()} TGG Gold`
 			);
 			mintToken(userAddress, Number(resp.gold).toString());
 		} else if (
@@ -258,21 +258,21 @@ export default function Hero() {
 			setTitleImage(JokesTitleOkeyEmpty);
 			// toast.dark("Your joke is okay");
 			toast.dark(
-				`Congratulations! You won: ${Number(resp.gold).toString()} ATK Gold`
+				`Congratulations! You won: ${Number(resp.gold).toString()} TGG Gold`
 			);
 			mintToken(userAddress, Number(resp.gold).toString());
 		} else if (Number(resp.rating) === 8 || Number(resp.rating) === 9) {
 			setTitleImage(JokesTitleGoodEmpty);
 			// toast.dark("Your joke is good");
 			toast.dark(
-				`Congratulations! You won: ${Number(resp.gold).toString()} ATK Gold`
+				`Congratulations! You won: ${Number(resp.gold).toString()} TGG Gold`
 			);
 			mintToken(userAddress, Number(resp.gold).toString());
 		} else {
 			setTitleImage(JokesTitleGoodEmpty);
 			// toast.dark("Your joke is very funny!");
 			toast.dark(
-				`Congratulations! You won: ${Number(resp.gold).toString()} ATK Gold`
+				`Congratulations! You won: ${Number(resp.gold).toString()} TGG Gold`
 			);
 			mintToken(userAddress, Number(resp.gold).toString());
 		}
@@ -363,9 +363,15 @@ export default function Hero() {
 				{isConnected ? (
 					<button onClick={() => submitJoke(userAddress, jokes)}>
 						{buttonType === StartButton ? (
-							<Image src={buttonType} className='w-[150px] h-auto' />
+							<Image
+								src={buttonType}
+								className='w-[150px] sxl:w-[220px] h-auto'
+							/>
 						) : (
-							<Image src={buttonType} className='w-[180px] h-auto' />
+							<Image
+								src={buttonType}
+								className='w-[180px] sxl:w-[250px] h-auto'
+							/>
 						)}
 					</button>
 				) : (

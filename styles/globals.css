@@ -20,6 +20,17 @@
 	font-style: normal;
 }
 
+@font-face {
+	font-family: "Beleren";
+	src: url("../public/assets/Beleren2016.ttf") format("truetype");
+	font-weight: 700;
+	font-style: normal;
+}
+
+.beleren {
+	font-family: "Beleren", sans-serif;
+}
+
 * {
 	padding: 0;
 	margin: 0;
@@ -58,14 +69,25 @@ img {
 }
 
 .bg-game {
-	background-image: url("/assets/GameBackgroundDesktop.png");
+	background-image: url("/assets/jokesBackgroundDesktop.png");
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
 
 	@media only screen and (max-width: 640px) {
-		background-image: url("/assets/GameBackgroundMobile.png");
+		background-image: url("/assets/JokesBackgroundMobile.png");
 	}
+}
+
+.bg-landing {
+	background-image: url("/assets/LandingBackground.png");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center center;
+
+	/* @media only screen and (max-width: 640px) {
+		background-image: url("/assets/JokesBackgroundMobile.png");
+	} */
 }
 
 .bg-jokes {
@@ -88,6 +110,19 @@ img {
 }
 
 .bg-jokes > * {
+	position: relative;
+	z-index: 1; /* supaya konten tampil di atas overlay */
+}
+
+.bg-game::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.4); /* ubah 0.5 sesuai gelap yg kamu mau */
+	z-index: 0;
+}
+
+.bg-game > * {
 	position: relative;
 	z-index: 1; /* supaya konten tampil di atas overlay */
 }

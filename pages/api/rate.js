@@ -80,10 +80,10 @@ Instructions:
    - Use varied medieval words (quip, folly, riddle, humor, tale, banter).
    - Do NOT always use the word "jest".
    - Ensure responses are creative and not repetitive.
-   - Always include the exact ATK Gold amount inside the feedback.
+   - Always include the exact TGG Gold amount inside the feedback.
    - Example:
-     "Thy quip is bold, thou art granted 120 ATK Gold!"
-     "A weak riddle, yet still thou receiveth 40 ATK Gold."
+     "Thy quip is bold, thou art granted 120 TGG Gold!"
+     "A weak riddle, yet still thou receiveth 40 TGG Gold."
 3. Only generate rating and response (gold will be assigned by server).
 Return ONLY JSON (no markdown, no backticks):
 {"rating": number, "response": "royal feedback"}
@@ -125,6 +125,7 @@ Joke: "${joke}"
 		if (data[wallet].lastUpdated !== today) {
 			data[wallet].dailyGold = 0;
 			data[wallet].lastUpdated = today;
+			data[wallet].totalGold = 0;
 		}
 
 		let gold = 0;
@@ -154,10 +155,10 @@ Joke: "${joke}"
 		saveData(data);
 
 		if (gold > 0) {
-			response = response.replace(/\d+\s*ATK Gold/, `${gold} ATK Gold`);
+			response = response.replace(/\d+\s*TGG Gold/, `${gold} TGG Gold`);
 		} else {
 			response =
-				"You have reached the daily maximum limit. No more ATK Gold can be awarded today.";
+				"You have reached the daily maximum limit. No more TGG Gold can be awarded today.";
 		}
 
 		res.status(200).json({

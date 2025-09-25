@@ -31,10 +31,10 @@ const ScratchCard = ({
 
 	// Select a random reward on component mount
 	const rewards = [
-		{ id: 2, text: "200 ATK Gold", color: "bg-yellow-500" },
-		{ id: 3, text: "50 ATK Gold", color: "bg-green-500" },
-		{ id: 5, text: "75 ATK Gold", color: "bg-green-500" },
-		{ id: 6, text: "100 ATK Gold", color: "bg-purple-500" },
+		{ id: 2, text: "200 TGG Gold", color: "bg-yellow-500" },
+		{ id: 3, text: "50 TGG Gold", color: "bg-green-500" },
+		{ id: 5, text: "75 TGG Gold", color: "bg-green-500" },
+		{ id: 6, text: "100 TGG Gold", color: "bg-purple-500" },
 	];
 
 	const weights = [1, 5, 3, 2];
@@ -135,13 +135,13 @@ const ScratchCard = ({
 				setHasRevealed(true);
 
 				toast.dark(`Congratulations! You won: ${result.text}`);
-				if (result.text === "200 ATK Gold") {
+				if (result.text === "200 TGG Gold") {
 					sendToken("200");
-				} else if (result.text === "50 ATK Gold") {
+				} else if (result.text === "50 TGG Gold") {
 					sendToken("50");
-				} else if (result.text === "75 ATK Gold") {
+				} else if (result.text === "75 TGG Gold") {
 					sendToken("75");
-				} else if (result.text === "100 ATK Gold") {
+				} else if (result.text === "100 TGG Gold") {
 					sendToken("100");
 				}
 			}
@@ -167,7 +167,7 @@ const ScratchCard = ({
 		setIsStarted(true);
 		if (balance < 100) {
 			toast.dark(
-				"Not enough balance to try again (need at least 100 ATK Gold)"
+				"Not enough balance to try again (need at least 100 TGG Gold)"
 			);
 			return;
 		}
@@ -264,24 +264,24 @@ const ScratchCard = ({
 				<div
 					className={
 						loading
-							? `flex flex-col items-center gap-4 w-[190px]`
+							? `flex flex-col items-center gap-4 w-[220px]`
 							: isConnected
-							? `flex flex-col items-center gap-4 w-[150px]`
-							: `flex flex-col items-center gap-4 w-[200px]`
+							? `flex flex-col items-center gap-4 w-[220px]`
+							: `flex flex-col items-center gap-4 w-[220px]`
 					}
 				>
 					{loading ? (
 						<Image
 							src={StartingButton}
 							role='button'
-							className='w-[190px] h-auto cursor-pointer'
+							className='w-[220px] h-auto cursor-pointer'
 						/>
 					) : isConnected ? (
 						<button onClick={resetScratchCard}>
 							<Image
 								src={StartButton}
 								role='button'
-								className='w-[150px] h-auto cursor-pointer'
+								className='w-[220px] h-auto cursor-pointer'
 							/>
 						</button>
 					) : (

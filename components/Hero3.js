@@ -162,7 +162,7 @@ export default function Hero() {
 			const receipt = await tx.wait();
 
 			if (receipt.status === 1) {
-				toast.dark(`Successfully received ${amount} ATK Gold!`);
+				toast.dark(`Successfully received ${amount} TGG Gold!`);
 				refetchBalance?.();
 			} else {
 				toast.dark("Transaction failed on-chain.");

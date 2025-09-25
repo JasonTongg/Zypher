@@ -82,21 +82,21 @@ export default function Navbar() {
 					<Link href='/game'>
 						<Image
 							src={LuckyDrawButton}
-							className='min-w-[150px] w-[150px] h-auto'
+							className='min-w-[150px] sxl:min-w-[220px] w-[150px] sxl:w-[220px] h-auto'
 						></Image>
 					</Link>
 				) : (
 					<Link href='/jokes'>
 						<Image
 							src={TellAJokeButton}
-							className='min-w-[150px] w-[150px] h-auto'
+							className='min-w-[150px] sxl:min-w-[220px] w-[150px] sxl:w-[220px] h-auto'
 						></Image>
 					</Link>
 				)}
 				<Link href='/leaderboard'>
 					<Image
 						src={LeaderboardButton}
-						className='min-w-[150px] w-[150px] h-auto'
+						className='min-w-[150px] sxl:min-w-[220px] w-[150px] sxl:w-[220px] h-auto'
 					></Image>
 				</Link>
 			</div>

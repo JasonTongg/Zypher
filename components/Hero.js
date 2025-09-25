@@ -7,7 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import HomeTitle from "../public/assets/HomeTitle.png";
 import ConnectWalletButton from "../public/assets/ConnectWalletButton.png";
-import StartButton from "../public/assets/StartButton.png";
+import StartButton from "../public/assets/PlayNowButton.png";
 import Navbar from "@/components/Navbar";
 
 export default function Hero() {
@@ -34,7 +34,7 @@ export default function Hero() {
 				<div className='flex items-center justify-center absolute left-1/2 translate-x-[-50%] bottom-[20%]'>
 					{isConnected ? (
 						<Link href='/jokes'>
-							<Image src={StartButton} className='w-[150px] h-auto'></Image>
+							<Image src={StartButton} className='w-[200px] h-auto'></Image>
 						</Link>
 					) : (
 						<ConnectButton.Custom>

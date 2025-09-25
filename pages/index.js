@@ -1,10 +1,97 @@
-import React from "react";
-import Hero from "@/components/Hero";
+import React, { useEffect, useState } from "react";
+import LandingTitle from "../public/assets/LandingTitle.png";
+import Image from "next/image";
+import LandingFrame from "../public/assets/LandingFrame.png";
+import LandingFrameMobile from "../public/assets/LandingFrameMobile.png";
+import PlayNowButton from "../public/assets/PlayNowButton.png";
 
 export default function Index() {
-  return (
-    <div className="w-full relative">
-      <Hero />
-    </div>
-  );
+	const [jokesCount, setJokesCount] = useState(0);
+	const [data, setData] = useState([]);
+	const [user, setUser] = useState([]);
+
+	async function getJokesCount() {
+		try {
+			const res = await fetch("/api/jokesCount", {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+
+			if (!res.ok) {
+				throw new Error("Failed to fetch jokes count");
+			}
+
+			const data = await res.json();
+			setJokesCount(data);
+			return data;
+		} catch (err) {
+			console.error("Error fetching jokes count:", err);
+			return [];
+		}
+	}
+
+	async function getWalletPoints() {
+		try {
+			const res = await fetch(
+				`/api/getPoints?address=0x0000000000000000000000000000000000000000`
+			);
+			const data = await res.json();
+			setData(data.data);
+			setUser(data.user);
+		} catch (error) {
+			toast.dark("Error fetching wallet points:");
+		}
+	}
+
+	useEffect(() => {
+		getJokesCount();
+		getWalletPoints();
+	}, []);
+
+	useEffect(() => {
+		console.log(jokesCount, data, user);
+	}, [jokesCount, data, user]);
+
+	return (
+		<div className='w-full relative bg-landing min-h-screen flex items-center justify-center flex-col'>
+			<div className='bg-[rgba(48,38,29,0.54)] flex w-full items-center justify-center p-4 fixed z-[99] top-0 left-1/2 translate-x-[-50%]'>
+				<Image
+					src={LandingTitle}
+					alt='Landing Title'
+					className='w-[20vw] h-auto min-w-[300px]'
+				/>
+			</div>
+			<div className='min-h-screen flex items-end justify-center gap-6 pb-[1.5rem]'>
+				<div className='flex items-center justify-center gap-6 md:flex-row flex-col'>
+					<div className='flex items-center gap-2 justify-center flex-col'>
+						<h1 className='text-3xl sm:text-5xl beleren text-white font-bold text-center'>
+							AMUSE THE KING, <br></br> CLAIM YOUR FORTUNE
+						</h1>
+						<p className='text-[rgba(255,255,255,0.75)] text-base sm:text-lg font-bold text-center'>
+							A CLAIMING ADVENTURE WHERE WILL MEETS WEALTH.
+						</p>
+					</div>
+					<Image src={PlayNowButton} className='w-[220px] h-auto'></Image>
+				</div>
+			</div>
+			<div className='w-full relative'>
+				<Image
+					src={LandingFrame}
+					alt='Landing Frame'
+					className='w-screen h-auto pointer-events-none sm:block hidden'
+				/>
+				<Image
+					src={LandingFrameMobile}
+					alt='Landing Frame Mobile'
+					className='w-screen h-auto pointer-events-none block sm:hidden'
+				/>
+				<div className='w-full bg-red-400 grid grid-cols-1 sm:grid-cols-2 gap-3 absolute top-[28.4%] sm:top-[41.5%] left-1/2 translate-x-[-50%] max-h-[55.7%] sm:max-h-[35.2%] h-[100%] max-w-[74.5%]'>
+					<div className='w-full h-[100%] bg-blue-400'>1</div>
+					<div className='w-full h-[100%] bg-green-400'>2</div>
+				</div>
+			</div>
+		</div>
+	);
 }
