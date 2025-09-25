@@ -91,9 +91,9 @@ Joke: "${joke}"
     `;
 
 		const completion = await openai.chat.completions.create({
-			model: "gpt-4.1-nano",
+			model: "gpt-5-nano",
 			messages: [{ role: "user", content: prompt }],
-			temperature: 0.7,
+			temperature: 1,
 		});
 
 		let text = completion.choices[0].message.content.trim();

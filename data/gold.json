@@ -1,12 +1,12 @@
 {
   "0xabc123": {
-    "dailyGold": 18,
+    "dailyGold": 54,
     "lastUpdated": "2025-09-25",
-    "totalGold": 18
+    "totalGold": 54
   },
   "0xea1556DbEE0995100eF3d639c5Fb70f00A756DF5": {
-    "dailyGold": 26,
-    "lastUpdated": "2025-09-24",
-    "totalGold": 26
+    "dailyGold": 25,
+    "lastUpdated": "2025-09-25",
+    "totalGold": 25
   }
 }

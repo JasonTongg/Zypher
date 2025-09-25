@@ -9,8 +9,10 @@ import StartingButton from "../public/assets/StartingButton.png";
 import ConnectWalletButton from "../public/assets/ConnectWalletButton.png";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Frame from "../public/assets/Frame.png";
+import Frame2 from "../public/assets/Frame2.png";
 import GameCharacter from "../public/assets/GameCharacter.png";
 import Bubble from "../public/assets/Bubble.png";
+import { motion } from "framer-motion";
 
 const ScratchCard = ({
 	txHash,
@@ -31,10 +33,10 @@ const ScratchCard = ({
 
 	// Select a random reward on component mount
 	const rewards = [
-		{ id: 2, text: "200 TGG Gold", color: "bg-yellow-500" },
-		{ id: 3, text: "50 TGG Gold", color: "bg-green-500" },
-		{ id: 5, text: "75 TGG Gold", color: "bg-green-500" },
-		{ id: 6, text: "100 TGG Gold", color: "bg-purple-500" },
+		{ id: 2, text: "200 TGG Gold", color: "bg-[rgb(76,11,13)]" },
+		{ id: 3, text: "50 TGG Gold", color: "bg-[rgb(190,32,34)]" },
+		{ id: 5, text: "75 TGG Gold", color: "bg-[rgb(190,32,34)]" },
+		{ id: 6, text: "100 TGG Gold", color: "bg-[rgb(120,18,23)]" },
 	];
 
 	const weights = [1, 5, 3, 2];
@@ -214,7 +216,7 @@ const ScratchCard = ({
 			<Image src={Bubble} className='w-[200px] h-auto sm:hidden block' />
 			{/* {txHash && isBurnFailed !== true && ( */}
 			<div className='flex flex-col items-center justify-center gap-6'>
-				{txHash && isBurnFailed !== true && (
+				{txHash && isBurnFailed !== true ? (
 					<div
 						ref={containerRef}
 						className='
@@ -239,13 +241,19 @@ const ScratchCard = ({
 						onTouchEnd={handleMouseUp}
 					>
 						{/* Reward background - always visible behind scratch layer */}
-						<div className='absolute inset-0 flex items-center justify-center rounded-lg'>
-							<div
-								className={`p-4 rounded-lg text-center ${result.color} text-white font-bold`}
-							>
-								<p className='text-xl'>{result.text}</p>
+						<motion.div
+							initial={{ scale: 0.9, opacity: 0 }}
+							animate={{ scale: 1, opacity: 1 }}
+							transition={{ duration: 0.8 }}
+						>
+							<div className='absolute inset-0 flex items-center justify-center rounded-lg'>
+								<div
+									className={`p-4 rounded-lg text-center ${result.color} text-white font-bold`}
+								>
+									<p className='text-xl'>{result.text}</p>
+								</div>
 							</div>
-						</div>
+						</motion.div>
 
 						{/* Scratch overlay canvas */}
 						<canvas
@@ -256,6 +264,49 @@ const ScratchCard = ({
 						/>
 						<Image
 							src={Frame}
+							className='absolute inset-0 w-full h-full rounded-lg left-[-25px] top-[-40px] !w-[300px] !max-w-[500px] !h-auto pointer-events-none'
+						/>
+					</div>
+				) : (
+					<div
+						ref={containerRef}
+						className='
+							max-w-md
+							rounded-xl
+							bg-[#ffffff]
+							border-4 border-[#d4b06a]
+							shadow-[inset_0_1px_4px_rgba(0,0,0,0.3)]
+							px-4 py-3
+							font-serif text-lg
+							placeholder:text-[#8b6a2b]
+							focus:outline-none focus:ring-2 focus:ring-[#e0c98d]
+							relative
+							w-64 h-64 mb-6 pointer-events-none
+						'
+					>
+						<motion.div
+							initial={{ scale: 0.9, opacity: 0 }}
+							animate={{ scale: 1, opacity: 1 }}
+							transition={{ duration: 0.8 }}
+						>
+							<div className='absolute inset-0 flex items-center justify-center rounded-lg'>
+								<div
+									className={`p-4 rounded-lg text-center ${result.color} text-white font-bold`}
+								>
+									<p className='text-xl'>{result.text}</p>
+								</div>
+							</div>
+						</motion.div>
+
+						{/* Scratch overlay canvas */}
+						<canvas
+							ref={canvasRef}
+							width={256}
+							height={256}
+							className='absolute inset-0 w-full h-full rounded-lg'
+						/>
+						<Image
+							src={Frame2}
 							className='absolute inset-0 w-full h-full rounded-lg left-[-25px] top-[-40px] !w-[300px] !max-w-[500px] !h-auto pointer-events-none'
 						/>
 					</div>
