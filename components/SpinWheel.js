@@ -242,9 +242,9 @@ const ScratchCard = ({
 					>
 						{/* Reward background - always visible behind scratch layer */}
 						<motion.div
-							initial={{ scale: 0.9, opacity: 0 }}
+							initial={{ scale: 0.1, opacity: 0 }}
 							animate={{ scale: 1, opacity: 1 }}
-							transition={{ duration: 0.8 }}
+							transition={{ duration: 3 }}
 						>
 							<div className='absolute inset-0 flex items-center justify-center rounded-lg'>
 								<div
@@ -285,9 +285,9 @@ const ScratchCard = ({
 						'
 					>
 						<motion.div
-							initial={{ scale: 0.9, opacity: 0 }}
+							initial={{ scale: 0.1, opacity: 0 }}
 							animate={{ scale: 1, opacity: 1 }}
-							transition={{ duration: 0.8 }}
+							transition={{ duration: 3 }}
 						>
 							<div className='absolute inset-0 flex items-center justify-center rounded-lg'>
 								<div
