@@ -33,7 +33,7 @@ const ERC20_ABI = [
 
 export default function Hero() {
 	const { address: userAddress, isConnected, chainId } = useAccount();
-	const tokenAddress = "0x676Ad0906096FAcF6657Ada95a29196E5eB94A05";
+	const tokenAddress = "0xf87b6bbf0B9954c72A18A8a7c2b3C67bc1F87304";
 	const dispatch = useDispatch();
 	const [data, setData] = useState([]);
 	const [user, setUser] = useState([]);

@@ -40,12 +40,12 @@ export default async function handler(req, res) {
 
 	try {
 		const provider = new ethers.JsonRpcProvider(
-			"https://testnet-rpc.helachain.com"
+			"https://mainnet-rpc.helachain.com"
 		);
 		const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
 
 		const contract = new ethers.Contract(
-			"0x676Ad0906096FAcF6657Ada95a29196E5eB94A05",
+			"0xf87b6bbf0B9954c72A18A8a7c2b3C67bc1F87304",
 			TOKEN_ABI,
 			wallet
 		);
@@ -56,7 +56,7 @@ export default async function handler(req, res) {
 		// Buat hash sama seperti di Solidity
 		const messageHash = ethers.solidityPackedKeccak256(
 			["address", "address", "uint256", "uint256"],
-			["0x676Ad0906096FAcF6657Ada95a29196E5eB94A05", to, amount, nonce]
+			["0xf87b6bbf0B9954c72A18A8a7c2b3C67bc1F87304", to, amount, nonce]
 		);
 
 		// Sign message EIP-191

@@ -63,7 +63,7 @@ export default function Hero() {
 	const [isMinting2, setIsMinting2] = useState(false);
 	const [isMinting3, setIsMinting3] = useState(false);
 	const { address: userAddress, isConnected, chainId } = useAccount();
-	const tokenAddress = "0x676Ad0906096FAcF6657Ada95a29196E5eB94A05";
+	const tokenAddress = "0xf87b6bbf0B9954c72A18A8a7c2b3C67bc1F87304";
 	const dispatch = useDispatch();
 	const [reward, setReward] = useState(null);
 	const [isBurnFailed, setIsBurnFailed] = useState(false);
@@ -109,7 +109,7 @@ export default function Hero() {
 			return;
 		}
 
-		if (chainId !== 666888) {
+		if (chainId !== 8668) {
 			await switchToHelaTestnet();
 		}
 
@@ -136,7 +136,7 @@ export default function Hero() {
 
 			// 3️⃣ Setup contract & call mintWithSig
 			const contract = new ethers.Contract(
-				"0x676Ad0906096FAcF6657Ada95a29196E5eB94A05",
+				"0xf87b6bbf0B9954c72A18A8a7c2b3C67bc1F87304",
 				[
 					{
 						inputs: [
@@ -179,7 +179,7 @@ export default function Hero() {
 			toast.dark("Please connect your wallet first");
 			return;
 		}
-		if (chainId !== 666888) {
+		if (chainId !== 8668) {
 			await switchToHelaTestnet();
 		}
 
@@ -237,7 +237,7 @@ export default function Hero() {
 
 	const handleSendEth = async () => {
 		if (!isConnected) return toast.dark("Connect your wallet first");
-		if (chainId !== 666888) {
+		if (chainId !== 8668) {
 			await switchToHelaTestnet();
 		}
 
@@ -266,7 +266,7 @@ export default function Hero() {
 	const [txHash, setTxHash] = useState("");
 
 	const burnToken = async () => {
-		if (chainId !== 666888) {
+		if (chainId !== 8668) {
 			await switchToHelaTestnet();
 		}
 		try {
@@ -312,7 +312,7 @@ export default function Hero() {
 		try {
 			await window.ethereum.request({
 				method: "wallet_switchEthereumChain",
-				params: [{ chainId: "0xA2D08" }],
+				params: [{ chainId: "0x21DC" }],
 			});
 		} catch (switchError) {
 			if (switchError.code === 4902) {
@@ -321,22 +321,20 @@ export default function Hero() {
 						method: "wallet_addEthereumChain",
 						params: [
 							{
-								chainId: "0xA2D08",
-								chainName: "Hela Testnet",
+								chainId: "0x21DC",
+								chainName: "Hela Mainnet",
 								nativeCurrency: {
-									name: "Hela Testnet",
+									name: "Hela Mainnet",
 									symbol: "HLUSD",
 									decimals: 18,
 								},
-								rpcUrls: ["https://testnet-rpc.helachain.com"],
-								blockExplorerUrls: [
-									"https://testnet-blockexplorer.helachain.com",
-								],
+								rpcUrls: ["https://mainnet-rpc.helachain.com"],
+								blockExplorerUrls: ["https://helascan.io/"],
 							},
 						],
 					});
 				} catch (addError) {
-					console.error("Failed to add Hela Testnet:", addError);
+					console.error("Failed to add Hela Mainnet:", addError);
 				}
 			} else {
 				console.error("Failed to switch network:", switchError);

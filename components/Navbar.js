@@ -37,7 +37,7 @@ export default function Navbar() {
 	const balance = useSelector((state) => state.data.balance);
 
 	const { address: userAddress, isConnected } = useAccount();
-	const tokenAddress = "0x676Ad0906096FAcF6657Ada95a29196E5eB94A05";
+	const tokenAddress = "0xf87b6bbf0B9954c72A18A8a7c2b3C67bc1F87304";
 
 	const { data: tokenData } = useToken({
 		address: tokenAddress,

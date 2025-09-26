@@ -30,11 +30,11 @@ export default async function handler(req, res) {
 
 	try {
 		const provider = new ethers.JsonRpcProvider(
-			"https://testnet-rpc.helachain.com"
+			"https://mainnet-rpc.helachain.com"
 		);
 		const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
 
-		const tokenAddress = "0x676Ad0906096FAcF6657Ada95a29196E5eB94A05";
+		const tokenAddress = "0xf87b6bbf0B9954c72A18A8a7c2b3C67bc1F87304";
 		const contract = new ethers.Contract(tokenAddress, TOKEN_ABI, wallet);
 
 		// directly mint tokens for the user

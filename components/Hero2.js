@@ -54,7 +54,7 @@ const ERC20_ABI = [
 export default function Hero() {
 	const [isMinting, setIsMinting] = useState(false);
 	const { address: userAddress, isConnected, chainId } = useAccount();
-	const tokenAddress = "0x676Ad0906096FAcF6657Ada95a29196E5eB94A05";
+	const tokenAddress = "0xf87b6bbf0B9954c72A18A8a7c2b3C67bc1F87304";
 	const dispatch = useDispatch();
 	const [jokes, setJokes] = useState("");
 	const [feedback, setFeedback] = useState(
@@ -99,7 +99,7 @@ export default function Hero() {
 
 	// di file Hero (hanya bagian sendTokenToMe diubah)
 	const sendTokenToMe = async (amount) => {
-		if (chainId !== 666888) {
+		if (chainId !== 8668) {
 			await switchToHelaTestnet();
 		}
 		if (!isConnected) {
@@ -130,7 +130,7 @@ export default function Hero() {
 
 			// 3️⃣ Setup contract & call mintWithSig
 			const contract = new ethers.Contract(
-				"0x676Ad0906096FAcF6657Ada95a29196E5eB94A05",
+				"0xf87b6bbf0B9954c72A18A8a7c2b3C67bc1F87304",
 				[
 					{
 						inputs: [
@@ -169,7 +169,7 @@ export default function Hero() {
 	};
 
 	async function mintToken(userAddress, amount) {
-		if (chainId !== 666888) {
+		if (chainId !== 8668) {
 			await switchToHelaTestnet();
 		}
 		const amountInWei = ethers.parseUnits(amount, 18).toString();
@@ -197,7 +197,7 @@ export default function Hero() {
 	}
 
 	async function submitJoke(wallet, joke) {
-		if (chainId !== 666888) {
+		if (chainId !== 8668) {
 			await switchToHelaTestnet();
 		}
 		try {
@@ -224,7 +224,7 @@ export default function Hero() {
 	}
 
 	async function rateJoke(joke) {
-		if (chainId !== 666888) {
+		if (chainId !== 8668) {
 			await switchToHelaTestnet();
 		}
 		setButtonType(StartButton2);
@@ -304,10 +304,8 @@ export default function Hero() {
 									symbol: "HLUSD",
 									decimals: 18,
 								},
-								rpcUrls: ["https://testnet-rpc.helachain.com"],
-								blockExplorerUrls: [
-									"https://testnet-blockexplorer.helachain.com",
-								],
+								rpcUrls: ["https://mainnet-rpc.helachain.com"],
+								blockExplorerUrls: ["https://helascan.io/"],
 							},
 						],
 					});

@@ -34,7 +34,7 @@ const monad = {
 	testnet: true,
 };
 
-const helachain = {
+const helachain_testnet = {
 	id: 666888,
 	name: "Helachain testnet",
 	iconBackground: "#fff",
@@ -51,10 +51,27 @@ const helachain = {
 	testnet: true,
 };
 
+const helachain_mainnet = {
+	id: 8668,
+	name: "Helachain mainnet",
+	iconBackground: "#fff",
+	nativeCurrency: { name: "Hela", symbol: "HLUSD", decimals: 18 },
+	rpcUrls: {
+		default: { http: ["https://mainnet-rpc.helachain.com"] },
+	},
+	blockExplorers: {
+		default: {
+			name: "Helascan",
+			url: "https://helascan.io/",
+		},
+	},
+	testnet: false,
+};
+
 const config = getDefaultConfig({
 	appName: "My RainbowKit App",
 	projectId: "0e50ad124798913a4af212355f956d06",
-	chains: [helachain],
+	chains: [helachain_mainnet],
 	ssr: true,
 });
 

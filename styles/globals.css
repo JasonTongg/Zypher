@@ -80,10 +80,10 @@ img {
 }
 
 .bg-landing {
-	background-image: url("/assets/LandingBackground.png");
+	background-image: url("/assets/LandingBackground1.png");
 	background-size: cover;
 	background-repeat: no-repeat;
-	background-position: center center;
+	background-position: center top;
 
 	/* @media only screen and (max-width: 640px) {
 		background-image: url("/assets/JokesBackgroundMobile.png");
