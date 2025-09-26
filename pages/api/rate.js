@@ -49,7 +49,6 @@ function removeJokes(address, joke) {
 
 	try {
 		fs.writeFileSync(jokesFile, JSON.stringify(jokesData, null, 2), "utf-8");
-		console.log(`Removed joke for ${normalizedAddress}: "${normalizedJoke}"`);
 		return true;
 	} catch (err) {
 		console.error("Failed to write jokes.json:", err);

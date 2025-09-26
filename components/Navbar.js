@@ -73,7 +73,6 @@ export default function Navbar() {
 			dispatch(setBalance(formatted));
 			savePoints(userAddress, Number(formatted));
 		}
-		console.log();
 	}, [balanceData, tokenData, isConnected, userAddress, dispatch]);
 
 	return (

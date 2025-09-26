@@ -51,10 +51,6 @@ export default function Index() {
 		getWalletPoints();
 	}, []);
 
-	useEffect(() => {
-		console.log(jokesCount, data, user);
-	}, [jokesCount, data, user]);
-
 	return (
 		<div className='w-full relative min-h-screen flex items-center justify-center flex-col'>
 			<div className='bg-[rgba(48,38,29,1)] flex w-full items-center flex-col justify-center '>

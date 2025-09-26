@@ -133,7 +133,6 @@ const ScratchCard = ({
 
 			if (scratchPercentage > 40 && !hasTriggeredRef.current) {
 				hasTriggeredRef.current = true;
-				console.log("trigger");
 				setHasRevealed(true);
 
 				toast.dark(`Congratulations! You won: ${result.text}`);

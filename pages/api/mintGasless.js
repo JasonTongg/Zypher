@@ -40,8 +40,6 @@ export default async function handler(req, res) {
 		// directly mint tokens for the user
 		const tx = await contract.mint(userAddress, amount);
 		const receipt = await tx.wait();
-		console.log(receipt.transactionHash);
-		console.log(receipt);
 
 		return res.status(200).json({
 			status: "success",
