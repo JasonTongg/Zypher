@@ -82,21 +82,21 @@ function MyApp({ Component, pageProps }) {
 			<Head>
 				<meta charSet='UTF-8' />
 				<meta name='viewport' content='width=device-width, initial-scale=1.0' />
-				<title>King Jokes</title>
+				<title>Tales of Gold & Glory</title>
 
-				<meta name='title' content='King Jokes' />
-				<meta name='description' content='Helachain King Jokes' />
+				<meta name='title' content='Tales of Gold & Glory' />
+				<meta name='description' content='Tales of Gold & Glory' />
 
 				<meta property='og:type' content='website' />
 				<meta property='og:url' content='https://Domain/assets/FileName' />
-				<meta property='og:title' content='King Jokes' />
-				<meta property='og:description' content='Helachain King Jokes' />
+				<meta property='og:title' content='Tales of Gold & Glory' />
+				<meta property='og:description' content='Tales of Gold & Glory' />
 				<meta property='og:image' content='https://Domain/assets/FileName' />
 
 				<meta name='twitter:card' content='summary_large_image' />
 				<meta property='twitter:url' content='https://Domain/assets/FileName' />
-				<meta property='twitter:title' content='King Jokes' />
-				<meta property='twitter:description' content='Helachain King Jokes' />
+				<meta property='twitter:title' content='Tales of Gold & Glory' />
+				<meta property='twitter:description' content='Tales of Gold & Glory' />
 				<meta
 					property='twitter:image'
 					content='https://Domain/assets/FileName'

@@ -12,6 +12,7 @@ import Image from "next/image";
 import TellAJokeButton from "../public/assets/TellAJokeButton.png";
 import LuckyDrawButton from "../public/assets/LuckyDrawButton.png";
 import LeaderboardButton from "../public/assets/LeaderboardButton.png";
+import BuyButton from "../public/assets/BuyButton.png";
 import Coin from "../public/assets/coin.png";
 
 const ERC20_ABI = [
@@ -77,26 +78,32 @@ export default function Navbar() {
 
 	return (
 		<nav className='w-full z-50 px-4 py-2 flex items-center sm:flex-row flex-col justify-between gap-4'>
-			<div className='flex items-center justify-center gap-4'>
+			<div className='flex items-center justify-center gap-4 flex-row flex-wrap'>
 				{window.location.pathname === "/jokes" ? (
 					<Link href='/game'>
 						<Image
 							src={LuckyDrawButton}
-							className='min-w-[150px] sxl:min-w-[220px] w-[150px] sxl:w-[220px] h-auto'
+							className='min-w-[150px] sxl:min-w-[190px] w-[150px] sxl:w-[190px] h-auto'
 						></Image>
 					</Link>
 				) : (
 					<Link href='/jokes'>
 						<Image
 							src={TellAJokeButton}
-							className='min-w-[150px] sxl:min-w-[220px] w-[150px] sxl:w-[220px] h-auto'
+							className='min-w-[150px] sxl:min-w-[190px] w-[150px] sxl:w-[190px] h-auto'
 						></Image>
 					</Link>
 				)}
 				<Link href='/leaderboard'>
 					<Image
 						src={LeaderboardButton}
-						className='min-w-[150px] sxl:min-w-[220px] w-[150px] sxl:w-[220px] h-auto'
+						className='min-w-[150px] sxl:min-w-[190px] w-[150px] sxl:w-[190px] h-auto'
+					></Image>
+				</Link>
+				<Link href='https://stablehodl.com/trade' target='_blank'>
+					<Image
+						src={BuyButton}
+						className='min-w-[150px] sxl:min-w-[190px] w-[150px] sxl:w-[190px] h-auto'
 					></Image>
 				</Link>
 			</div>

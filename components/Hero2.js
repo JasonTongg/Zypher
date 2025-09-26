@@ -54,7 +54,7 @@ const ERC20_ABI = [
 export default function Hero() {
 	const [isMinting, setIsMinting] = useState(false);
 	const { address: userAddress, isConnected, chainId } = useAccount();
-	const tokenAddress = "0xf87b6bbf0B9954c72A18A8a7c2b3C67bc1F87304";
+	const tokenAddress = "0x34a9d1ec567423b918B87d05b3348683902c62C8";
 	const dispatch = useDispatch();
 	const [jokes, setJokes] = useState("");
 	const [feedback, setFeedback] = useState(
@@ -130,7 +130,7 @@ export default function Hero() {
 
 			// 3️⃣ Setup contract & call mintWithSig
 			const contract = new ethers.Contract(
-				"0xf87b6bbf0B9954c72A18A8a7c2b3C67bc1F87304",
+				"0x34a9d1ec567423b918B87d05b3348683902c62C8",
 				[
 					{
 						inputs: [
@@ -243,7 +243,9 @@ export default function Hero() {
 		}
 
 		setFeedback(resp.response);
-		if (Number(resp.rating) < 5) {
+		if (Number(resp.rating) === 0) {
+			setTitleImage(JokesTitleBadEmpty);
+		} else if (Number(resp.rating) > 0 && Number(resp.rating) < 5) {
 			setTitleImage(JokesTitleBadEmpty);
 			// toast.dark("Your joke is bad");
 			toast.dark(
@@ -279,6 +281,46 @@ export default function Hero() {
 
 		setJokes("");
 	}
+
+	// async function switchToHelaTestnet() {
+	// 	if (!window.ethereum) {
+	// 		throw new Error("No crypto wallet found. Please install MetaMask.");
+	// 	}
+
+	// 	try {
+	// 		await window.ethereum.request({
+	// 			method: "wallet_switchEthereumChain",
+	// 			params: [{ chainId: "0xA2D08" }],
+	// 		});
+	// 	} catch (switchError) {
+	// 		if (switchError.code === 4902) {
+	// 			try {
+	// 				await window.ethereum.request({
+	// 					method: "wallet_addEthereumChain",
+	// 					params: [
+	// 						{
+	// 							chainId: "0xA2D08",
+	// 							chainName: "Hela Testnet",
+	// 							nativeCurrency: {
+	// 								name: "Hela Testnet",
+	// 								symbol: "HLUSD",
+	// 								decimals: 18,
+	// 							},
+	// 							rpcUrls: ["https://testnet-rpc.helachain.com"],
+	// 							blockExplorerUrls: [
+	// 								"https://testnet-blockexplorer.helachain.com",
+	// 							],
+	// 						},
+	// 					],
+	// 				});
+	// 			} catch (addError) {
+	// 				console.error("Failed to add Hela Testnet:", addError);
+	// 			}
+	// 		} else {
+	// 			console.error("Failed to switch network:", switchError);
+	// 		}
+	// 	}
+	// }
 
 	async function switchToHelaTestnet() {
 		if (!window.ethereum) {

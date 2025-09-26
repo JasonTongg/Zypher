@@ -32,23 +32,19 @@ function removeJokes(address, joke) {
 	const normalizedAddress = address;
 	const normalizedJoke = joke.toLowerCase();
 
-	// Cari jokes untuk wallet
 	const jokesForWallet = jokesData[normalizedAddress];
 	if (!jokesForWallet || jokesForWallet.length === 0) return false;
 
-	// Filter keluar joke yg dimaksud
 	const updatedJokes = jokesForWallet.filter(
 		(j) => j.toLowerCase() !== normalizedJoke
 	);
 
-	// Kalau sama panjang berarti ga ketemu
 	if (updatedJokes.length === jokesForWallet.length) return false;
 
-	// Update
 	if (updatedJokes.length > 0) {
 		jokesData[normalizedAddress] = updatedJokes;
 	} else {
-		delete jokesData[normalizedAddress]; // hapus wallet kalau kosong
+		delete jokesData[normalizedAddress];
 	}
 
 	try {
@@ -72,6 +68,39 @@ export default async function handler(req, res) {
 	}
 
 	try {
+		let data = loadData();
+		let today = new Date().toISOString().split("T")[0];
+
+		// init wallet data
+		if (!data[wallet]) {
+			data[wallet] = {
+				dailyGold: 0,
+				lastUpdated: today,
+				totalGold: 0,
+				dailyAttempts: 0,
+			};
+		}
+
+		// reset harian
+		if (data[wallet].lastUpdated !== today) {
+			data[wallet].dailyGold = 0;
+			data[wallet].lastUpdated = today;
+			data[wallet].totalGold = 0;
+			data[wallet].dailyAttempts = 0;
+		}
+
+		// 🚫 Limit 10 kali per hari
+		if (data[wallet].dailyAttempts >= 10) {
+			return res.status(200).json({
+				rating: 0,
+				response: "I have enough for today, come back to me tomorrow !",
+				gold: 0,
+				dailyGold: data[wallet].dailyGold,
+				totalGold: data[wallet].totalGold,
+				dailyAttempts: data[wallet].dailyAttempts,
+			});
+		}
+
 		const prompt = `
 You are a mighty king giving royal feedback to jokers.
 Instructions:
@@ -84,11 +113,13 @@ Instructions:
    - Example:
      "Thy quip is bold, thou art granted 120 TGG Gold!"
      "A weak riddle, yet still thou receiveth 40 TGG Gold."
+   - Make sure you DO NOT response like this:
+     "Your joke is bad, you get {GOLD} TGG Gold."
 3. Only generate rating and response (gold will be assigned by server).
 Return ONLY JSON (no markdown, no backticks):
 {"rating": number, "response": "royal feedback"}
 Joke: "${joke}"
-    `;
+		`;
 
 		const completion = await openai.chat.completions.create({
 			model: "gpt-5-nano",
@@ -104,9 +135,7 @@ Joke: "${joke}"
 		let parsed;
 		try {
 			parsed = JSON.parse(text);
-			// throw new Error("Invalid response structure");
 		} catch (e) {
-			// ❌ Parsing gagal → remove joke
 			removeJokes(wallet, joke);
 			return res.status(500).json({
 				error: "Failed to parse OpenAI response, joke removed",
@@ -117,27 +146,14 @@ Joke: "${joke}"
 		let { rating, response } = parsed;
 
 		// === Gold calculation ===
-		let data = loadData();
-		let today = new Date().toISOString().split("T")[0];
-		if (!data[wallet]) {
-			data[wallet] = { dailyGold: 0, lastUpdated: today, totalGold: 0 };
-		}
-		if (data[wallet].lastUpdated !== today) {
-			data[wallet].dailyGold = 0;
-			data[wallet].lastUpdated = today;
-			data[wallet].totalGold = 0;
-		}
-
 		let gold = 0;
 		if (data[wallet].totalGold >= 200) {
-			gold = 0; // cap reached
+			gold = 0;
 		} else if (data[wallet].dailyGold >= 100) {
-			// reduced scheme
 			if (rating <= 3) gold = 1;
 			else if (rating <= 7) gold = 2;
 			else gold = 3;
 		} else {
-			// normal scheme
 			if (rating === 1) gold = 1;
 			else if (rating === 2) gold = 2;
 			else if (rating === 3) gold = 3;
@@ -152,6 +168,7 @@ Joke: "${joke}"
 
 		data[wallet].dailyGold += gold;
 		data[wallet].totalGold += gold;
+		data[wallet].dailyAttempts += 1;
 		saveData(data);
 
 		if (gold > 0) {
@@ -167,9 +184,9 @@ Joke: "${joke}"
 			gold,
 			dailyGold: data[wallet].dailyGold,
 			totalGold: data[wallet].totalGold,
+			dailyAttempts: data[wallet].dailyAttempts,
 		});
 	} catch (error) {
-		// ❌ OpenAI request gagal → remove joke
 		removeJokes(wallet, joke);
 		res.status(500).json({
 			error: "OpenAI request failed, joke removed",

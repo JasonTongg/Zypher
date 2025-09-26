@@ -304,6 +304,46 @@ export default function Hero() {
 		}
 	};
 
+	// async function switchToHelaTestnet() {
+	// 	if (!window.ethereum) {
+	// 		throw new Error("No crypto wallet found. Please install MetaMask.");
+	// 	}
+
+	// 	try {
+	// 		await window.ethereum.request({
+	// 			method: "wallet_switchEthereumChain",
+	// 			params: [{ chainId: "0xA2D08" }],
+	// 		});
+	// 	} catch (switchError) {
+	// 		if (switchError.code === 4902) {
+	// 			try {
+	// 				await window.ethereum.request({
+	// 					method: "wallet_addEthereumChain",
+	// 					params: [
+	// 						{
+	// 							chainId: "0xA2D08",
+	// 							chainName: "Hela Testnet",
+	// 							nativeCurrency: {
+	// 								name: "Hela Testnet",
+	// 								symbol: "HLUSD",
+	// 								decimals: 18,
+	// 							},
+	// 							rpcUrls: ["https://testnet-rpc.helachain.com"],
+	// 							blockExplorerUrls: [
+	// 								"https://testnet-blockexplorer.helachain.com",
+	// 							],
+	// 						},
+	// 					],
+	// 				});
+	// 			} catch (addError) {
+	// 				console.error("Failed to add Hela Testnet:", addError);
+	// 			}
+	// 		} else {
+	// 			console.error("Failed to switch network:", switchError);
+	// 		}
+	// 	}
+	// }
+
 	async function switchToHelaTestnet() {
 		if (!window.ethereum) {
 			throw new Error("No crypto wallet found. Please install MetaMask.");

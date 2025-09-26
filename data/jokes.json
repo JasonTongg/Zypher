@@ -1,10 +1,20 @@
 {
   "0xea1556DbEE0995100eF3d639c5Fb70f00A756DF5": [
-    "why can’t you give elsa a balloon?\nbecause she’ll let it goooo."
+    "why can’t you give elsa a balloon?\nbecause she’ll let it goooo.",
+    "i have enough for today, come back to me tomorrow !",
+    " i have enough for today, come back to me tomorrowww !",
+    "https://stablehodl.com/trade",
+    "0xeff3521fb13228c767ad6dc3b934f9efac9c56ad"
   ],
   "0xeFF3521fb13228C767Ad6Dc3b934F9eFAC9c56aD": [
     "why did the scarecrow win an award?\nbecause he was outstanding in his field.",
     "tell me a great joke, adventurer! amuse me, and you shall be r",
-    "you have reached the daily maximum limit. no more tgg gold can be awarded today."
+    "you have reached the daily maximum limit. no more tgg gold can be awarded today.",
+    "curl -x post http://localhost:3000/api/rate \\\n  -h \"content-type: application/json\" \\\n  -d '{\n    \"wallet\": \"0xea1556dbee0995100ef3d639c5fb70f00a756df5\",\n    \"joke\": \"why don’t skeletons fight each other? they don’t have the guts.\"\n  }'\n",
+    "tell me a great joke, adventurer! amuse me, and you shall be rewarded handsomely with treasure!",
+    "why did the belt get arrested?\nbecause it was holding up a pair of pants.",
+    "adventurer! amuse me, and you",
+    "hy humor yearns grand tale, 10 tgg gold.",
+    "thy quip shines, humor in tale; banter over folly, 13 tgg gold."
   ]
 }
