@@ -288,7 +288,7 @@ export default function Hero() {
 		try {
 			await window.ethereum.request({
 				method: "wallet_switchEthereumChain",
-				params: [{ chainId: "0xA2D08" }],
+				params: [{ chainId: "0x21DC" }],
 			});
 		} catch (switchError) {
 			if (switchError.code === 4902) {
@@ -297,10 +297,10 @@ export default function Hero() {
 						method: "wallet_addEthereumChain",
 						params: [
 							{
-								chainId: "0xA2D08",
-								chainName: "Hela Testnet",
+								chainId: "0x21DC",
+								chainName: "Hela Mainnet",
 								nativeCurrency: {
-									name: "Hela Testnet",
+									name: "Hela Mainnet",
 									symbol: "HLUSD",
 									decimals: 18,
 								},
@@ -310,7 +310,7 @@ export default function Hero() {
 						],
 					});
 				} catch (addError) {
-					console.error("Failed to add Hela Testnet:", addError);
+					console.error("Failed to add Hela Mainnet:", addError);
 				}
 			} else {
 				console.error("Failed to switch network:", switchError);
