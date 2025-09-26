@@ -90,6 +90,19 @@ img {
 	} */
 }
 
+.bg-landing::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.4); /* ubah 0.5 sesuai gelap yg kamu mau */
+	z-index: 0;
+}
+
+.bg-landing > * {
+	position: relative;
+	z-index: 1; /* supaya konten tampil di atas overlay */
+}
+
 .bg-jokes {
 	background-image: url("/assets/jokesBackgroundDesktop.png");
 	background-size: cover;

@@ -90,9 +90,9 @@ export default function Index() {
 					alt='Landing Frame Mobile'
 					className='w-screen h-auto pointer-events-none block sm:hidden'
 				/>
-				<div className='w-full grid grid-cols-1 sm:grid-cols-2 gap-3 absolute top-[28.4%] sm:top-[41.5%] left-1/2 translate-x-[-50%] overflow-auto max-h-[55.7%] sm:max-h-[35.2%] h-[100%] max-w-[74.5%]'>
+				<div className='w-full grid grid-cols-1 sm:grid-cols-2 gap-3 absolute top-[28.9%] sm:top-[43.36%] left-1/2 translate-x-[-50%] overflow-auto max-h-[56.84%] sm:max-h-[36.78%] h-[100%] max-w-[84.32%]'>
 					<div className='w-full h-[100%] flex flex-col items-center justify-start gap-1 p-4'>
-						<h2 className='text-[#5A5149] text-2xl font-bold'>
+						<h2 className='text-[#5A5149] text-xl sm:text-2xl font-bold'>
 							Top Witty Jesters
 						</h2>
 						<div className='w-full'>
@@ -112,7 +112,7 @@ export default function Index() {
 						</div>
 					</div>
 					<div className='w-full h-[100%] flex flex-col items-center justify-start gap-1 p-4'>
-						<h2 className='text-[#5A5149] text-2xl font-bold'>
+						<h2 className='text-[#5A5149] text-xl sm:text-2xl font-bold'>
 							Top Token Earners
 						</h2>
 						<div className='w-full'>
