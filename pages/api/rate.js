@@ -172,6 +172,7 @@ Joke: "${joke}"
 		saveData(data);
 
 		if (gold > 0) {
+			response = response.replace(/\{GOLD\}/g, `${gold}`);
 			response = response.replace(/\d+\s*TGG Gold/, `${gold} TGG Gold`);
 		} else {
 			response =
