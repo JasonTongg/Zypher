@@ -126,26 +126,9 @@ export default function Navbar() {
 						<Image src={Coin} className='w-[25px] h-auto'></Image>
 					</div>
 				)}
-				{/* {isConnected ? (
+				{isConnected && (
 					<ConnectButton></ConnectButton>
-				) : (
-					<ConnectButton.Custom>
-						{({ account, chain, openConnectModal, mounted }) => {
-							return (
-								<button
-									onClick={openConnectModal}
-									className='focus:outline-none'
-								>
-									<Image
-										src={ConnectWalletButton}
-										alt='Connect wallet'
-										className='w-[200px] h-auto'
-									/>
-								</button>
-							);
-						}}
-					</ConnectButton.Custom>
-				)} */}
+				)}
 			</div>
 		</nav>
 	);

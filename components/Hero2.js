@@ -361,8 +361,8 @@ export default function Hero() {
 	}
 
 	return (
-		<div className='bg-jokes w-full min-h-screen flex flex-col items-center justify-center p-4 min-h-screen'>
-			<div className='w-full !fixed top-[20px] left-1/2 translate-x-[-50%]'>
+		<div className='bg-jokes w-full min-h-screen grid' style={{ gridTemplateRows: 'auto 1fr' }}>
+			<div className='w-full self-start pt-[20px]'>
 				<Navbar />
 			</div>
 			<motion.div
