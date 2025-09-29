@@ -16,8 +16,11 @@ export default function Hero() {
 	const router = useRouter();
 
 	return (
-		<div className='bg-home w-full min-h-screen grid items-center justify-center' style={{ gridTemplateRows: 'auto 1fr' }}>
-			<div className='w-full self-start pt-[20px]'>
+		<div
+			className='bg-home w-full min-h-screen grid items-center justify-center'
+			style={{ gridTemplateRows: "auto 1fr" }}
+		>
+			<div className='w-screen self-start pt-[20px]'>
 				<Navbar />
 			</div>
 			<motion.div
