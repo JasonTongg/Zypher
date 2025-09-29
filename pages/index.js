@@ -79,6 +79,14 @@ export default function Index() {
 						</Link>
 					</div>
 				</div>
+				<p className='text-[rgba(255,255,255,0.75)] text-base sm:text-lg font-bold text-center max-w-[800px] uppercase text-white'>
+					<span className='text-2xl sm:text-3xl font-bolder'>
+						The darkness falls upon our!!!
+					</span>{" "}
+					<br></br>
+					The Kingdom is ensared ancient malevent spell. Brave amuse your King
+					with your king, save forth and claim glorious rewards!
+				</p>
 				<div className='w-full relative max-w-[800px]'>
 					<Image
 						src={LandingFrame}
