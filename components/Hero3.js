@@ -375,9 +375,11 @@ export default function Hero() {
 					});
 				} catch (addError) {
 					console.error("Failed to add Hela Mainnet:", addError);
+					toast.error("Failed to add Hela Mainnet:", addError);
 				}
 			} else {
 				console.error("Failed to switch network:", switchError);
+				toast.error("Failed to switch network:", switchError);
 			}
 		}
 	}
