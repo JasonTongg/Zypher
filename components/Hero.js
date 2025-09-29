@@ -16,7 +16,7 @@ export default function Hero() {
 	const router = useRouter();
 
 	return (
-		<div className='bg-home w-full min-h-screen grid' style={{ gridTemplateRows: 'auto 1fr' }}>
+		<div className='bg-home w-full min-h-screen grid items-center justify-center' style={{ gridTemplateRows: 'auto 1fr' }}>
 			<div className='w-full self-start pt-[20px]'>
 				<Navbar />
 			</div>
@@ -25,7 +25,7 @@ export default function Hero() {
 				whileInView={{ transform: "translateX(0px)", opacity: 1 }}
 				exit={{ transform: "translateX(-100px)", opacity: 0 }}
 				transition={{ duration: 0.5 }}
-				className='max-w-screen-2xl py-[2rem] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center gap-5 relative'
+				className='max-w-screen-2xl py-[2rem] h-fit mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center gap-5 relative'
 			>
 				<Image
 					src={HomeTitle}
