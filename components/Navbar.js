@@ -174,6 +174,14 @@ export default function Navbar() {
 						flexDirection: "column",
 						justifyContent: "start",
 						alignItems: "center",
+						backdropFilter: "blur(20px)",
+					},
+				}}
+				ModalProps={{
+					BackdropProps: {
+						sx: {
+							backgroundColor: "transparent",
+						},
 					},
 				}}
 			>
