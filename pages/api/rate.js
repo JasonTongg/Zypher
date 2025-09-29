@@ -114,6 +114,8 @@ Instructions:
      "A weak riddle, yet still thou receiveth 40 TGG Gold."
    - Make sure you DO NOT response like this:
      "Your joke is bad, you get {GOLD} TGG Gold."
+     "Your joke is bad, you get <GOLD> TGG Gold."
+	or similar like that, make sure you return number
 3. Only generate rating and response (gold will be assigned by server).
 Return ONLY JSON (no markdown, no backticks):
 {"rating": number, "response": "royal feedback"}

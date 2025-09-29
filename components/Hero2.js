@@ -405,21 +405,23 @@ export default function Hero() {
             focus:outline-none focus:ring-2 focus:ring-[#e0c98d]
           '
 				/>
-				{isConnected ? (
-					<button onClick={() => submitJoke(userAddress, jokes)}>
-						{buttonType === StartButton ? (
-							<Image
-								src={buttonType}
-								className='w-[150px] sxl:w-[220px] h-auto'
-							/>
+				{isConnected ? 
+						buttonType === StartButton ? (
+							<button onClick={() => submitJoke(userAddress, jokes)}>
+								<Image
+									src={buttonType}
+									className='w-[150px] sxl:w-[220px] h-auto'
+								/>
+							</button>
 						) : (
-							<Image
-								src={buttonType}
-								className='w-[180px] sxl:w-[250px] h-auto'
-							/>
-						)}
-					</button>
-				) : (
+							<button disabled={true}>
+								<Image
+									src={buttonType}
+									className='w-[180px] sxl:w-[250px] h-auto'
+								/>
+							</button>
+						)
+				 : (
 					<ConnectButton.Custom>
 						{({ account, chain, openConnectModal, mounted }) => {
 							return (
