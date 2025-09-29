@@ -211,7 +211,7 @@ const ScratchCard = ({
 
 	return (
 		<div className='flex items-center justify-center gap-6 sm:flex-row flex-col'>
-			<Image src={GameCharacter} className='w-[300px] h-auto sm:block hidden' />
+			<Image src={GameCharacter} className='w-[300px] max-h-[60vh] h-auto sm:block hidden' />
 			<Image src={Bubble} className='w-[200px] h-auto sm:hidden block' />
 			{/* {txHash && isBurnFailed !== true && ( */}
 			<div className='flex flex-col items-center justify-center gap-6'>
@@ -316,8 +316,8 @@ const ScratchCard = ({
 						loading
 							? `flex flex-col items-center gap-4 w-[220px]`
 							: isConnected
-							? `flex flex-col items-center gap-4 w-[220px]`
-							: `flex flex-col items-center gap-4 w-[220px]`
+								? `flex flex-col items-center gap-4 w-[220px]`
+								: `flex flex-col items-center gap-4 w-[220px]`
 					}
 				>
 					{loading ? (

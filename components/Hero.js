@@ -16,8 +16,10 @@ export default function Hero() {
 	const router = useRouter();
 
 	return (
-		<div className='bg-home w-full min-h-screen flex flex-col items-center justify-center'>
-			<Navbar />
+		<div className='bg-home w-full min-h-screen grid' style={{ gridTemplateRows: 'auto 1fr' }}>
+			<div className='w-full self-start pt-[20px]'>
+				<Navbar />
+			</div>
 			<motion.div
 				initial={{ transform: "translateX(-100px)", opacity: 0 }}
 				whileInView={{ transform: "translateX(0px)", opacity: 1 }}
