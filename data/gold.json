@@ -10,5 +10,23 @@
     "lastUpdated": "2025-09-26",
     "totalGold": 82,
     "dailyAttempts": 10
+  },
+  "0x6791e612667AA4c191C8bC4E21108cD7966a21a4": {
+    "dailyGold": 26,
+    "lastUpdated": "2025-09-26",
+    "totalGold": 26,
+    "dailyAttempts": 10
+  },
+  "0xFD8FD5Ba205Bbc3a4795134A4d43B24d1d40Cb2E": {
+    "dailyGold": 8,
+    "lastUpdated": "2025-09-26",
+    "totalGold": 8,
+    "dailyAttempts": 2
+  },
+  "0x9061C320Dc85A888ec323FB650a6bBCBAD186CD8": {
+    "dailyGold": 43,
+    "lastUpdated": "2025-09-29",
+    "totalGold": 43,
+    "dailyAttempts": 2
   }
 }

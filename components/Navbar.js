@@ -14,6 +14,11 @@ import LuckyDrawButton from "../public/assets/LuckyDrawButton.png";
 import LeaderboardButton from "../public/assets/LeaderboardButton.png";
 import BuyButton from "../public/assets/BuyButton.png";
 import Coin from "../public/assets/coin.png";
+import Box from "@mui/material/Box";
+import Drawer from "@mui/material/Drawer";
+import Button from "@mui/material/Button";
+import List from "@mui/material/List";
+import { GiHamburgerMenu } from "react-icons/gi";
 
 const ERC20_ABI = [
 	{
@@ -39,6 +44,12 @@ export default function Navbar() {
 
 	const { address: userAddress, isConnected } = useAccount();
 	const tokenAddress = "0xf87b6bbf0B9954c72A18A8a7c2b3C67bc1F87304";
+
+	const [open, setOpen] = React.useState(false);
+
+	const toggleDrawer = (newOpen) => () => {
+		setOpen(newOpen);
+	};
 
 	const { data: tokenData } = useToken({
 		address: tokenAddress,
@@ -75,9 +86,51 @@ export default function Navbar() {
 		}
 	}, [balanceData, tokenData, isConnected, userAddress, dispatch]);
 
+	const DrawerList = (
+		<Box
+			sx={{
+				padding: "20px",
+			}}
+			role='presentation'
+			onClick={toggleDrawer(false)}
+		>
+			<List>
+				<div className='flex flex-col items-center justify-center gap-2'>
+					{window.location.pathname === "/jokes" ? (
+						<Link href='/game'>
+							<Image
+								src={LuckyDrawButton}
+								className='min-w-[150px] sxl:min-w-[190px] w-[150px] sxl:w-[190px] h-auto'
+							></Image>
+						</Link>
+					) : (
+						<Link href='/jokes'>
+							<Image
+								src={TellAJokeButton}
+								className='min-w-[150px] sxl:min-w-[190px] w-[150px] sxl:w-[190px] h-auto'
+							></Image>
+						</Link>
+					)}
+					<Link href='/leaderboard'>
+						<Image
+							src={LeaderboardButton}
+							className='min-w-[150px] sxl:min-w-[190px] w-[150px] sxl:w-[190px] h-auto'
+						></Image>
+					</Link>
+					<Link href='https://stablehodl.com/trade' target='_blank'>
+						<Image
+							src={BuyButton}
+							className='min-w-[150px] sxl:min-w-[190px] w-[150px] sxl:w-[190px] h-auto'
+						></Image>
+					</Link>
+				</div>
+			</List>
+		</Box>
+	);
+
 	return (
-		<nav className='w-full z-50 px-4 py-2 flex items-center sm:flex-row flex-col justify-between gap-4'>
-			<div className='flex items-center justify-center gap-4 flex-row flex-wrap'>
+		<nav className='w-full z-50 px-4 py-2 flex items-center sm:flex-row flex-row-reverse justify-between gap-4'>
+			<div className='hidden sm:flex items-center justify-center gap-4 flex-row flex-wrap'>
 				{window.location.pathname === "/jokes" ? (
 					<Link href='/game'>
 						<Image
@@ -106,6 +159,26 @@ export default function Navbar() {
 					></Image>
 				</Link>
 			</div>
+			<div className='sm:hidden block'>
+				<Button onClick={toggleDrawer(true)}>
+					<GiHamburgerMenu className='text-[#F5BE52] text-3xl' />
+				</Button>
+			</div>
+			<Drawer
+				open={open}
+				onClose={toggleDrawer(false)}
+				PaperProps={{
+					sx: {
+						backgroundColor: "transparent",
+						display: "flex",
+						flexDirection: "column",
+						justifyContent: "start",
+						alignItems: "center",
+					},
+				}}
+			>
+				{DrawerList}
+			</Drawer>
 			<div className='flex items-center justify-center gap-4'>
 				{isConnected && (
 					<div
@@ -126,9 +199,7 @@ export default function Navbar() {
 						<Image src={Coin} className='w-[25px] h-auto'></Image>
 					</div>
 				)}
-				{isConnected && (
-					<ConnectButton></ConnectButton>
-				)}
+				{isConnected && <ConnectButton></ConnectButton>}
 			</div>
 		</nav>
 	);

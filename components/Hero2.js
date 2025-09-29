@@ -363,7 +363,10 @@ export default function Hero() {
 	}
 
 	return (
-		<div className='bg-jokes w-full min-h-screen grid' style={{ gridTemplateRows: 'auto 1fr' }}>
+		<div
+			className='bg-jokes w-full min-h-screen grid'
+			style={{ gridTemplateRows: "auto 1fr" }}
+		>
 			<div className='w-full self-start pt-[20px]'>
 				<Navbar />
 			</div>
@@ -377,7 +380,7 @@ export default function Hero() {
 					<Image
 						src={titleImage}
 						alt='Jokes title'
-						className='h-auto sm:!h-[30vh] w-[100%] sm:w-auto '
+						className='h-auto sm:!h-[30vh] sm:!min-h-[300px] w-[100%] sm:w-auto '
 					/>
 					<p className='absolute top-1/2 left-[40%] translate-y-[-50%] text-[11px] sx:text-[15px] sxl:text-[20px] sm:text-[25px] leading-[14px] sx:leading-[18px] sxl:leading-[25px] sm:leading-[35px] max-w-[47%] font-serif'>
 						{feedback}
