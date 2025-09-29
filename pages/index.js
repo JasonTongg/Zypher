@@ -79,8 +79,8 @@ export default function Index() {
 						</Link>
 					</div>
 				</div>
-				<p className='text-[rgba(255,255,255,0.75)] text-base sm:text-lg font-bold text-center max-w-[800px] uppercase text-white'>
-					<span className='text-2xl sm:text-3xl font-bolder'>
+				<p className='text-[rgba(255,255,255,0.75)] text-base sm:text-lg font-bold text-center max-w-[800px] uppercase text-white beleren'>
+					<span className='text-2xl sm:text-3xl font-bolder beleren'>
 						The darkness falls upon our!!!
 					</span>{" "}
 					<br></br>
