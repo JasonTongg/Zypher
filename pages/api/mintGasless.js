@@ -1,4 +1,3 @@
-// pages/api/mintToken.js
 import { ethers } from "ethers";
 
 const TOKEN_ABI = [
@@ -34,10 +33,9 @@ export default async function handler(req, res) {
 		);
 		const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
 
-		const tokenAddress = "0xf87b6bbf0B9954c72A18A8a7c2b3C67bc1F87304";
+		const tokenAddress = process.env.NEXT_PUBLIC_TOKEN_CONTRACT;
 		const contract = new ethers.Contract(tokenAddress, TOKEN_ABI, wallet);
 
-		// directly mint tokens for the user
 		const tx = await contract.mint(userAddress, amount);
 		const receipt = await tx.wait();
 

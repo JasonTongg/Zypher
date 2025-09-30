@@ -1,7 +1,5 @@
-// pages/api/mintToken.js
 import { ethers } from "ethers";
 
-// ABI minimal untuk tokenNonces & mintWithSig
 const TOKEN_ABI = [
 	{
 		inputs: [
@@ -45,21 +43,18 @@ export default async function handler(req, res) {
 		const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
 
 		const contract = new ethers.Contract(
-			"0xf87b6bbf0B9954c72A18A8a7c2b3C67bc1F87304",
+			process.env.NEXT_PUBLIC_TOKEN_CONTRACT,
 			TOKEN_ABI,
 			wallet
 		);
 
-		// Ambil nonce langsung dari kontrak
 		const nonce = await contract.tokenNonces(to);
 
-		// Buat hash sama seperti di Solidity
 		const messageHash = ethers.solidityPackedKeccak256(
 			["address", "address", "uint256", "uint256"],
-			["0xf87b6bbf0B9954c72A18A8a7c2b3C67bc1F87304", to, amount, nonce]
+			[process.env.NEXT_PUBLIC_TOKEN_CONTRACT, to, amount, nonce]
 		);
 
-		// Sign message EIP-191
 		const signature = await wallet.signMessage(ethers.getBytes(messageHash));
 
 		return res.json({

@@ -9,7 +9,6 @@ import Link from "next/link";
 export default function Index() {
 	const [jokesCount, setJokesCount] = useState([]);
 	const [data, setData] = useState([]);
-	const [user, setUser] = useState([]);
 
 	async function getJokesCount() {
 		try {
@@ -40,7 +39,6 @@ export default function Index() {
 			);
 			const data = await res.json();
 			setData(data.data);
-			setUser(data.user);
 		} catch (error) {
 			toast.dark("Error fetching wallet points:");
 		}

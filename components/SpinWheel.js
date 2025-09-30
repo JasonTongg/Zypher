@@ -2,7 +2,6 @@
 import { useState, useRef, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import ScratchButton from "../public/assets/ScratchButton.png";
 import Image from "next/image";
 import StartButton from "../public/assets/StartButton.png";
 import StartingButton from "../public/assets/StartingButton.png";
@@ -16,8 +15,6 @@ import { motion } from "framer-motion";
 
 const ScratchCard = ({
 	txHash,
-	sendEth,
-	mintNft,
 	sendToken,
 	burnToken,
 	loading,
@@ -31,7 +28,6 @@ const ScratchCard = ({
 	const balance = useSelector((state) => state.data.balance);
 	const [isStarted, setIsStarted] = useState(false);
 
-	// Select a random reward on component mount
 	const rewards = [
 		{ id: 2, text: "200 TGG Gold", color: "bg-[rgb(76,11,13)]" },
 		{ id: 3, text: "50 TGG Gold", color: "bg-[rgb(190,32,34)]" },
@@ -66,7 +62,6 @@ const ScratchCard = ({
 		const centerX = canvas.width / 2;
 		const centerY = canvas.height / 2;
 
-		// Radius (make it big enough to cover the canvas)
 		const radius = Math.max(canvas.width, canvas.height) / 1.5;
 
 		const gradient = ctx.createRadialGradient(
@@ -85,21 +80,11 @@ const ScratchCard = ({
 		ctx.globalCompositeOperation = "destination-out";
 	};
 
-	// Initialize canvas
 	useEffect(() => {
 		if (!loading && isStarted) {
 			drawOverlay();
 		}
 	}, [loading, isStarted]);
-
-	// Show alert when reward is revealed
-	// useEffect(() => {
-	//     if (hasRevealed) {
-
-	//     }
-	// }, [hasRevealed, result.text]);
-
-	// Handle
 
 	const hasTriggeredRef = useRef(false);
 
@@ -117,7 +102,6 @@ const ScratchCard = ({
 		ctx.arc(x, y, 20, 0, 2 * Math.PI);
 		ctx.fill();
 
-		// Check if enough has been scratched to reveal the prize
 		if (!hasRevealed) {
 			const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 			let transparentCount = 0;
@@ -177,7 +161,6 @@ const ScratchCard = ({
 		const newIndex = pickWeightedIndex(weights);
 		setResult(rewards[newIndex]);
 
-		// Reset canvas
 		const canvas = canvasRef.current;
 		if (!canvas) return;
 
@@ -186,7 +169,6 @@ const ScratchCard = ({
 		const centerX = canvas.width / 2;
 		const centerY = canvas.height / 2;
 
-		// Radius (make it big enough to cover the canvas)
 		const radius = Math.max(canvas.width, canvas.height) / 1.5;
 
 		const gradient = ctx.createRadialGradient(
@@ -204,16 +186,17 @@ const ScratchCard = ({
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 		ctx.globalCompositeOperation = "destination-out";
 
-		// Reset revealed state
 		setHasRevealed(false);
 		hasTriggeredRef.current = false;
 	};
 
 	return (
 		<div className='flex items-center justify-center gap-6 sm:flex-row flex-col'>
-			<Image src={GameCharacter} className='w-[300px] max-h-[60vh] h-auto sm:block hidden' />
+			<Image
+				src={GameCharacter}
+				className='w-[300px] max-h-[60vh] h-auto sm:block hidden'
+			/>
 			<Image src={Bubble} className='w-[200px] h-auto sm:hidden block' />
-			{/* {txHash && isBurnFailed !== true && ( */}
 			<div className='flex flex-col items-center justify-center gap-6'>
 				{txHash && isBurnFailed !== true ? (
 					<div
@@ -239,7 +222,6 @@ const ScratchCard = ({
 						onTouchMove={handleMouseMove}
 						onTouchEnd={handleMouseUp}
 					>
-						{/* Reward background - always visible behind scratch layer */}
 						<motion.div
 							initial={{ scale: 0.1, opacity: 0 }}
 							animate={{ scale: 1, opacity: 1 }}
@@ -254,7 +236,6 @@ const ScratchCard = ({
 							</div>
 						</motion.div>
 
-						{/* Scratch overlay canvas */}
 						<canvas
 							ref={canvasRef}
 							width={256}
@@ -297,7 +278,6 @@ const ScratchCard = ({
 							</div>
 						</motion.div>
 
-						{/* Scratch overlay canvas */}
 						<canvas
 							ref={canvasRef}
 							width={256}
@@ -316,8 +296,8 @@ const ScratchCard = ({
 						loading
 							? `flex flex-col items-center gap-4 w-[220px]`
 							: isConnected
-								? `flex flex-col items-center gap-4 w-[220px]`
-								: `flex flex-col items-center gap-4 w-[220px]`
+							? `flex flex-col items-center gap-4 w-[220px]`
+							: `flex flex-col items-center gap-4 w-[220px]`
 					}
 				>
 					{loading ? (

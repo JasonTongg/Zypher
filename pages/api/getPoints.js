@@ -16,16 +16,13 @@ export default function handler(req, res) {
 		const raw = fs.readFileSync(filePath, "utf8");
 		const json = raw ? JSON.parse(raw) : {};
 
-		// Turn object → array
 		const arr = Object.entries(json).map(([address, point]) => ({
 			address,
 			point,
 		}));
 
-		// Sort by point (desc)
 		arr.sort((a, b) => b.point - a.point);
 
-		// ---- User info ----
 		const { address } = req.query;
 		let user = null;
 
@@ -37,7 +34,7 @@ export default function handler(req, res) {
 				user = {
 					address: arr[idx].address,
 					point: arr[idx].point,
-					rank: idx + 1, // rank starts at 1
+					rank: idx + 1,
 				};
 			} else {
 				user = { address, point: 0, rank: null };

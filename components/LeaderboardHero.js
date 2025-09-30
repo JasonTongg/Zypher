@@ -31,9 +31,9 @@ const ERC20_ABI = [
 	},
 ];
 
-export default function Hero() {
-	const { address: userAddress, isConnected, chainId } = useAccount();
-	const tokenAddress = "0xf87b6bbf0B9954c72A18A8a7c2b3C67bc1F87304";
+export default function LeaderboardHero() {
+	const { address: userAddress, isConnected } = useAccount();
+	const tokenAddress = process.env.NEXT_PUBLIC_TOKEN_CONTRACT;
 	const dispatch = useDispatch();
 	const [data, setData] = useState([]);
 	const [user, setUser] = useState([]);

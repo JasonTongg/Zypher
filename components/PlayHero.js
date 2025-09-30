@@ -1,8 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useAccount, useBalance } from "wagmi";
-import { useRouter } from "next/router";
+import { useAccount } from "wagmi";
 import Link from "next/link";
 import Image from "next/image";
 import HomeTitle from "../public/assets/HomeTitle.png";
@@ -10,10 +9,8 @@ import ConnectWalletButton from "../public/assets/ConnectWalletButton.png";
 import StartButton from "../public/assets/PlayNowButton.png";
 import Navbar from "@/components/Navbar";
 
-export default function Hero() {
-	const { address, isConnected } = useAccount();
-	const { data: balance, isLoading } = useBalance({ address });
-	const router = useRouter();
+export default function PlayHero() {
+	const { isConnected } = useAccount();
 
 	return (
 		<div

@@ -1,5 +1,5 @@
 import React from "react";
-import Hero from "@/components/Hero4";
+import Hero from "@/components/LeaderboardHero";
 
 export default function Index() {
 	return (

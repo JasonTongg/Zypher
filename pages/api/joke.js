@@ -34,7 +34,6 @@ export default function handler(req, res) {
 
 		const normalizedJoke = normalize(joke);
 
-		// Check if the joke already exists for this wallet
 		const alreadyExists = db[wallet]
 			.map((item) => normalize(item))
 			.includes(normalizedJoke);
@@ -46,7 +45,6 @@ export default function handler(req, res) {
 			});
 		}
 
-		// Add new joke
 		db[wallet].push(joke);
 		saveDB(db);
 

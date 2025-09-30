@@ -1,12 +1,9 @@
-// pages/_document.js
 import { Html, Head, Main, NextScript } from "next/document";
 
 export default function Document() {
 	return (
 		<Html lang='en'>
 			<Head>
-				{/* Keep only things that must be in <head> of every document
-            and never change per-page, e.g. fonts or favicons */}
 				<link rel='preconnect' href='https://fonts.googleapis.com' />
 				<link
 					rel='preconnect'

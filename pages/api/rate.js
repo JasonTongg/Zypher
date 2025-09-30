@@ -1,4 +1,3 @@
-// pages/api/rate.js
 import fs from "fs";
 import path from "path";
 import OpenAI from "openai";
@@ -7,7 +6,6 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 const dataFile = path.join(process.cwd(), "data/gold.json");
 const jokesFile = path.join(process.cwd(), "data/jokes.json");
 
-// === Gold Data Helpers ===
 function loadData() {
 	if (!fs.existsSync(dataFile)) return {};
 	return JSON.parse(fs.readFileSync(dataFile, "utf-8"));
@@ -17,7 +15,6 @@ function saveData(data) {
 	fs.writeFileSync(dataFile, JSON.stringify(data, null, 2));
 }
 
-// === Remove Jokes Helper ===
 function removeJokes(address, joke) {
 	if (!fs.existsSync(jokesFile)) return false;
 
@@ -70,7 +67,6 @@ export default async function handler(req, res) {
 		let data = loadData();
 		let today = new Date().toISOString().split("T")[0];
 
-		// init wallet data
 		if (!data[wallet]) {
 			data[wallet] = {
 				dailyGold: 0,
@@ -80,7 +76,6 @@ export default async function handler(req, res) {
 			};
 		}
 
-		// reset harian
 		if (data[wallet].lastUpdated !== today) {
 			data[wallet].dailyGold = 0;
 			data[wallet].lastUpdated = today;
@@ -88,7 +83,6 @@ export default async function handler(req, res) {
 			data[wallet].dailyAttempts = 0;
 		}
 
-		// 🚫 Limit 10 kali per hari
 		if (data[wallet].dailyAttempts >= 10) {
 			return res.status(200).json({
 				rating: 0,
@@ -160,7 +154,6 @@ Joke: "${joke}"
 
 		let { rating, response } = parsed;
 
-		// === Gold calculation ===
 		let gold = 0;
 		if (data[wallet].totalGold >= 200) {
 			gold = 0;

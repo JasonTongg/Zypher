@@ -5,9 +5,7 @@ import { useAccount, useToken, useReadContract } from "wagmi";
 import { ethers } from "ethers";
 import { useDispatch, useSelector } from "react-redux";
 import { setBalance } from "../store/data";
-import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ConnectWalletButton from "../public/assets/ConnectWalletButton.png";
 import Image from "next/image";
 import TellAJokeButton from "../public/assets/TellAJokeButton.png";
 import LuckyDrawButton from "../public/assets/LuckyDrawButton.png";
@@ -43,7 +41,7 @@ export default function Navbar() {
 	const balance = useSelector((state) => state.data.balance);
 
 	const { address: userAddress, isConnected } = useAccount();
-	const tokenAddress = "0xf87b6bbf0B9954c72A18A8a7c2b3C67bc1F87304";
+	const tokenAddress = process.env.NEXT_PUBLIC_TOKEN_CONTRACT;
 
 	const [open, setOpen] = React.useState(false);
 
@@ -174,7 +172,7 @@ export default function Navbar() {
 						flexDirection: "column",
 						justifyContent: "start",
 						alignItems: "center",
-						backdropFilter: "blur(20px)",
+						backdropFilter: "blur(3px)",
 					},
 				}}
 				ModalProps={{

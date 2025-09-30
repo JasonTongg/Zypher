@@ -15,21 +15,17 @@ export default function handler(req, res) {
 	}
 
 	try {
-		// Ensure data folder exists
 		const dir = path.dirname(filePath);
 		if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 
-		// Load existing data or create new
 		let data = {};
 		if (fs.existsSync(filePath)) {
 			const raw = fs.readFileSync(filePath, "utf8");
 			data = raw ? JSON.parse(raw) : {};
 		}
 
-		// Update or insert
 		data[address] = point;
 
-		// Save back to file
 		fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 
 		return res.status(200).json({ message: "Saved successfully", data });

@@ -84,23 +84,19 @@ img {
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center top;
-
-	/* @media only screen and (max-width: 640px) {
-		background-image: url("/assets/JokesBackgroundMobile.png");
-	} */
 }
 
 .bg-landing::before {
 	content: "";
 	position: absolute;
 	inset: 0;
-	background: rgba(0, 0, 0, 0.4); /* ubah 0.5 sesuai gelap yg kamu mau */
+	background: rgba(0, 0, 0, 0.4);
 	z-index: 0;
 }
 
 .bg-landing > * {
 	position: relative;
-	z-index: 1; /* supaya konten tampil di atas overlay */
+	z-index: 1;
 }
 
 .bg-jokes {
@@ -118,26 +114,26 @@ img {
 	content: "";
 	position: absolute;
 	inset: 0;
-	background: rgba(0, 0, 0, 0.4); /* ubah 0.5 sesuai gelap yg kamu mau */
+	background: rgba(0, 0, 0, 0.4);
 	z-index: 0;
 }
 
 .bg-jokes > * {
 	position: relative;
-	z-index: 1; /* supaya konten tampil di atas overlay */
+	z-index: 1;
 }
 
 .bg-game::before {
 	content: "";
 	position: absolute;
 	inset: 0;
-	background: rgba(0, 0, 0, 0.4); /* ubah 0.5 sesuai gelap yg kamu mau */
+	background: rgba(0, 0, 0, 0.4);
 	z-index: 0;
 }
 
 .bg-game > * {
 	position: relative;
-	z-index: 1; /* supaya konten tampil di atas overlay */
+	z-index: 1;
 }
 
 .bg-leaderboard {

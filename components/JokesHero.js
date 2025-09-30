@@ -1,29 +1,20 @@
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { useAccount, useWriteContract, useToken, useReadContract } from "wagmi";
+import { useAccount, useToken, useReadContract } from "wagmi";
 import { ethers } from "ethers";
 import { useDispatch } from "react-redux";
 import { setBalance } from "../store/data";
-import { ToastContainer, toast } from "react-toastify";
-// import { waitForTransactionReceipt } from "wagmi/actions";
-import { useWaitForTransactionReceipt } from "wagmi";
-import JokesTitle from "../public/assets/JokesTitle.png";
-import JokesTitleFunny from "../public/assets/JokesTitleFunny.png";
-import JokesTitleGood from "../public/assets/JokesTitleGood.png";
-import JokesTitleOkey from "../public/assets/JokesTitleOkey.png";
-import JokesTitleBad from "../public/assets/JokesTitleBad.png";
+import { toast } from "react-toastify";
 import JokesTitleGoodEmpty from "../public/assets/JokesTitleGoodEmpty.png";
 import JokesTitleOkeyEmpty from "../public/assets/JokesTitleOkeyEmpty.png";
 import JokesTitleBadEmpty from "../public/assets/JokesTitleBadEmpty.png";
 import Image from "next/image";
-import JokesResult from "../public/assets/JokesResult.png";
 import StartButton from "../public/assets/SubmitButton.png";
 import StartButton2 from "../public/assets/SubmittingButton.png";
 import Navbar from "@/components/Navbar";
 import ConnectWalletButton from "../public/assets/ConnectWalletButton.png";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
-// Lengkapi ABI (mint + balanceOf + decimals)
 const ERC20_ABI = [
 	{
 		name: "mint",
@@ -51,10 +42,10 @@ const ERC20_ABI = [
 	},
 ];
 
-export default function Hero() {
+export default function JokesHero() {
 	const [isMinting, setIsMinting] = useState(false);
 	const { address: userAddress, isConnected, chainId } = useAccount();
-	const tokenAddress = "0x34a9d1ec567423b918B87d05b3348683902c62C8";
+	const tokenAddress = process.env.NEXT_PUBLIC_TOKEN_CONTRACT;
 	const dispatch = useDispatch();
 	const [jokes, setJokes] = useState("");
 	const [feedback, setFeedback] = useState(
@@ -97,80 +88,9 @@ export default function Hero() {
 		}
 	}, [balanceData, tokenData, isConnected, userAddress]);
 
-	// di file Hero (hanya bagian sendTokenToMe diubah)
-	const sendTokenToMe = async (amount) => {
-		if (chainId !== 8668) {
-			await switchToHelaTestnet();
-		}
-		if (!isConnected) {
-			toast.dark("Please connect your wallet first");
-			return;
-		}
-
-		setIsMinting(true);
-		try {
-			// Convert amount (ETH string) to wei string
-			const amountInWei = ethers.parseUnits(amount, 18).toString();
-
-			// 1️⃣ Request signature & nonce from backend
-			const resp = await fetch("/api/mint", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ to: userAddress, amount: amountInWei }),
-			});
-
-			const data = await resp.json();
-
-			const { signature } = data;
-
-			// 2️⃣ Connect to user's wallet
-			const provider = new ethers.BrowserProvider(window.ethereum);
-			const signer = await provider.getSigner();
-			const userWallet = await signer.getAddress();
-
-			// 3️⃣ Setup contract & call mintWithSig
-			const contract = new ethers.Contract(
-				"0x34a9d1ec567423b918B87d05b3348683902c62C8",
-				[
-					{
-						inputs: [
-							{ internalType: "address", name: "to", type: "address" },
-							{ internalType: "uint256", name: "amount", type: "uint256" },
-							{ internalType: "bytes", name: "signature", type: "bytes" },
-						],
-						name: "mintWithSig",
-						outputs: [],
-						stateMutability: "nonpayable",
-						type: "function",
-					},
-				],
-				signer
-			);
-
-			const tx = await contract.mintWithSig(
-				userAddress,
-				amountInWei,
-				signature
-			);
-
-			const receipt = await tx.wait();
-
-			if (receipt.status === 1) {
-				toast.dark(`Successfully received ${amount} TGG Gold!`);
-				refetchBalance?.();
-			} else {
-				toast.dark("Transaction failed on-chain.");
-			}
-		} catch (err) {
-			toast.dark(`Transaction Failed`);
-		} finally {
-			setIsMinting(false);
-		}
-	};
-
 	async function mintToken(userAddress, amount) {
 		if (chainId !== 8668) {
-			await switchToHelaTestnet();
+			await switchToHelaMainnet();
 		}
 		const amountInWei = ethers.parseUnits(amount, 18).toString();
 		try {
@@ -198,7 +118,7 @@ export default function Hero() {
 
 	async function submitJoke(wallet, joke) {
 		if (chainId !== 8668) {
-			await switchToHelaTestnet();
+			await switchToHelaMainnet();
 		}
 		try {
 			const res = await fetch("/api/joke", {
@@ -225,7 +145,7 @@ export default function Hero() {
 
 	async function rateJoke(joke) {
 		if (chainId !== 8668) {
-			await switchToHelaTestnet();
+			await switchToHelaMainnet();
 		}
 		setButtonType(StartButton2);
 		let resp = await fetch("/api/rate", {
@@ -247,7 +167,6 @@ export default function Hero() {
 			setTitleImage(JokesTitleBadEmpty);
 		} else if (Number(resp.rating) > 0 && Number(resp.rating) < 5) {
 			setTitleImage(JokesTitleBadEmpty);
-			// toast.dark("Your joke is bad");
 			toast.dark(
 				`Congratulations! You won: ${Number(resp.gold).toString()} TGG Gold`
 			);
@@ -258,21 +177,18 @@ export default function Hero() {
 			Number(resp.rating) === 6
 		) {
 			setTitleImage(JokesTitleOkeyEmpty);
-			// toast.dark("Your joke is okay");
 			toast.dark(
 				`Congratulations! You won: ${Number(resp.gold).toString()} TGG Gold`
 			);
 			mintToken(userAddress, Number(resp.gold).toString());
 		} else if (Number(resp.rating) === 8 || Number(resp.rating) === 9) {
 			setTitleImage(JokesTitleGoodEmpty);
-			// toast.dark("Your joke is good");
 			toast.dark(
 				`Congratulations! You won: ${Number(resp.gold).toString()} TGG Gold`
 			);
 			mintToken(userAddress, Number(resp.gold).toString());
 		} else {
 			setTitleImage(JokesTitleGoodEmpty);
-			// toast.dark("Your joke is very funny!");
 			toast.dark(
 				`Congratulations! You won: ${Number(resp.gold).toString()} TGG Gold`
 			);
@@ -282,47 +198,7 @@ export default function Hero() {
 		setJokes("");
 	}
 
-	// async function switchToHelaTestnet() {
-	// 	if (!window.ethereum) {
-	// 		throw new Error("No crypto wallet found. Please install MetaMask.");
-	// 	}
-
-	// 	try {
-	// 		await window.ethereum.request({
-	// 			method: "wallet_switchEthereumChain",
-	// 			params: [{ chainId: "0xA2D08" }],
-	// 		});
-	// 	} catch (switchError) {
-	// 		if (switchError.code === 4902) {
-	// 			try {
-	// 				await window.ethereum.request({
-	// 					method: "wallet_addEthereumChain",
-	// 					params: [
-	// 						{
-	// 							chainId: "0xA2D08",
-	// 							chainName: "Hela Testnet",
-	// 							nativeCurrency: {
-	// 								name: "Hela Testnet",
-	// 								symbol: "HLUSD",
-	// 								decimals: 18,
-	// 							},
-	// 							rpcUrls: ["https://testnet-rpc.helachain.com"],
-	// 							blockExplorerUrls: [
-	// 								"https://testnet-blockexplorer.helachain.com",
-	// 							],
-	// 						},
-	// 					],
-	// 				});
-	// 			} catch (addError) {
-	// 				console.error("Failed to add Hela Testnet:", addError);
-	// 			}
-	// 		} else {
-	// 			console.error("Failed to switch network:", switchError);
-	// 		}
-	// 	}
-	// }
-
-	async function switchToHelaTestnet() {
+	async function switchToHelaMainnet() {
 		if (!window.ethereum) {
 			throw new Error("No crypto wallet found. Please install MetaMask.");
 		}
@@ -405,23 +281,23 @@ export default function Hero() {
             focus:outline-none focus:ring-2 focus:ring-[#e0c98d]
           '
 				/>
-				{isConnected ? 
-						buttonType === StartButton ? (
-							<button onClick={() => submitJoke(userAddress, jokes)}>
-								<Image
-									src={buttonType}
-									className='w-[150px] sxl:w-[220px] h-auto'
-								/>
-							</button>
-						) : (
-							<button disabled={true}>
-								<Image
-									src={buttonType}
-									className='w-[180px] sxl:w-[250px] h-auto'
-								/>
-							</button>
-						)
-				 : (
+				{isConnected ? (
+					buttonType === StartButton ? (
+						<button onClick={() => submitJoke(userAddress, jokes)}>
+							<Image
+								src={buttonType}
+								className='w-[150px] sxl:w-[220px] h-auto'
+							/>
+						</button>
+					) : (
+						<button disabled={true}>
+							<Image
+								src={buttonType}
+								className='w-[180px] sxl:w-[250px] h-auto'
+							/>
+						</button>
+					)
+				) : (
 					<ConnectButton.Custom>
 						{({ account, chain, openConnectModal, mounted }) => {
 							return (
