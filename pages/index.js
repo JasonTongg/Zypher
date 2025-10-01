@@ -57,9 +57,13 @@ export default function Index() {
 					alt='Landing Title'
 					className='w-[25vw] h-auto min-w-[300px] p-4'
 				/>
-				<div className='border-y-4 border-[#8E805B] text-[#A99D8D] py-4 beleren text-center w-full text-base'>
-					TITLE STORY
-				</div>
+				<Link
+					href='https://helalabs.gitbook.io/tales-of-gold-and-glory-doc'
+					target='_blank'
+					className='border-y-4 border-[#8E805B] text-[#A99D8D] py-4 beleren text-center w-full text-base'
+				>
+					DOCUMENTATION
+				</Link>
 			</div>
 			<div className='w-full relative bg-landing flex items-center justify-center flex-col'>
 				<div className='min-h-[500px] flex items-end justify-center gap-6 pb-[1.5rem] max-w-[800px]'>
