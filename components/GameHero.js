@@ -5,7 +5,7 @@ import { ethers } from "ethers";
 import { useDispatch } from "react-redux";
 import { setBalance } from "../store/data";
 import { toast } from "react-toastify";
-import SpinWheel from "../components/SpinWheel";
+import ScratchCard from "../components/ScratchCard";
 import Navbar from "@/components/Navbar";
 
 const ERC20_ABI = [
@@ -254,7 +254,7 @@ export default function GameHero() {
 				transition={{ duration: 0.5 }}
 				className='flex flex-col items-center justify-center gap-6 rounded-3xl max-w-md w-full'
 			>
-				<SpinWheel
+				<ScratchCard
 					txHash={txHash}
 					isBurnFailed={isBurnFailed}
 					loading={loading}

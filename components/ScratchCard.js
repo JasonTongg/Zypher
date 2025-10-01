@@ -27,6 +27,7 @@ const ScratchCard = ({
 	const containerRef = useRef(null);
 	const balance = useSelector((state) => state.data.balance);
 	const [isStarted, setIsStarted] = useState(false);
+	const [isImageLoaded, setImageLoaded] = useState(false);
 
 	const rewards = [
 		{ id: 2, text: "200 TGG Gold", color: "bg-[rgb(76,11,13)]" },
@@ -264,19 +265,21 @@ const ScratchCard = ({
 							w-64 h-64 mb-6 pointer-events-none
 						'
 					>
-						<motion.div
-							initial={{ scale: 0.1, opacity: 0 }}
-							animate={{ scale: 1, opacity: 1 }}
-							transition={{ duration: 3 }}
-						>
-							<div className='absolute inset-0 flex items-center justify-center rounded-lg'>
-								<div
-									className={`p-4 rounded-lg text-center ${result.color} text-white font-bold`}
-								>
-									<p className='text-xl'>{result.text}</p>
+						{isImageLoaded && (
+							<motion.div
+								initial={{ scale: 0.1, opacity: 0 }}
+								animate={{ scale: 1, opacity: 1 }}
+								transition={{ duration: 3 }}
+							>
+								<div className='absolute inset-0 flex items-center justify-center rounded-lg'>
+									<div
+										className={`p-4 rounded-lg text-center ${result.color} text-white font-bold`}
+									>
+										<p className='text-xl'>{result.text}</p>
+									</div>
 								</div>
-							</div>
-						</motion.div>
+							</motion.div>
+						)}
 
 						<canvas
 							ref={canvasRef}
@@ -286,6 +289,8 @@ const ScratchCard = ({
 						/>
 						<Image
 							src={Frame2}
+							alt='frame'
+							onLoad={() => setImageLoaded(true)}
 							className='absolute inset-0 w-full h-full rounded-lg left-[-25px] top-[-40px] !w-[300px] !max-w-[500px] !h-auto pointer-events-none'
 						/>
 					</div>
