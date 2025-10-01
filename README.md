@@ -2,9 +2,19 @@
 
 <p align="center">
   <a href="https://talesofgoldglory.com/">
-    <img src="https://github.com/JasonTongg/Tales-of-gold-and-glory/blob/main/public/assets/Banner.png" alt="Tales of Gold & Glory" width="300"/>
+    <img src="https://github.com/JasonTongg/Tales-of-gold-and-glory/blob/main/public/assets/Banner.jpg" alt="Tales of Gold & Glory" width="300"/>
   </a>
 </p>
+
+**Quest Available:**  
+Brave adventurer, the King awaits your jokes!  
+Test your humor, earn glory, and see if fortune favors you.
+
+👉 **[Start Adventure Now](https://talesofgoldglory.com/)**
+
+---
+
+## What is Tales of Gold & Glory?
 
 **Quest Available:**  
 Brave adventurer, the King awaits your jokes!  
