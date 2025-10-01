@@ -158,7 +158,10 @@ export default function Navbar() {
 				</Link>
 			</div>
 			<div className='sm:hidden block'>
-				<Button onClick={toggleDrawer(true)}>
+				<Button
+					onClick={toggleDrawer(true)}
+					sx={{ padding: "0px !important", minWidth: "0px !important" }}
+				>
 					<GiHamburgerMenu className='text-[#F5BE52] text-3xl' />
 				</Button>
 			</div>

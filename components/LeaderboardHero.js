@@ -100,20 +100,20 @@ export default function LeaderboardHero() {
 				className='flex flex-col items-center justify-center gap-8 w-full'
 			>
 				<div className='max-w-3xl p-4'>
-					<div className='flex flex-col md:flex-row items-center md:items-start gap-4 relative w-fit sm:px-[10rem] px-[3rem] pt-[2rem] sx:pt-[3.5rem]'>
+					<div className='flex flex-col md:flex-row items-center md:items-start gap-4 relative w-fit sm:px-[10rem] px-[3rem] pt-[1.5rem] sx:pt-[3.5rem]'>
 						<Image
 							src={LeaderboardContainer}
 							alt='Deskripsi gambar'
 							className='w-[500px] h-auto rounded-lg object-cover absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%]'
 						/>
-						<div className='sm:h-[330px] h-[200px] sx:h-[290px] overflow-auto relative z-[10] gap-[4px] sm:gap-[10px] flex flex-col items-start w-[200px] sx:w-[300px]'>
+						<div className='sm:h-[330px] h-[200px] sx:h-[290px] overflow-auto relative z-[10] gap-[0px] sx:gap-[4px] sm:gap-[10px] flex flex-col items-start w-[200px] sx:w-[300px]'>
 							{data?.length > 0 &&
 								data
 									?.filter((_, index) => index <= 19)
 									.map((Items, index) => (
 										<div
 											key={index}
-											className='flex items-center justify-between w-full'
+											className='flex items-center justify-between w-full sx:text-[16px] text-[14px]'
 										>
 											<p>
 												{index + 1}. {Items.address.slice(0, 5)}...
