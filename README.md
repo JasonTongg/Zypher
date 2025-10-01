@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="https://talesofgoldglory.com/">
-    <img src="https://github.com/JasonTongg/Tales-of-gold-and-glory/blob/main/public/assets/tales-banner.png" alt="Tales of Gold & Glory" width="300"/>
+    <img src="https://github.com/JasonTongg/Tales-of-gold-and-glory/blob/main/public/assets/Banner.png" alt="Tales of Gold & Glory" width="300"/>
   </a>
 </p>
 
