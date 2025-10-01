@@ -12,6 +12,10 @@ Test your humor, earn glory, and see if fortune favors you.
 
 👉 **[Start Adventure Now](https://talesofgoldglory.com/)**
 
+---
+
+## What is Tales of Gold & Glory?
+
 Tales of Gold & Glory is a web-based game built with the Next.js framework (React) where players amuse a king by submitting witty jokes. Each joke submission triggers a blockchain transaction (using the HLUSD stablecoin) and is automatically rated by an AI (via the OpenAI API). The app’s code is a Next.js project (Node.js) with a front-end UI and local data storage. To develop or customize this project, clone the repo and follow the instructions below. HLUSD (HeLa USD) is a stablecoin (≈ $1.00) used for on-chain fees, so the account you use must hold enough HLUSD tokens.
 
 ## Prerequisites
