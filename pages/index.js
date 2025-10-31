@@ -125,7 +125,7 @@ export default function Index() {
 						<Image src={Btn} className='w-[250px]'></Image>
 						<p className='flex flex-col items-center justify-center p-4 absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-full'>
 							<span className='beleren text-center font-bold text-[#693F19] sm:text-lg text-base'>
-								Connected Wallet
+								CONNECTED WALLET
 							</span>{" "}
 							<span className='beleren text-center font-bold text-[#693F19]  text-2xl sm:text-3xl'>
 								{stats?.walletCount}
@@ -137,7 +137,7 @@ export default function Index() {
 						<Image src={Btn} className='w-[250px]'></Image>
 						<p className='flex flex-col items-center justify-center p-4 absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-full'>
 							<span className='beleren text-center font-bold text-[#693F19] sm:text-lg text-base'>
-								Submitted Jokes
+								SUBMITTED JOKES
 							</span>{" "}
 							<span className='beleren text-center font-bold text-[#693F19]  text-2xl sm:text-3xl'>
 								{stats?.totalJokes}
