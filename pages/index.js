@@ -219,8 +219,8 @@ export default function Index() {
 						</div>
 					</div>
 				</div>
-				<div className='flex flex-col items-center justify-center gap-3 mt-[2rem] w-full'>
-					<div className='flex items-center justify-center gap-6 flex-wrap'>
+				<div className='flex flex-col items-center justify-center gap-3 w-full'>
+					<div className='flex items-center justify-center gap-6 flex-wrap mt-[4rem] mb-[2.5rem]'>
 						<div className='flex flex-col items-center justify-center gap-2 min-w-[210px]'>
 							<h2 className='sm:text-5xl text-3xl font-bold text-[#D1D2CD] beleren'>
 								Follow Us On X
