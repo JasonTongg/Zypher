@@ -5,10 +5,13 @@ import LandingFrame from "../public/assets/LandingFrame.png";
 import LandingFrameMobile from "../public/assets/LandingFrameMobile.png";
 import PlayNowButton from "../public/assets/PlayNowButton.png";
 import Link from "next/link";
+import { FaXTwitter } from "react-icons/fa6";
+import Btn from "../public/assets/Btn.png";
 
 export default function Index() {
 	const [jokesCount, setJokesCount] = useState([]);
 	const [data, setData] = useState([]);
+	const [stats, setStats] = useState({ walletCount: 0, totalJokes: 0 });
 
 	async function getJokesCount() {
 		try {
@@ -24,7 +27,12 @@ export default function Index() {
 			}
 
 			const data = await res.json();
-			setJokesCount(data);
+			setJokesCount(data.details);
+			setStats({
+				walletCount: data.walletCount,
+				totalJokes: data.totalJokes,
+			});
+			console.log(data);
 			return data;
 		} catch (err) {
 			console.error("Error fetching jokes count:", err);
@@ -57,13 +65,36 @@ export default function Index() {
 					alt='Landing Title'
 					className='w-[25vw] h-auto min-w-[300px] p-4'
 				/>
-				<Link
-					href='https://helalabs.gitbook.io/tales-of-gold-and-glory-doc'
-					target='_blank'
-					className='border-y-4 border-[#8E805B] text-[#A99D8D] py-4 beleren text-center w-full text-base'
-				>
-					DOCUMENTATION
-				</Link>
+				<div className='border-y-4 border-[#8E805B] text-[#ffffff] py-4 flex items-center justify-center w-full'>
+					<div
+						className='grid gap-3 w-full justify-center justify-items-center'
+						style={{
+							gridTemplateColumns: "repeat(auto-fit, minmax(150px, 150px))",
+						}}
+					>
+						<Link
+							href='https://github.com/JasonTongg/Tales-of-gold-and-glory'
+							target='_blank'
+							className='beleren text-center w-full text-base flex items-center justify-center gap-1'
+						>
+							GITHUB
+						</Link>
+						<Link
+							href='https://helalabs.gitbook.io/tales-of-gold-and-glory-doc'
+							target='_blank'
+							className='beleren text-center w-full text-base'
+						>
+							DOCUMENTATION
+						</Link>
+						<Link
+							href='https://x.com/talesofgg'
+							target='_blank'
+							className='beleren text-center w-full text-base flex items-center justify-center gap-1'
+						>
+							<FaXTwitter className='text-[#ffffff]' /> (TWITTER)
+						</Link>
+					</div>
+				</div>
 			</div>
 			<div className='w-full relative bg-landing flex items-center justify-center flex-col'>
 				<div className='min-h-[500px] flex items-end justify-center gap-6 pb-[1.5rem] max-w-[800px]'>
@@ -89,6 +120,31 @@ export default function Index() {
 					The Kingdom is ensared ancient malevent spell. Brave amuse your King
 					with your king, save forth and claim glorious rewards!
 				</p>
+				<div className='flex items-center justify-center flex-wrap my-6'>
+					<div className='relative'>
+						<Image src={Btn} className='w-[250px]'></Image>
+						<p className='flex flex-col items-center justify-center p-4 absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-full'>
+							<span className='beleren text-center font-bold text-[#693F19] sm:text-lg text-base'>
+								Connected Wallet
+							</span>{" "}
+							<span className='beleren text-center font-bold text-[#693F19]  text-2xl sm:text-3xl'>
+								{stats?.walletCount}
+							</span>
+						</p>
+					</div>
+
+					<div className='relative'>
+						<Image src={Btn} className='w-[250px]'></Image>
+						<p className='flex flex-col items-center justify-center p-4 absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-full'>
+							<span className='beleren text-center font-bold text-[#693F19] sm:text-lg text-base'>
+								Submitted Jokes
+							</span>{" "}
+							<span className='beleren text-center font-bold text-[#693F19]  text-2xl sm:text-3xl'>
+								{stats?.totalJokes}
+							</span>
+						</p>
+					</div>
+				</div>
 				<div className='w-full relative max-w-[800px]'>
 					<Image
 						src={LandingFrame}
@@ -100,9 +156,9 @@ export default function Index() {
 						alt='Landing Frame Mobile'
 						className='w-screen h-auto pointer-events-none block sm:hidden'
 					/>
-					<div className='w-full grid grid-cols-1 sm:grid-cols-2 gap-3 absolute top-[28.9%] sm:top-[43.36%] left-1/2 translate-x-[-50%] overflow-auto max-h-[56.84%] sm:max-h-[36.78%] h-[100%] max-w-[84.32%]'>
-						<div className='w-full h-[100%] flex flex-col items-center justify-start gap-1 p-4'>
-							<h2 className='text-[#5A5149] text-xl sm:text-2xl font-bold'>
+					<div className='w-full grid grid-cols-1 sm:grid-cols-2 gap-3  absolute top-[28.9%] sm:top-[43.36%] left-1/2 translate-x-[-50%] overflow-auto max-h-[56.84%] sm:max-h-[36.78%] max-w-[84.32%] h-auto'>
+						<div className='w-full h-[100%] flex flex-col items-center justify-start gap-1 p-4 '>
+							<h2 className='text-[#5A5149] text-xl sm:text-2xl font-bold beleren'>
 								Top Witty Jesters
 							</h2>
 							<div className='w-full'>
@@ -123,8 +179,8 @@ export default function Index() {
 									))}
 							</div>
 						</div>
-						<div className='w-full h-[100%] flex flex-col items-center justify-start gap-1 p-4'>
-							<h2 className='text-[#5A5149] text-xl sm:text-2xl font-bold'>
+						<div className='w-full h-[100%] flex flex-col items-center justify-start gap-1 p-4 '>
+							<h2 className='text-[#5A5149] text-xl sm:text-2xl font-bold beleren'>
 								Top Token Earners
 							</h2>
 							<div className='w-full'>

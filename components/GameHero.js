@@ -137,7 +137,12 @@ export default function GameHero() {
 				toast.dark("Transaction failed on-chain.");
 			}
 		} catch (err) {
-			toast.dark(`Transaction Failed`);
+			let errorMsg =
+				err?.info?.error?.message?.split(":")[1]?.trim() ||
+				err?.reason?.trim() ||
+				"Lucky Draw failed";
+
+			toast.dark(errorMsg.toUpperCase());
 		} finally {
 			setIsMinting(false);
 		}
@@ -173,9 +178,15 @@ export default function GameHero() {
 			setTxHash(receipt.hash);
 			refetchBalance?.();
 			toast.dark("Game Started... Good luck!");
+			c;
 			setIsBurnFailed(false);
 		} catch (err) {
-			toast.dark("Lucky Draw failed");
+			let errorMsg =
+				err?.info?.error?.message?.split(":")[1]?.trim() ||
+				err?.reason?.trim() ||
+				"Lucky Draw failed";
+
+			toast.dark(errorMsg.toUpperCase());
 			setIsBurnFailed(true);
 		} finally {
 			setLoading(false);
