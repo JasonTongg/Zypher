@@ -7,14 +7,21 @@ import {
 	useWaitForTransactionReceipt,
 	useAccount,
 } from "wagmi";
-import { parseUnits, formatUnits } from "viem";
+import { parseUnits } from "viem";
 import swapAbi from "./abi/uniswapv2.json";
 import erc20Abi from "./abi/erc20.json";
 
-export function useTokenToETHSwap({ swapContract, tokenIn }) {
+export function useTokenToETHSwap({ swapContract, tokenIn, tokenInDecimals }) {
 	const [amountIn, setAmountIn] = useState(0n);
-	const [amountOut, setAmountOut] = useState(0n);
 	const { address: user } = useAccount();
+
+	// Debug log
+	console.log("useTokenToETHSwap hook initialized with:", {
+		swapContract,
+		tokenIn,
+		user,
+		swapAbi: swapAbi ? "ABI loaded" : "ABI undefined",
+	});
 
 	// 1. Read token balance
 	const { data: balance, error: balanceError } = useReadContract({
@@ -25,8 +32,21 @@ export function useTokenToETHSwap({ swapContract, tokenIn }) {
 		query: { enabled: !!user },
 	});
 
-	// 2. Expected ETH output (token → ETH)
-	const { data: expectedETH, error: expectedETHError } = useReadContract({
+	// 2. Read allowance
+	const { data: allowance, error: allowanceError } = useReadContract({
+		address: tokenIn,
+		abi: erc20Abi,
+		functionName: "allowance",
+		args: [user, swapContract],
+		query: { enabled: !!user && !!swapContract, refetchInterval: 1000 },
+	});
+
+	// 3. Expected ETH output
+	const {
+		data: expectedETH,
+		error: expectedETHError,
+		refetch: refetchAllowance,
+	} = useReadContract({
 		address: swapContract,
 		abi: swapAbi,
 		functionName: "getPriceTokenToETH",
@@ -36,17 +56,8 @@ export function useTokenToETHSwap({ swapContract, tokenIn }) {
 		},
 	});
 
-	// 3. Expected token input (ETH → token)
-	const { data: expectedTokenIn, error: expectedTokenInError } =
-		useReadContract({
-			address: swapContract,
-			abi: swapAbi,
-			functionName: "getPriceETHtoToken",
-			args: [tokenIn, amountOut],
-			query: {
-				enabled: !!user && amountOut > 0n && !!swapAbi,
-			},
-		});
+	// Check if allowance is sufficient
+	const isApproved = allowance && amountIn > 0n ? allowance >= amountIn : false;
 
 	// 4. APPROVE
 	const {
@@ -62,19 +73,32 @@ export function useTokenToETHSwap({ swapContract, tokenIn }) {
 		error: approveReceiptError,
 	} = useWaitForTransactionReceipt({
 		hash: approveHash,
+		onSuccess: () => {
+			console.log("✅ Approval confirmed, refetching allowance");
+			refetchAllowance();
+		},
 	});
 
 	const approveToken = async () => {
 		if (amountIn <= 0n) return alert("Enter amount first!");
+
+		// Check if already approved
+		if (isApproved) {
+			console.log("✅ Allowance already sufficient, no approval needed");
+			return;
+		}
 
 		console.log("🔥 Approve clicked for ETH swap:", {
 			swapContract,
 			tokenIn,
 			amountIn,
 			user,
+			currentAllowance: allowance?.toString(),
+			requiredAllowance: amountIn.toString(),
 		});
 
 		try {
+			// Validate inputs
 			if (!tokenIn || !swapContract) {
 				throw new Error("Missing required contract addresses");
 			}
@@ -113,15 +137,24 @@ export function useTokenToETHSwap({ swapContract, tokenIn }) {
 		error: swapReceiptError,
 	} = useWaitForTransactionReceipt({
 		hash: swapHash,
+		onSuccess: () => {
+			console.log("💧 Swap confirmed, refetching allowance");
+			refetchAllowance();
+		},
 	});
 
 	const executeSwapToETH = () => {
-		if (!approveConfirmed) return alert("Approve first!");
 		if (amountIn <= 0n) return alert("Enter amount first!");
+
+		// Check if approved (either via previous allowance or recent approval)
+		if (!isApproved && !approveConfirmed) {
+			return alert("Approve first!");
+		}
 
 		console.log("💧 Swap to ETH clicked");
 
 		try {
+			// Validate swap ABI
 			if (!swapAbi || !Array.isArray(swapAbi)) {
 				throw new Error("Swap ABI is invalid or not loaded");
 			}
@@ -148,16 +181,16 @@ export function useTokenToETHSwap({ swapContract, tokenIn }) {
 
 	// Log errors for debugging
 	if (balanceError) console.error("Balance error:", balanceError);
+	if (allowanceError) console.error("Allowance error:", allowanceError);
 	if (expectedETHError) console.error("Expected ETH error:", expectedETHError);
-	if (expectedTokenInError)
-		console.error("Expected token in error:", expectedTokenInError);
 	if (approveError) console.error("Approve error:", approveError);
 	if (swapError) console.error("Swap error:", swapError);
 
 	return {
 		balance,
+		allowance,
 		expectedETH,
-		expectedTokenIn,
+		isApproved: isApproved || approveConfirmed, // Consider approved if allowance is sufficient OR approval was confirmed
 		approveToken,
 		executeSwapToETH,
 		approveConfirmed,
@@ -169,25 +202,22 @@ export function useTokenToETHSwap({ swapContract, tokenIn }) {
 		approveFailed,
 		swapFailed,
 		balanceError,
+		allowanceError,
 		expectedETHError,
-		expectedTokenInError,
+		approveReceiptError,
+		swapReceiptError,
+		allowance,
 		setAmountIn: (v) => {
 			try {
-				setAmountIn(parseUnits(v, 18));
-				setAmountOut(0n);
+				setAmountIn(parseUnits(v, tokenInDecimals));
 			} catch (error) {
 				console.error("Error parsing amount:", error);
 				setAmountIn(0n);
 			}
 		},
-		setAmountOut: (v) => {
-			try {
-				setAmountOut(parseUnits(v, 18));
-				setAmountIn(0n);
-			} catch (error) {
-				console.error("Error parsing amount:", error);
-				setAmountOut(0n);
-			}
+		// Helper to reset the state if needed
+		reset: () => {
+			setAmountIn(0n);
 		},
 	};
 }

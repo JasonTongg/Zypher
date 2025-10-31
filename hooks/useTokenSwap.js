@@ -1,20 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
 	useReadContract,
 	useWriteContract,
 	useWaitForTransactionReceipt,
 	useAccount,
 } from "wagmi";
-import { parseUnits, formatUnits } from "viem";
+import { parseUnits } from "viem";
 import swapAbi from "./abi/uniswapv2.json";
 import erc20Abi from "./abi/erc20.json";
 
-export function useTokenSwap({ swapContract, tokenIn, tokenOut }) {
+export function useTokenSwap({
+	swapContract,
+	tokenIn,
+	tokenOut,
+	tokenInDecimals,
+	tokenOutDecimals,
+}) {
 	const [amountIn, setAmountIn] = useState(0n);
-	const [amountOut, setAmountOut] = useState(0n);
 	const { address: user } = useAccount();
+	const [isApproved, setIsApproved] = useState(false);
 
 	// 1. Read token balance
 	const { data: balance, error: balanceError } = useReadContract({
@@ -25,7 +31,20 @@ export function useTokenSwap({ swapContract, tokenIn, tokenOut }) {
 		query: { enabled: !!user },
 	});
 
-	// 2. Expected output (input → output)
+	// 2. Read allowance
+	const {
+		data: allowance,
+		error: allowanceError,
+		refetch: refetchAllowance,
+	} = useReadContract({
+		address: tokenIn,
+		abi: erc20Abi,
+		functionName: "allowance",
+		args: [user, swapContract],
+		query: { enabled: !!user && !!swapContract, refetchInterval: 1000 },
+	});
+
+	// 3. Expected output with error handling
 	const { data: expectedOut, error: expectedOutError } = useReadContract({
 		address: swapContract,
 		abi: swapAbi,
@@ -33,17 +52,6 @@ export function useTokenSwap({ swapContract, tokenIn, tokenOut }) {
 		args: [tokenIn, tokenOut, amountIn],
 		query: {
 			enabled: !!user && amountIn > 0n && !!swapAbi,
-		},
-	});
-
-	// 3. Expected input (output → input)
-	const { data: expectedIn, error: expectedInError } = useReadContract({
-		address: swapContract,
-		abi: swapAbi,
-		functionName: "getPriceTokenToToken", // You might need a reverse function
-		args: [tokenOut, tokenIn, amountOut], // Reverse the tokens
-		query: {
-			enabled: !!user && amountOut > 0n && !!swapAbi,
 		},
 	});
 
@@ -61,10 +69,20 @@ export function useTokenSwap({ swapContract, tokenIn, tokenOut }) {
 		error: approveReceiptError,
 	} = useWaitForTransactionReceipt({
 		hash: approveHash,
+		onSuccess: () => {
+			console.log("✅ Approval confirmed, refetching allowance");
+			refetchAllowance();
+		},
 	});
 
 	const approveToken = async () => {
 		if (amountIn <= 0n) return alert("Enter amount first!");
+
+		// Check if already approved
+		if (isApproved) {
+			console.log("✅ Allowance already sufficient, no approval needed");
+			return;
+		}
 
 		console.log("🔥 Approve clicked with details:", {
 			swapContract,
@@ -72,9 +90,12 @@ export function useTokenSwap({ swapContract, tokenIn, tokenOut }) {
 			tokenOut,
 			amountIn,
 			user,
+			currentAllowance: allowance?.toString(),
+			requiredAllowance: amountIn.toString(),
 		});
 
 		try {
+			// Validate inputs
 			if (!tokenIn || !swapContract) {
 				throw new Error("Missing required contract addresses");
 			}
@@ -113,15 +134,24 @@ export function useTokenSwap({ swapContract, tokenIn, tokenOut }) {
 		error: swapReceiptError,
 	} = useWaitForTransactionReceipt({
 		hash: swapHash,
+		onSuccess: () => {
+			console.log("✅ Approval confirmed, refetching allowance");
+			refetchAllowance();
+		},
 	});
 
 	const executeSwap = () => {
-		if (!approveConfirmed) return alert("Approve first!");
 		if (amountIn <= 0n) return alert("Enter amount first!");
+
+		// Check if approved (either via previous allowance or recent approval)
+		if (!isApproved && !approveConfirmed) {
+			return alert("Approve first!");
+		}
 
 		console.log("💧 Swap clicked");
 
 		try {
+			// Validate swap ABI
 			if (!swapAbi || !Array.isArray(swapAbi)) {
 				throw new Error("Swap ABI is invalid or not loaded");
 			}
@@ -148,15 +178,27 @@ export function useTokenSwap({ swapContract, tokenIn, tokenOut }) {
 
 	// Log errors for debugging
 	if (balanceError) console.error("Balance error:", balanceError);
+	if (allowanceError) console.error("Allowance error:", allowanceError);
 	if (expectedOutError) console.error("Expected out error:", expectedOutError);
-	if (expectedInError) console.error("Expected in error:", expectedInError);
 	if (approveError) console.error("Approve error:", approveError);
 	if (swapError) console.error("Swap error:", swapError);
 
+	// Check if allowance is sufficient
+	console.log(allowance);
+	console.log(amountIn);
+	console.log(amountIn > 0n);
+	console.log(allowance >= amountIn);
+	console.log(isApproved);
+
+	useEffect(() => {
+		setIsApproved(allowance && amountIn > 0n ? allowance >= amountIn : false);
+	}, [allowance, amountIn]);
+
 	return {
 		balance,
+		allowance,
 		expectedOut,
-		expectedIn,
+		isApproved: isApproved || approveConfirmed, // Consider approved if allowance is sufficient OR approval was confirmed
 		approveToken,
 		executeSwap,
 		approveConfirmed,
@@ -168,24 +210,19 @@ export function useTokenSwap({ swapContract, tokenIn, tokenOut }) {
 		approveFailed,
 		swapFailed,
 		balanceError,
+		allowanceError,
 		expectedOutError,
-		expectedInError,
+		swapReceiptError,
+		approveReceiptError,
+		allowance,
 		setAmountIn: (v) => {
 			try {
-				setAmountIn(parseUnits(v, 18));
-				setAmountOut(0n);
+				console.log("set amount in");
+				console.log(v);
+				setAmountIn(parseUnits(v, tokenInDecimals));
 			} catch (error) {
 				console.error("Error parsing amount:", error);
 				setAmountIn(0n);
-			}
-		},
-		setAmountOut: (v) => {
-			try {
-				setAmountOut(parseUnits(v, 18));
-				setAmountIn(0n);
-			} catch (error) {
-				console.error("Error parsing amount:", error);
-				setAmountOut(0n);
 			}
 		},
 	};
