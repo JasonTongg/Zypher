@@ -1,9 +1,9 @@
 {
   "0xea1556DbEE0995100eF3d639c5Fb70f00A756DF5": {
-    "dailyGold": 12,
-    "lastUpdated": "2025-09-30",
-    "totalGold": 12,
-    "dailyAttempts": 2
+    "dailyGold": 95,
+    "lastUpdated": "2025-10-06",
+    "totalGold": 95,
+    "dailyAttempts": 6
   },
   "0xeFF3521fb13228C767Ad6Dc3b934F9eFAC9c56aD": {
     "dailyGold": 82,
@@ -24,15 +24,339 @@
     "dailyAttempts": 2
   },
   "0x9061C320Dc85A888ec323FB650a6bBCBAD186CD8": {
-    "dailyGold": 43,
-    "lastUpdated": "2025-09-29",
-    "totalGold": 43,
+    "dailyGold": 53,
+    "lastUpdated": "2025-10-02",
+    "totalGold": 53,
     "dailyAttempts": 2
   },
   "0x3F3F680aAD01D350Cc26FcB45a61CC500Fd72a4c": {
+    "dailyGold": 2,
+    "lastUpdated": "2025-10-02",
+    "totalGold": 2,
+    "dailyAttempts": 1
+  },
+  "0xb32400509Dfb356766bCe0f937C282fe7FBc6A77": {
+    "dailyGold": 117,
+    "lastUpdated": "2025-10-02",
+    "totalGold": 117,
+    "dailyAttempts": 10
+  },
+  "0x7Fb7f64bb02cf60b088083Bc4530d96C5FF9BbBB": {
+    "dailyGold": 13,
+    "lastUpdated": "2025-10-02",
+    "totalGold": 13,
+    "dailyAttempts": 1
+  },
+  "0xfcD80a92c7E805CF3772C5709F5253fBe52051e7": {
+    "dailyGold": 102,
+    "lastUpdated": "2025-10-02",
+    "totalGold": 102,
+    "dailyAttempts": 6
+  },
+  "0xBcEDf6D2cE444c983df16821D55cb5A755710716": {
+    "dailyGold": 115,
+    "lastUpdated": "2025-10-05",
+    "totalGold": 115,
+    "dailyAttempts": 10
+  },
+  "0x484C826c0084a207A175E96DC9CBb871E0CA5f82": {
+    "dailyGold": 115,
+    "lastUpdated": "2025-10-18",
+    "totalGold": 115,
+    "dailyAttempts": 10
+  },
+  "0x0a97b1700fA6D07686F15fdAdcB2DFFaE087f978": {
+    "dailyGold": 123,
+    "lastUpdated": "2025-10-03",
+    "totalGold": 123,
+    "dailyAttempts": 10
+  },
+  "0x3401005BE5B74337d37F9141630D51eBAD44C5A4": {
+    "dailyGold": 124,
+    "lastUpdated": "2025-10-03",
+    "totalGold": 124,
+    "dailyAttempts": 10
+  },
+  "0xC6a90582c5ECb8557547c315883F8d423211A669": {
+    "dailyGold": 107,
+    "lastUpdated": "2025-10-31",
+    "totalGold": 107,
+    "dailyAttempts": 10
+  },
+  "0x84FB327c284c5da15eac4BE4c946aaCcC2120455": {
+    "dailyGold": 18,
+    "lastUpdated": "2025-10-05",
+    "totalGold": 18,
+    "dailyAttempts": 1
+  },
+  "0x568fF1Fa4790B1Ad7E4923AE26C444c9a199435F": {
+    "dailyGold": 10,
+    "lastUpdated": "2025-10-15",
+    "totalGold": 10,
+    "dailyAttempts": 1
+  },
+  "0x9946a6390cB0C326Ec9F08eD2690414BDc77Bb82": {
+    "dailyGold": 41,
+    "lastUpdated": "2025-10-07",
+    "totalGold": 41,
+    "dailyAttempts": 3
+  },
+  "0x6fA41f334c1B0b2FFF86ea24aaAcB39eb5044D3E": {
+    "dailyGold": 36,
+    "lastUpdated": "2025-10-03",
+    "totalGold": 36,
+    "dailyAttempts": 2
+  },
+  "0xbd91cf9265e6621392B9c3A311bdDef3CB21388e": {
+    "dailyGold": 114,
+    "lastUpdated": "2025-10-05",
+    "totalGold": 114,
+    "dailyAttempts": 6
+  },
+  "0x81003A4625d857a66f11F637d48a71B790Efe5cE": {
+    "dailyGold": 61,
+    "lastUpdated": "2025-10-10",
+    "totalGold": 61,
+    "dailyAttempts": 3
+  },
+  "0x79f616ce0652bD86F7bbf5BF0E443ed076e453c5": {
+    "dailyGold": 103,
+    "lastUpdated": "2025-10-03",
+    "totalGold": 103,
+    "dailyAttempts": 8
+  },
+  "0x080a92121462Ee755634b8D360Dc97f3B0Ed44ce": {
+    "dailyGold": 123,
+    "lastUpdated": "2025-10-05",
+    "totalGold": 123,
+    "dailyAttempts": 10
+  },
+  "0xA4C32faF00F5C6De484107Be432A0599D788914c": {
+    "dailyGold": 71,
+    "lastUpdated": "2025-10-07",
+    "totalGold": 71,
+    "dailyAttempts": 3
+  },
+  "0x7CD1FD70AAAdE30149B185d2616056653228F1E0": {
+    "dailyGold": 60,
+    "lastUpdated": "2025-10-17",
+    "totalGold": 60,
+    "dailyAttempts": 5
+  },
+  "0x3F0886D2B09F68944D5e50b74fC37487d729BdfF": {
+    "dailyGold": 124,
+    "lastUpdated": "2025-10-03",
+    "totalGold": 124,
+    "dailyAttempts": 10
+  },
+  "0x2965A3729062f27e9cB5907EdB6408Da7B819F9D": {
+    "dailyGold": 115,
+    "lastUpdated": "2025-10-03",
+    "totalGold": 115,
+    "dailyAttempts": 10
+  },
+  "0xF3d769976be7FD22871fd87E43a48028AE478098": {
+    "dailyGold": 49,
+    "lastUpdated": "2025-10-04",
+    "totalGold": 49,
+    "dailyAttempts": 3
+  },
+  "0x090e6a2a6ba576F8C73f69886522F165E0348373": {
+    "dailyGold": 118,
+    "lastUpdated": "2025-10-03",
+    "totalGold": 118,
+    "dailyAttempts": 10
+  },
+  "0x4Db49D1ebAa49270f252B7343caCE7b95E6578d3": {
+    "dailyGold": 105,
+    "lastUpdated": "2025-10-03",
+    "totalGold": 105,
+    "dailyAttempts": 8
+  },
+  "0x989Ff4Ee5C14D2570424D5af411CB64b0C273023": {
+    "dailyGold": 115,
+    "lastUpdated": "2025-10-04",
+    "totalGold": 115,
+    "dailyAttempts": 8
+  },
+  "0x546a5CFf1A3B1666cAb233126F40992262cd82bd": {
+    "dailyGold": 109,
+    "lastUpdated": "2025-10-04",
+    "totalGold": 109,
+    "dailyAttempts": 8
+  },
+  "0x412cD87fAdfab039BD377630DaBAdcBd94a7bAC7": {
+    "dailyGold": 125,
+    "lastUpdated": "2025-10-06",
+    "totalGold": 125,
+    "dailyAttempts": 10
+  },
+  "0xdACAaf2d00a9bc31ca3913C449CdCCC2482E4A1e": {
+    "dailyGold": 13,
+    "lastUpdated": "2025-10-17",
+    "totalGold": 13,
+    "dailyAttempts": 1
+  },
+  "0x6Fa80Cb9238fF31a539234BaC1b5042eaC05ab2E": {
+    "dailyGold": 110,
+    "lastUpdated": "2025-10-04",
+    "totalGold": 110,
+    "dailyAttempts": 6
+  },
+  "0x15FCCCC8a766686dE0A4A58a26f57B31440CD97F": {
+    "dailyGold": 2,
+    "lastUpdated": "2025-10-16",
+    "totalGold": 2,
+    "dailyAttempts": 1
+  },
+  "0x519BcA11BBbDa69e25812a0a9c9F85aA515b8a44": {
+    "dailyGold": 120,
+    "lastUpdated": "2025-10-04",
+    "totalGold": 120,
+    "dailyAttempts": 9
+  },
+  "0x0F96EB3D2c25828d40ac9665Ea852b0919524A4e": {
+    "dailyGold": 25,
+    "lastUpdated": "2025-10-04",
+    "totalGold": 25,
+    "dailyAttempts": 1
+  },
+  "0x1564F0fcE60B8D325b92dd73cA82254Fc1CddA11": {
+    "dailyGold": 117,
+    "lastUpdated": "2025-10-05",
+    "totalGold": 117,
+    "dailyAttempts": 7
+  },
+  "0xb56ED47869d7C6f689D80B1cB40aa31ee232e215": {
+    "dailyGold": 126,
+    "lastUpdated": "2025-10-05",
+    "totalGold": 126,
+    "dailyAttempts": 10
+  },
+  "0xA264BB19FdB1AD355917b634CB334F11b90A5161": {
+    "dailyGold": 13,
+    "lastUpdated": "2025-10-06",
+    "totalGold": 13,
+    "dailyAttempts": 1
+  },
+  "0x5314234c2629D4CF7812C507D07dB05Cec3D8E0E": {
+    "dailyGold": 34,
+    "lastUpdated": "2025-10-06",
+    "totalGold": 34,
+    "dailyAttempts": 3
+  },
+  "0xC223915C9Cfb7b45e1cEdD2BC7A9b7ad3Ef433BD": {
+    "dailyGold": 118,
+    "lastUpdated": "2025-10-06",
+    "totalGold": 118,
+    "dailyAttempts": 10
+  },
+  "0xA438A0C73A987bE1f46459F53Af5f42b54450948": {
+    "dailyGold": 2,
+    "lastUpdated": "2025-10-06",
+    "totalGold": 2,
+    "dailyAttempts": 1
+  },
+  "0xCFbCdB12cB20694Bd7B78e261d23102F5b381b18": {
+    "dailyGold": 35,
+    "lastUpdated": "2025-10-07",
+    "totalGold": 35,
+    "dailyAttempts": 1
+  },
+  "0x033F4a4841811eE1Db8008A2934402fB765DF6e2": {
+    "dailyGold": 43,
+    "lastUpdated": "2025-10-08",
+    "totalGold": 43,
+    "dailyAttempts": 2
+  },
+  "0x053d9DdE60bc4A194b992049AeF4140203306B01": {
+    "dailyGold": 18,
+    "lastUpdated": "2025-10-08",
+    "totalGold": 18,
+    "dailyAttempts": 1
+  },
+  "0x6D6B6AD2e386C2E9067aF071faEc256Ba4926E93": {
+    "dailyGold": 97,
+    "lastUpdated": "2025-10-08",
+    "totalGold": 97,
+    "dailyAttempts": 5
+  },
+  "0x590d81BE01CDB34eb4A400ab90580Ac58f08e2B4": {
+    "dailyGold": 111,
+    "lastUpdated": "2025-10-08",
+    "totalGold": 111,
+    "dailyAttempts": 7
+  },
+  "0xAc606dae1936aEc59c4A8C80e3b4ee1446dcE3e2": {
+    "dailyGold": 79,
+    "lastUpdated": "2025-10-08",
+    "totalGold": 79,
+    "dailyAttempts": 4
+  },
+  "0x0689Eb22f92291Da5A5780Ef9C70ce44bC0cd01a": {
+    "dailyGold": 117,
+    "lastUpdated": "2025-10-08",
+    "totalGold": 117,
+    "dailyAttempts": 10
+  },
+  "0x7280683F63b40e63Dbc2d1EFD4b637D56df3f2c0": {
+    "dailyGold": 23,
+    "lastUpdated": "2025-10-09",
+    "totalGold": 23,
+    "dailyAttempts": 3
+  },
+  "0xD35cA1BD5f18e9bFC7FE2C138B16e48d06dFd3d6": {
     "dailyGold": 50,
-    "lastUpdated": "2025-09-29",
+    "lastUpdated": "2025-10-10",
     "totalGold": 50,
     "dailyAttempts": 2
+  },
+  "0x89155318a72ed79ebd02f9cb7794C2ff5B3CC355": {
+    "dailyGold": 21,
+    "lastUpdated": "2025-10-14",
+    "totalGold": 21,
+    "dailyAttempts": 2
+  },
+  "0x0bE74DbFfBF3F2594d9Cc39d2731CE6Ac502e300": {
+    "dailyGold": 13,
+    "lastUpdated": "2025-10-14",
+    "totalGold": 13,
+    "dailyAttempts": 1
+  },
+  "0x817B7DD6D6A6E8C7d82AF5A5b1d39AcF23120Ae5": {
+    "dailyGold": 111,
+    "lastUpdated": "2025-10-18",
+    "totalGold": 111,
+    "dailyAttempts": 10
+  },
+  "0x705f0b15684B1dcfbaCD18624502089511334ACB": {
+    "dailyGold": 110,
+    "lastUpdated": "2025-10-15",
+    "totalGold": 110,
+    "dailyAttempts": 6
+  },
+  "0x539dE4db8071545bcBD7DdBD673Bf42F6D01B068": {
+    "dailyGold": 119,
+    "lastUpdated": "2025-10-17",
+    "totalGold": 119,
+    "dailyAttempts": 10
+  },
+  "0x840D15f370F64Bc0072150C43B75C4b8785EAd6b": {
+    "dailyGold": 114,
+    "lastUpdated": "2025-10-23",
+    "totalGold": 114,
+    "dailyAttempts": 10
+  },
+  "0x2031568B86584A182fe2314f60a79B1408A32DF0": {
+    "dailyGold": 132,
+    "lastUpdated": "2025-10-25",
+    "totalGold": 132,
+    "dailyAttempts": 10
+  },
+  "0x2D99AD34038746B528810cd39461bAF144795c66": {
+    "dailyGold": 10,
+    "lastUpdated": "2025-10-28",
+    "totalGold": 10,
+    "dailyAttempts": 1
   }
 }
