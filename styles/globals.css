@@ -151,3 +151,31 @@ img {
 	-ms-overflow-style: none;
 	scrollbar-width: none;
 }
+
+.elfsight-app-b27e497a-dbc2-496a-b155-1dbbec5b5041 {
+	background: transparent !important;
+}
+
+/* Remove any inner container backgrounds inside widget */
+.elfsight-app-b27e497a-dbc2-496a-b155-1dbbec5b5041 * {
+	background: transparent !important;
+	font-family: "Beleren", sans-serif !important;
+	font-size: 18px !important;
+	line-height: 25px !important;
+}
+
+.eapps-widget-toolbar,
+.eapps-widget-toolbar + a,
+a[title="Free Twitter Feed widget"], a[href="https://elfsight.com/twitter-feed-widget/?utm_source=websites&utm_medium=clients&utm_content=eapps-twitter-feed&utm_term=localhost&utm_campaign=free-widget"]
+{
+	display: none !important;
+}
+
+a[title="Free Twitter Feed widget"], a[href="https://elfsight.com/twitter-feed-widget/?utm_source=websites&utm_medium=clients&utm_content=eapps-twitter-feed&utm_term=localhost&utm_campaign=free-widget"]
+{
+	display: none !important;
+	visibility: hidden !important;
+	width: 0 !important;
+	height: 0 !important;
+	overflow: hidden !important;
+}
