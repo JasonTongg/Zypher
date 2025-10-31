@@ -219,7 +219,7 @@ export default function Index() {
 						</div>
 					</div>
 				</div>
-				<div className='flex flex-col items-center justify-center gap-3 w-full'>
+				<div className='flex flex-col items-center justify-center gap-3 w-[80%] mx-auto'>
 					<div className='flex items-center justify-center gap-6 flex-wrap mt-[4rem] mb-[2.5rem]'>
 						<div className='flex flex-col items-center justify-center gap-2 min-w-[210px]'>
 							<h2 className='sm:text-5xl text-3xl font-bold text-[#D1D2CD] beleren'>
@@ -229,8 +229,13 @@ export default function Index() {
 								Follow to get the latest <br /> information from us
 							</p>
 						</div>
-						<Image src={Btn2} className='w-[300px]' />
+						<Link href='https://x.com/talesofgg' target='_blank'>
+							<Image src={Btn2} className='w-[300px]' />
+						</Link>
 					</div>
+					<h2 className='sm:text-3xl text-2xl font-bold text-[#EFDBC1] beleren text-start w-full px-[2rem]'>
+						Our Community Videos
+					</h2>
 					<Script src='https://elfsightcdn.com/platform.js' async></Script>
 					<div
 						class='elfsight-app-b27e497a-dbc2-496a-b155-1dbbec5b5041'
