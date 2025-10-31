@@ -35,27 +35,6 @@ const ERC20_ABI = [
 	},
 ];
 
-const NFT_ABI = [
-	{
-		inputs: [],
-		name: "currentNonce",
-		outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-		stateMutability: "view",
-		type: "function",
-	},
-	{
-		inputs: [
-			{ internalType: "address", name: "to", type: "address" },
-			{ internalType: "uint256", name: "nonce", type: "uint256" },
-			{ internalType: "bytes", name: "signature", type: "bytes" },
-		],
-		name: "safeMintWithSig",
-		outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-		stateMutability: "nonpayable",
-		type: "function",
-	},
-];
-
 export default function GameHero() {
 	const [isMinting, setIsMinting] = useState();
 	const { address: userAddress, isConnected, chainId } = useAccount();
@@ -199,6 +178,7 @@ export default function GameHero() {
 			setTxHash(receipt.hash);
 			refetchBalance?.();
 			toast.dark("Game Started... Good luck!");
+			c;
 			setIsBurnFailed(false);
 		} catch (err) {
 			let errorMsg =

@@ -31,7 +31,7 @@ const helachain_mainnet = {
 };
 
 const config = getDefaultConfig({
-	appName: "My RainbowKit App",
+	appName: "My App",
 	projectId: "0e50ad124798913a4af212355f956d06",
 	chains: [helachain_mainnet],
 	ssr: true,

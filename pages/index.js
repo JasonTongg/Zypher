@@ -6,6 +6,7 @@ import LandingFrameMobile from "../public/assets/LandingFrameMobile.png";
 import PlayNowButton from "../public/assets/PlayNowButton.png";
 import Link from "next/link";
 import { FaXTwitter } from "react-icons/fa6";
+import Btn from "../public/assets/Btn.png";
 
 export default function Index() {
 	const [jokesCount, setJokesCount] = useState([]);
@@ -31,6 +32,7 @@ export default function Index() {
 				walletCount: data.walletCount,
 				totalJokes: data.totalJokes,
 			});
+			console.log(data);
 			return data;
 		} catch (err) {
 			console.error("Error fetching jokes count:", err);
@@ -118,6 +120,31 @@ export default function Index() {
 					The Kingdom is ensared ancient malevent spell. Brave amuse your King
 					with your king, save forth and claim glorious rewards!
 				</p>
+				<div className='flex items-center justify-center flex-wrap my-6'>
+					<div className='relative'>
+						<Image src={Btn} className='w-[250px]'></Image>
+						<p className='flex flex-col items-center justify-center p-4 absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-full'>
+							<span className='beleren text-center font-bold text-[#693F19] sm:text-lg text-base'>
+								CONNECTED WALLET
+							</span>{" "}
+							<span className='beleren text-center font-bold text-[#693F19]  text-2xl sm:text-3xl'>
+								{stats?.walletCount}
+							</span>
+						</p>
+					</div>
+
+					<div className='relative'>
+						<Image src={Btn} className='w-[250px]'></Image>
+						<p className='flex flex-col items-center justify-center p-4 absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-full'>
+							<span className='beleren text-center font-bold text-[#693F19] sm:text-lg text-base'>
+								SUBMITTED JOKES
+							</span>{" "}
+							<span className='beleren text-center font-bold text-[#693F19]  text-2xl sm:text-3xl'>
+								{stats?.totalJokes}
+							</span>
+						</p>
+					</div>
+				</div>
 				<div className='w-full relative max-w-[800px]'>
 					<Image
 						src={LandingFrame}
@@ -129,9 +156,9 @@ export default function Index() {
 						alt='Landing Frame Mobile'
 						className='w-screen h-auto pointer-events-none block sm:hidden'
 					/>
-					<div className='w-full grid grid-cols-1 sm:grid-cols-2 gap-3 absolute top-[28.9%] sm:top-[43.36%] left-1/2 translate-x-[-50%] overflow-auto max-h-[56.84%] sm:max-h-[36.78%] h-[100%] max-w-[84.32%] h-auto'>
-						<div className='w-full h-[100%] flex flex-col items-center justify-start gap-1 p-4'>
-							<h2 className='text-[#5A5149] text-xl sm:text-2xl font-bold'>
+					<div className='w-full grid grid-cols-1 sm:grid-cols-2 gap-3  absolute top-[28.9%] sm:top-[43.36%] left-1/2 translate-x-[-50%] overflow-auto max-h-[56.84%] sm:max-h-[36.78%] max-w-[84.32%] h-auto'>
+						<div className='w-full h-[100%] flex flex-col items-center justify-start gap-1 p-4 '>
+							<h2 className='text-[#5A5149] text-xl sm:text-2xl font-bold beleren'>
 								Top Witty Jesters
 							</h2>
 							<div className='w-full'>
@@ -152,8 +179,8 @@ export default function Index() {
 									))}
 							</div>
 						</div>
-						<div className='w-full h-[100%] flex flex-col items-center justify-start gap-1 p-4'>
-							<h2 className='text-[#5A5149] text-xl sm:text-2xl font-bold'>
+						<div className='w-full h-[100%] flex flex-col items-center justify-start gap-1 p-4 '>
+							<h2 className='text-[#5A5149] text-xl sm:text-2xl font-bold beleren'>
 								Top Token Earners
 							</h2>
 							<div className='w-full'>
