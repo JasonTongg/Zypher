@@ -183,13 +183,6 @@ export function useTokenSwap({
 	if (approveError) console.error("Approve error:", approveError);
 	if (swapError) console.error("Swap error:", swapError);
 
-	// Check if allowance is sufficient
-	console.log(allowance);
-	console.log(amountIn);
-	console.log(amountIn > 0n);
-	console.log(allowance >= amountIn);
-	console.log(isApproved);
-
 	useEffect(() => {
 		setIsApproved(allowance && amountIn > 0n ? allowance >= amountIn : false);
 	}, [allowance, amountIn]);
@@ -198,7 +191,7 @@ export function useTokenSwap({
 		balance,
 		allowance,
 		expectedOut,
-		isApproved: isApproved || approveConfirmed, // Consider approved if allowance is sufficient OR approval was confirmed
+		isApproved: isApproved, // Consider approved if allowance is sufficient OR approval was confirmed
 		approveToken,
 		executeSwap,
 		approveConfirmed,

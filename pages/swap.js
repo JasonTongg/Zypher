@@ -7,6 +7,7 @@ import { useAccount } from "wagmi";
 import { useTokenSwap } from "@/hooks/useTokenSwap";
 import { useTokenToETHSwap } from "@/hooks/useTokenToEthSwap";
 import { useETHToTokenSwap } from "@/hooks/useEthToTokenSwap";
+import { formatUnits } from "viem";
 
 const ETH_ADDRESS = "0x0000000000000000000000000000000000000000"; // Standard ETH placeholder
 
@@ -58,14 +59,13 @@ export default function Swap() {
 
 	// Determine swap type based on selected tokens
 	const swapType = useMemo(() => {
-		if (!tokenIn || !tokenOut) return null;
-		if (tokenIn === ETH_ADDRESS && tokenOut !== ETH_ADDRESS)
+		if (tokenIn === ETH_ADDRESS)
 			return "eth-to-token";
-		if (tokenIn !== ETH_ADDRESS && tokenOut === ETH_ADDRESS)
+		if (tokenOut === ETH_ADDRESS)
 			return "token-to-eth";
 		if (tokenIn !== ETH_ADDRESS && tokenOut !== ETH_ADDRESS)
 			return "token-to-token";
-		return null;
+		return "token-to-eth";
 	}, [tokenIn, tokenOut]);
 
 	// Select the appropriate swap hook based on swap type
@@ -100,13 +100,15 @@ export default function Swap() {
 		console.log("Check swap approved button setting");
 		console.log(
 			activeSwap?.isApproved === false ||
-				activeSwap?.isSwapLoading ||
-				!activeSwap
+			activeSwap?.isSwapLoading ||
+			!activeSwap
 		);
 		console.log(activeSwap?.isApproved === false);
+		console.log(activeSwap?.isApproved);
 		console.log(activeSwap?.isSwapLoading);
 		console.log(!activeSwap);
-	}, [activeSwap, activeSwap?.isSwapLoading, activeSwap?.isApproved]);
+		console.log(activeSwap?.balance);
+	}, [activeSwap, activeSwap?.isSwapLoading, activeSwap?.isApproved, activeSwap?.balance]);
 
 	useEffect(() => {
 		if (portfolio) {
@@ -209,9 +211,9 @@ export default function Swap() {
 							onChange={(e) => setAmountIn(e.target.value)}
 							className='w-full border p-2 rounded'
 						/>
-						{swapType !== "eth-to-token" && activeSwap?.balance && (
-							<p className='text-sm text-gray-600 mt-1'>
-								Balance: {activeSwap.balance.toString()}
+						{activeSwap?.balance !== undefined && (
+							<p className="text-sm text-gray-600 mt-1">
+								Balance: {formatUnits(activeSwap.balance.value ?? activeSwap.balance, tokenInDecimals)}
 							</p>
 						)}
 					</div>
@@ -277,7 +279,7 @@ export default function Swap() {
 
 				{/* Action Buttons */}
 				<div className='flex space-x-4 w-full'>
-					{swapType !== "eth-to-token" && (
+					{activeSwap?.isApproved === false ? (
 						<button
 							onClick={handleApprove}
 							disabled={!activeSwap || activeSwap?.isApproveLoading}
@@ -285,19 +287,19 @@ export default function Swap() {
 						>
 							{activeSwap?.isApproveLoading ? "Approving..." : "Approve"}
 						</button>
+					) : (
+						<button
+							onClick={handleSwap}
+							disabled={
+								activeSwap?.isApproved === false ||
+								activeSwap?.isSwapLoading ||
+								!activeSwap
+							}
+							className='flex-1 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded disabled:bg-gray-400'
+						>
+							{activeSwap?.isSwapLoading ? "Swapping..." : "Swap"}
+						</button>
 					)}
-
-					<button
-						onClick={handleSwap}
-						disabled={
-							activeSwap?.isApproved === false ||
-							activeSwap?.isSwapLoading ||
-							!activeSwap
-						}
-						className='flex-1 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded disabled:bg-gray-400'
-					>
-						{activeSwap?.isSwapLoading ? "Swapping..." : "Swap"}
-					</button>
 				</div>
 
 				{/* Status Messages */}

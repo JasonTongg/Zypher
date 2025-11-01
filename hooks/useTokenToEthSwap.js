@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
 	useReadContract,
 	useWriteContract,
@@ -14,6 +14,7 @@ import erc20Abi from "./abi/erc20.json";
 export function useTokenToETHSwap({ swapContract, tokenIn, tokenInDecimals }) {
 	const [amountIn, setAmountIn] = useState(0n);
 	const { address: user } = useAccount();
+	const [isApproved, setIsApproved] = useState(false);
 
 	// Debug log
 	console.log("useTokenToETHSwap hook initialized with:", {
@@ -33,19 +34,19 @@ export function useTokenToETHSwap({ swapContract, tokenIn, tokenInDecimals }) {
 	});
 
 	// 2. Read allowance
-	const { data: allowance, error: allowanceError } = useReadContract({
-		address: tokenIn,
-		abi: erc20Abi,
-		functionName: "allowance",
-		args: [user, swapContract],
-		query: { enabled: !!user && !!swapContract, refetchInterval: 1000 },
-	});
+	const { data: allowance, error: allowanceError,
+		refetch: refetchAllowance } = useReadContract({
+			address: tokenIn,
+			abi: erc20Abi,
+			functionName: "allowance",
+			args: [user, swapContract],
+			query: { enabled: !!user && !!swapContract, refetchInterval: 1000 },
+		});
 
 	// 3. Expected ETH output
 	const {
 		data: expectedETH,
 		error: expectedETHError,
-		refetch: refetchAllowance,
 	} = useReadContract({
 		address: swapContract,
 		abi: swapAbi,
@@ -55,9 +56,6 @@ export function useTokenToETHSwap({ swapContract, tokenIn, tokenInDecimals }) {
 			enabled: !!user && amountIn > 0n && !!swapAbi,
 		},
 	});
-
-	// Check if allowance is sufficient
-	const isApproved = allowance && amountIn > 0n ? allowance >= amountIn : false;
 
 	// 4. APPROVE
 	const {
@@ -186,11 +184,16 @@ export function useTokenToETHSwap({ swapContract, tokenIn, tokenInDecimals }) {
 	if (approveError) console.error("Approve error:", approveError);
 	if (swapError) console.error("Swap error:", swapError);
 
+	useEffect(() => {
+		setIsApproved(allowance && amountIn > 0n ? allowance >= amountIn : false);
+	}, [allowance, amountIn]);
+
+
 	return {
 		balance,
 		allowance,
 		expectedETH,
-		isApproved: isApproved || approveConfirmed, // Consider approved if allowance is sufficient OR approval was confirmed
+		isApproved: isApproved, // Consider approved if allowance is sufficient OR approval was confirmed
 		approveToken,
 		executeSwapToETH,
 		approveConfirmed,

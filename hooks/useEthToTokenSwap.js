@@ -9,6 +9,7 @@ import {
 } from "wagmi";
 import { parseEther } from "viem";
 import swapAbi from "./abi/uniswapv2.json";
+import { useBalance } from "wagmi";
 
 export function useETHToTokenSwap({
 	swapContract,
@@ -17,6 +18,9 @@ export function useETHToTokenSwap({
 }) {
 	const [amountIn, setAmountIn] = useState(0n);
 	const { address: user } = useAccount();
+	const { data: balance } = useBalance({
+		address: user,
+	});
 
 	// Expected token output for ETH input
 	const { data: expectedTokenOut, error: expectedTokenError } = useReadContract(
@@ -46,6 +50,8 @@ export function useETHToTokenSwap({
 	} = useWaitForTransactionReceipt({
 		hash: swapHash,
 	});
+
+	console.log("useEthToETHSwap hook initialized with:");
 
 	const executeSwapETHForToken = () => {
 		if (amountIn <= 0n) return alert("Enter ETH amount first!");
@@ -77,6 +83,7 @@ export function useETHToTokenSwap({
 		swapFailed,
 		swapReceiptError,
 		isApproved,
+		balance,
 		setAmountIn: (v) => {
 			try {
 				setAmountIn(parseEther(v));
