@@ -55,6 +55,18 @@ export function useTokenSwap({
 		},
 	});
 
+	const { data: enoughLiquidity, error: liquidityError, refetch: refetchLiquidity } = useReadContract({
+		address: swapContract,
+		abi: swapAbi,
+		functionName: "_checkEnoughLiquidity",
+		args: [tokenIn, tokenOut, tokenIn, amountIn], // tokenIn as selectedSwapToken
+		query: {
+			enabled: !!user && amountIn > 0n,
+			refetchInterval: 2000
+		},
+	});
+
+
 	// 4. APPROVE
 	const {
 		writeContract: approve,
@@ -137,11 +149,16 @@ export function useTokenSwap({
 		onSuccess: () => {
 			console.log("✅ Approval confirmed, refetching allowance");
 			refetchAllowance();
+			refetchLiquidity();
 		},
 	});
 
 	const executeSwap = () => {
 		if (amountIn <= 0n) return alert("Enter amount first!");
+
+		if (!enoughLiquidity) {
+			return alert("Not enough liquidity for this trade!");
+		}
 
 		// Check if approved (either via previous allowance or recent approval)
 		if (!isApproved && !approveConfirmed) {
@@ -208,6 +225,8 @@ export function useTokenSwap({
 		swapReceiptError,
 		approveReceiptError,
 		allowance,
+		enoughLiquidity,
+		liquidityError,
 		setAmountIn: (v) => {
 			try {
 				console.log("set amount in");

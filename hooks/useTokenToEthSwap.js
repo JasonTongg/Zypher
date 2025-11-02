@@ -57,6 +57,17 @@ export function useTokenToETHSwap({ swapContract, tokenIn, tokenInDecimals }) {
 		},
 	});
 
+	const { data: enoughLiquidity, error: liquidityError, refetch: refetchLiquidity } = useReadContract({
+		address: swapContract,
+		abi: swapAbi,
+		functionName: "_checkEnoughLiquidity",
+		args: [tokenIn, "0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14", tokenIn, amountIn], // tokenIn as selectedSwapToken
+		query: {
+			enabled: !!user && amountIn > 0n,
+			refetchInterval: 2000
+		},
+	});
+
 	// 4. APPROVE
 	const {
 		writeContract: approve,
@@ -138,6 +149,7 @@ export function useTokenToETHSwap({ swapContract, tokenIn, tokenInDecimals }) {
 		onSuccess: () => {
 			console.log("💧 Swap confirmed, refetching allowance");
 			refetchAllowance();
+			refetchLiquidity();
 		},
 	});
 
@@ -147,6 +159,10 @@ export function useTokenToETHSwap({ swapContract, tokenIn, tokenInDecimals }) {
 		// Check if approved (either via previous allowance or recent approval)
 		if (!isApproved && !approveConfirmed) {
 			return alert("Approve first!");
+		}
+
+		if (!enoughLiquidity) {
+			return alert("Not enough liquidity for this trade!");
 		}
 
 		console.log("💧 Swap to ETH clicked");
@@ -210,6 +226,8 @@ export function useTokenToETHSwap({ swapContract, tokenIn, tokenInDecimals }) {
 		approveReceiptError,
 		swapReceiptError,
 		allowance,
+		enoughLiquidity,
+		liquidityError,
 		setAmountIn: (v) => {
 			try {
 				setAmountIn(parseUnits(v, tokenInDecimals));
