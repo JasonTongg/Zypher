@@ -97,20 +97,6 @@ export default function Swap() {
 	}, [address]);
 
 	useEffect(() => {
-		console.log("Check swap approved button setting");
-		console.log(
-			activeSwap?.isApproved === false ||
-			activeSwap?.isSwapLoading ||
-			!activeSwap
-		);
-		console.log(activeSwap?.isApproved === false);
-		console.log(activeSwap?.isApproved);
-		console.log(activeSwap?.isSwapLoading);
-		console.log(!activeSwap);
-		console.log(activeSwap?.balance);
-	}, [activeSwap, activeSwap?.isSwapLoading, activeSwap?.isApproved, activeSwap?.balance]);
-
-	useEffect(() => {
 		if (portfolio) {
 			const filteredPortfolio =
 				portfolio?.data?.portfolio?.balances?.filter(
@@ -119,6 +105,11 @@ export default function Swap() {
 			setUserPortfolio(filteredPortfolio);
 		}
 	}, [portfolio]);
+
+	useEffect(() => {
+		console.log("Enough Liquidity?");
+		console.log(activeSwap?.enoughLiquidity);
+	}, [activeSwap?.enoughLiquidity, activeSwap])
 
 	// Create portfolio with ETH option
 	const portfolioWithETH = useMemo(() => {
@@ -333,16 +324,20 @@ export default function Swap() {
 							</p>
 						)}
 
-						{activeSwap.swapReceiptError && (
+						{activeSwap?.swapReceiptError && (
 							<p className='text-red-600'>
 								❌ Swap Error: {activeSwap.swapReceiptError.message}
 							</p>
 						)}
 
-						{activeSwap.approveReceiptError && (
+						{activeSwap?.approveReceiptError && (
 							<p className='text-red-600'>
-								❌ Approve Error: {activeSwap.approveReceiptError.message}
+								❌ Approve Error: {activeSwap?.approveReceiptError.message}
 							</p>
+						)}
+
+						{amountIn > 0 && activeSwap?.enoughLiquidity === false && (
+							<p className='text-red-600'>⚠️ Not enough liquidity for this swap</p>
 						)}
 					</div>
 				)}
