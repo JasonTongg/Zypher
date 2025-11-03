@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
 	address: "0x0000000000000000000000000000000000000000",
+	version: "v2",
 	position: {
 		data: [],
 		loading: false,
@@ -86,6 +87,9 @@ const datas = createSlice({
 	reducers: {
 		setAddress: (state, action) => {
 			state.address = action.payload;
+		},
+		setVersion: (state, action) => {
+			state.version = action.payload;
 		},
 	},
 	extraReducers: (builder) => {
