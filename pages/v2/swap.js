@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPortfolio } from "../store/data";
+import { fetchPortfolio } from "../../store/data";
 import { useAccount } from "wagmi";
 import { useTokenSwap } from "@/hooks/useTokenSwap";
 import { useTokenToETHSwap } from "@/hooks/useTokenToEthSwap";
@@ -59,10 +59,8 @@ export default function Swap() {
 
 	// Determine swap type based on selected tokens
 	const swapType = useMemo(() => {
-		if (tokenIn === ETH_ADDRESS)
-			return "eth-to-token";
-		if (tokenOut === ETH_ADDRESS)
-			return "token-to-eth";
+		if (tokenIn === ETH_ADDRESS) return "eth-to-token";
+		if (tokenOut === ETH_ADDRESS) return "token-to-eth";
 		if (tokenIn !== ETH_ADDRESS && tokenOut !== ETH_ADDRESS)
 			return "token-to-token";
 		return "token-to-eth";
@@ -109,7 +107,7 @@ export default function Swap() {
 	useEffect(() => {
 		console.log("Enough Liquidity?");
 		console.log(activeSwap?.enoughLiquidity);
-	}, [activeSwap?.enoughLiquidity, activeSwap])
+	}, [activeSwap?.enoughLiquidity, activeSwap]);
 
 	// Create portfolio with ETH option
 	const portfolioWithETH = useMemo(() => {
@@ -203,8 +201,12 @@ export default function Swap() {
 							className='w-full border p-2 rounded'
 						/>
 						{activeSwap?.balance !== undefined && (
-							<p className="text-sm text-gray-600 mt-1">
-								Balance: {formatUnits(activeSwap.balance.value ?? activeSwap.balance, tokenInDecimals)}
+							<p className='text-sm text-gray-600 mt-1'>
+								Balance:{" "}
+								{formatUnits(
+									activeSwap.balance.value ?? activeSwap.balance,
+									tokenInDecimals
+								)}
 							</p>
 						)}
 					</div>
@@ -337,7 +339,9 @@ export default function Swap() {
 						)}
 
 						{amountIn > 0 && activeSwap?.enoughLiquidity === false && (
-							<p className='text-red-600'>⚠️ Not enough liquidity for this swap</p>
+							<p className='text-red-600'>
+								⚠️ Not enough liquidity for this swap
+							</p>
 						)}
 					</div>
 				)}
