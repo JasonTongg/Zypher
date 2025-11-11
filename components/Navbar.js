@@ -17,6 +17,7 @@ import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import { GiHamburgerMenu } from "react-icons/gi";
+import LandingTitle from "../public/assets/LandingTitle.png";
 
 const ERC20_ABI = [
 	{
@@ -94,6 +95,12 @@ export default function Navbar() {
 		>
 			<List>
 				<div className='flex flex-col items-center justify-center gap-2'>
+					<Link href='/'>
+						<Image
+							src={LandingTitle}
+							className='min-w-[150px] sxl:min-w-[190px] w-[150px] sxl:w-[190px] h-auto'
+						></Image>
+					</Link>
 					{window.location.pathname === "/jokes" ? (
 						<Link href='/game'>
 							<Image
@@ -127,8 +134,14 @@ export default function Navbar() {
 	);
 
 	return (
-		<nav className='w-full z-50 px-4 py-2 flex items-center sm:flex-row flex-row-reverse justify-between gap-4'>
-			<div className='hidden sm:flex items-center justify-center gap-4 flex-row flex-wrap'>
+		<nav className='w-full z-50 px-4 py-2 flex items-center lg:flex-row flex-row-reverse justify-between gap-4'>
+			<Link href='/' className='hidden lg:block'>
+				<Image
+					src={LandingTitle}
+					className='min-w-[170px] sxl:min-w-[210px] w-[170px] sxl:w-[210px] h-auto'
+				></Image>
+			</Link>
+			<div className='hidden lg:flex items-center justify-center gap-4 flex-row flex-wrap'>
 				{window.location.pathname === "/jokes" ? (
 					<Link href='/game'>
 						<Image
@@ -157,7 +170,7 @@ export default function Navbar() {
 					></Image>
 				</Link>
 			</div>
-			<div className='sm:hidden block'>
+			<div className='lg:hidden block'>
 				<Button
 					onClick={toggleDrawer(true)}
 					sx={{ padding: "0px !important", minWidth: "0px !important" }}
