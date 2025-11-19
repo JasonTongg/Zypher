@@ -23,6 +23,7 @@ const initialState = {
 		loading: false,
 		error: null,
 	},
+	navbarActive: "Dashboard",
 };
 
 export const fetchPosition = createAsyncThunk(
@@ -91,6 +92,9 @@ const datas = createSlice({
 		setVersion: (state, action) => {
 			state.version = action.payload;
 		},
+		setNavbarActive: (state, action) => {
+			state.navbarActive = action.payload;
+		},
 	},
 	extraReducers: (builder) => {
 		builder
@@ -149,4 +153,5 @@ const datas = createSlice({
 	},
 });
 
+export const { setAddress, setVersion, setNavbarActive } = datas.actions;
 export default datas.reducer;

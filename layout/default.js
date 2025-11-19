@@ -13,7 +13,7 @@ export default function Default({ children }) {
 	if (!isMounted) return null;
 
 	return (
-		<main className='flex flex-col items-center justify-between w-full min-h-screen overflow-x-hidden relative'>
+		<main className='flex flex-col items-center justify-between w-full min-h-screen overflow-x-hidden relative bg-[#ffffe3]'>
 			<Navbar />
 			{children}
 			<Footer />
