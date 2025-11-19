@@ -8,6 +8,7 @@ import { useTokenSwap } from "@/hooks/useTokenSwap";
 import { useTokenToETHSwap } from "@/hooks/useTokenToEthSwap";
 import { useETHToTokenSwap } from "@/hooks/useEthToTokenSwap";
 import { formatUnits } from "viem";
+import { setNavbarActive } from "../../store/data";
 
 const ETH_ADDRESS = "0x0000000000000000000000000000000000000000"; // Standard ETH placeholder
 
@@ -105,9 +106,8 @@ export default function Swap() {
 	}, [portfolio]);
 
 	useEffect(() => {
-		console.log("Enough Liquidity?");
-		console.log(activeSwap?.enoughLiquidity);
-	}, [activeSwap?.enoughLiquidity, activeSwap]);
+		dispatch(setNavbarActive("swap"));
+	}, []);
 
 	// Create portfolio with ETH option
 	const portfolioWithETH = useMemo(() => {
@@ -139,14 +139,6 @@ export default function Swap() {
 		}
 	};
 
-	if (!isConnected) {
-		return (
-			<div className='mt-20 flex flex-col items-center justify-center'>
-				<p>Please connect your wallet</p>
-			</div>
-		);
-	}
-
 	// Get expected output based on swap type
 	const getExpectedOutput = () => {
 		switch (swapType) {
@@ -162,7 +154,10 @@ export default function Swap() {
 	};
 
 	return (
-		<div className='mt-20 flex flex-col items-center justify-center'>
+		<div
+			className='p-10 max-w-2xl mx-auto space-y-6 mt-[4.5rem] w-full flex flex-col items-center justify-center'
+			style={{ minHeight: "calc(100vh - 200px)" }}
+		>
 			<div className='flex flex-col items-center justify-center space-y-4 w-full max-w-md'>
 				<h2 className='text-2xl font-bold'>Token Swap</h2>
 

@@ -20,6 +20,7 @@ import {
 	Stack,
 	Slider,
 } from "@mui/material";
+import { setNavbarActive } from "../../../store/data";
 
 import { fetchListPositions } from "../../../store/data";
 
@@ -151,6 +152,10 @@ export default function RemoveLiquidityWithPositions() {
 		}
 	}, [isRemovalSuccess, dispatch, address, removeTxHash]);
 
+	useEffect(() => {
+		dispatch(setNavbarActive("dashboard"));
+	}, []);
+
 	function openRemoveModal(pos) {
 		setSelectedPos(pos);
 		setTxResult(null);
@@ -259,7 +264,10 @@ export default function RemoveLiquidityWithPositions() {
 	else if (needsApproval) buttonText = "Approve & Remove";
 
 	return (
-		<div className='p-10 max-w-2xl mx-auto space-y-6'>
+		<div
+			className='p-10 max-w-2xl mx-auto space-y-6 mt-[4.5rem] flex flex-col items-center justify-center w-full'
+			style={{ minHeight: "calc(100vh - 200px)" }}
+		>
 			<h1 className='text-2xl font-bold'>My Liquidity Positions</h1>
 			{loading ? (
 				<div className='flex justify-center p-6'>

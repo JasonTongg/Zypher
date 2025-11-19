@@ -12,6 +12,7 @@ import erc20abi from "../../../hooks/abi/erc20.json";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPortfolio } from "../../../store/data";
 import { useAccount, useBalance } from "wagmi";
+import { setNavbarActive } from "../../../store/data";
 
 const ETH_ADDRESS = "0x0000000000000000000000000000000000000000";
 
@@ -270,10 +271,8 @@ export default function AddLiquidityUniversal() {
 	}, [isApproveSuccess]);
 
 	useEffect(() => {
-		console.log("Current hash:", hash);
-		console.log("pendingApproval:", pendingApproval);
-		console.log("isApproveSuccess:", isApproveSuccess);
-	}, [hash, pendingApproval, isApproveSuccess]);
+		dispatch(setNavbarActive("liquidity"));
+	}, []);
 
 	const handleApproveA = () => {
 		if (tokenA === ETH_ADDRESS) return;
@@ -331,7 +330,10 @@ export default function AddLiquidityUniversal() {
 	}, [amountA, allowanceA, tokenADecimals, tokenA]);
 
 	return (
-		<div className='mt-20 space-y-3'>
+		<div
+			className='p-10 max-w-2xl mx-auto space-y-6 mt-[4.5rem] flex flex-col items-center justify-center w-full'
+			style={{ minHeight: "calc(100vh - 200px)" }}
+		>
 			<h3 className='font-bold'>Add Liquidity</h3>
 
 			{/* Token A */}
