@@ -18,6 +18,14 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import StepContent from "@mui/material/StepContent";
+import Button from "@mui/material/Button";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import { FaChevronDown } from "react-icons/fa";
 
 const style = {
 	position: "absolute",
@@ -30,6 +38,17 @@ const style = {
 	boxShadow: 24,
 	p: 4,
 };
+
+const steps = [
+	{
+		label: "Step 1",
+		description: `Select token pair and fees`,
+	},
+	{
+		label: "Step 2",
+		description: "Enter deposit amounts",
+	},
+];
 
 const ETH_ADDRESS = "0x0000000000000000000000000000000000000000";
 
@@ -67,6 +86,20 @@ export default function AddLiquidityUniversal() {
 	const [open2, setOpen2] = useState(false);
 	const handleOpen2 = () => setOpen2(true);
 	const handleClose2 = () => setOpen2(false);
+
+	const [activeStep, setActiveStep] = useState(0);
+
+	const handleNext = () => {
+		setActiveStep((prevActiveStep) => prevActiveStep + 1);
+	};
+
+	const handleBack = () => {
+		setActiveStep((prevActiveStep) => prevActiveStep - 1);
+	};
+
+	const handleReset = () => {
+		setActiveStep(0);
+	};
 
 	function convertToPlainString(value) {
 		if (value === null || value === undefined) return "0";
@@ -432,241 +465,298 @@ export default function AddLiquidityUniversal() {
 				<h3 className='font-bold text-3xl'>New position</h3>
 			</div>
 
-			<button
-				onClick={() => {
-					handleOpen();
-					setSearch("");
-				}}
-			>
-				{tokenASymbol || "Select Token"}
-			</button>
+			<div className='flex items-start justify-center gap-3'>
+				<div className='border-[1px] border-gray-300 rounded-[10px] p-[1.2rem]'>
+					<Box sx={{ minWidth: 230 }}>
+						<Stepper activeStep={activeStep} orientation='vertical'>
+							{steps.map((step, index) => (
+								<Step key={step.label}>
+									<StepLabel>{step.label}</StepLabel>
+									<StepContent>
+										<Typography>{step.description}</Typography>
+									</StepContent>
+								</Step>
+							))}
+						</Stepper>
+					</Box>
+				</div>
+				{activeStep === 0 ? (
+					<div className='flex flex-col gap-2 min-w-[500px] border-[1px] border-gray-300 rounded-[10px] p-[1.2rem]'>
+						<h2 className='text-xl font-semibold'>Select Pair</h2>
+						<p>
+							Choose the tokens you want to provide liquidity for. You can
+							select tokens on all supported networks.
+						</p>
+						<div className='grid grid-cols-2 [&>*]:w-full gap-2 mb-[1rem]'>
+							<button
+								onClick={() => {
+									handleOpen();
+									setSearch("");
+								}}
+								className='bg-[rgba(39,117,202,0.25)] text-[#2775CA] rounded-[5px] py-[1rem] px-[10px] flex justify-between items-center'
+							>
+								<p>{tokenASymbol || "Select Token"}</p>
+								<FaChevronDown className='text-[1rem] font-semibold' />
+							</button>
 
-			<Modal open={open} onClose={handleClose}>
-				<Box sx={style}>
-					<div className='flex flex-col gap-2'>
+							<button
+								onClick={() => {
+									handleOpen2();
+									setSearchB("");
+								}}
+								className='bg-[rgba(39,117,202,0.25)] text-[#2775CA] rounded-[5px] py-[1rem] px-[10px] flex justify-between items-center'
+							>
+								<p>{tokenBSymbol || "Select Token"}</p>
+								<FaChevronDown className='text-[1rem] font-semibold' />
+							</button>
+						</div>
+						<h2 className='text-xl font-semibold'>Fee tier</h2>
+						<p className='mb-[1rem]'>
+							The amount earned providing liquidity. All v2 pools have fixed
+							0.3% fees. For more options, provide liquidity on v4.
+						</p>
+						<button
+							className='bg-[rgba(39,117,202,0.25)] text-[#2775CA] rounded-[10px] p-[1rem] w-full font-semibold disabled:opacity-30'
+							onClick={handleNext}
+							disabled={!tokenA || !tokenB}
+						>
+							Continue
+						</button>
+
+						<Modal open={open} onClose={handleClose}>
+							<Box sx={style}>
+								<div className='flex flex-col gap-2'>
+									<input
+										value={search}
+										onChange={(e) => setSearch(e.target.value)}
+										placeholder='Search token address...'
+										className='w-full border p-2 rounded'
+									/>
+
+									<div className='border rounded max-h-40 overflow-auto bg-[#ffffe3]'>
+										{/* CASE 1: search result exists */}
+										{searchResult ? (
+											<div
+												className='p-2 cursor-pointer hover:bg-gray-100'
+												onClick={() => {
+													setTokenA(searchResult.address);
+													setTokenASymbol(searchResult.symbol);
+
+													if (tokenB === searchResult?.address) {
+														setTokenB("");
+														setTokenBSymbol("");
+													}
+
+													handleClose();
+												}}
+											>
+												{searchResult.symbol} —{" "}
+												{searchResult.address.slice(0, 6)}
+												...
+												{searchResult.address.slice(-4)}
+											</div>
+										) : (
+											/* CASE 2: show user portfolio */
+											userPortfolio
+												?.filter((item) => item.token.address !== tokenB)
+												?.map((item) => (
+													<div
+														key={item.token.address}
+														className='p-2 cursor-pointer hover:bg-gray-100'
+														onClick={() => {
+															setTokenA(item.token.address);
+															setTokenASymbol(item.token.symbol);
+
+															if (tokenB === searchResult?.address) {
+																setTokenB("");
+																setTokenBSymbol("");
+															}
+
+															handleClose();
+														}}
+													>
+														{item.token.symbol} —{" "}
+														{item.token.address.slice(0, 6)}
+														...
+														{item.token.address.slice(-4)}
+													</div>
+												))
+										)}
+									</div>
+								</div>
+							</Box>
+						</Modal>
+
+						<Modal open={open2} onClose={handleClose2}>
+							<Box sx={style}>
+								<div className='flex flex-col gap-2'>
+									<input
+										value={searchB}
+										onChange={(e) => setSearchB(e.target.value)}
+										placeholder='Search token address...'
+										className='w-full border p-2 rounded'
+									/>
+
+									<div className='border rounded max-h-40 overflow-auto bg-[#ffffe3]'>
+										{/* CASE 1: search result exists */}
+										{searchResultB ? (
+											<div
+												className='p-2 cursor-pointer hover:bg-gray-100'
+												onClick={() => {
+													setTokenB(searchResultB.address);
+													setTokenBSymbol(searchResultB.symbol);
+
+													if (tokenA === searchResultB?.address) {
+														setTokenA("");
+														setTokenASymbol("");
+													}
+
+													handleClose2();
+												}}
+											>
+												{searchResultB.symbol} —{" "}
+												{searchResultB.address.slice(0, 6)}
+												...
+												{searchResultB.address.slice(-4)}
+											</div>
+										) : (
+											/* CASE 2: show user portfolio */
+											userPortfolio
+												?.filter((item) => item.token.address !== tokenA)
+												?.map((item) => (
+													<div
+														key={item.token.address}
+														className='p-2 cursor-pointer hover:bg-gray-100'
+														onClick={() => {
+															setTokenB(item.token.address);
+															setTokenBSymbol(item.token.symbol);
+
+															if (tokenA === searchResultB?.address) {
+																setTokenA("");
+																setTokenASymbol("");
+															}
+
+															handleClose2();
+														}}
+													>
+														{item.token.symbol} —{" "}
+														{item.token.address.slice(0, 6)}
+														...
+														{item.token.address.slice(-4)}
+													</div>
+												))
+										)}
+									</div>
+								</div>
+							</Box>
+						</Modal>
+					</div>
+				) : (
+					<div className='flex flex-col gap-2 min-w-[500px] border-[1px] border-gray-300 rounded-[10px] p-[1.2rem]'>
+						<div className='text-sm text-gray-500'>
+							Balance:{" "}
+							{isETH(tokenA)
+								? balanceA?.formatted
+								: formatBalance(balanceA, tokenADecimals)}
+						</div>
 						<input
-							value={search}
-							onChange={(e) => setSearch(e.target.value)}
-							placeholder='Search token address...'
+							placeholder='Amount A'
+							value={amountA}
+							type='number'
+							onChange={(e) => {
+								setAmountA(e.target.value);
+								setInputSource("A");
+							}}
 							className='w-full border p-2 rounded'
 						/>
 
-						<div className='border rounded max-h-40 overflow-auto bg-[#ffffe3]'>
-							{/* CASE 1: search result exists */}
-							{searchResult ? (
-								<div
-									className='p-2 cursor-pointer hover:bg-gray-100'
-									onClick={() => {
-										setTokenA(searchResult.address);
-										setTokenASymbol(searchResult.symbol);
-
-										if (tokenB === searchResult?.address) {
-											setTokenB("");
-											setTokenBSymbol("");
-										}
-
-										handleClose();
-									}}
-								>
-									{searchResult.symbol} — {searchResult.address.slice(0, 6)}...
-									{searchResult.address.slice(-4)}
-								</div>
-							) : (
-								/* CASE 2: show user portfolio */
-								userPortfolio
-									?.filter((item) => item.token.address !== tokenB)
-									?.map((item) => (
-										<div
-											key={item.token.address}
-											className='p-2 cursor-pointer hover:bg-gray-100'
-											onClick={() => {
-												setTokenA(item.token.address);
-												setTokenASymbol(item.token.symbol);
-
-												if (tokenB === searchResult?.address) {
-													setTokenB("");
-													setTokenBSymbol("");
-												}
-
-												handleClose();
-											}}
-										>
-											{item.token.symbol} — {item.token.address.slice(0, 6)}...
-											{item.token.address.slice(-4)}
-										</div>
-									))
-							)}
+						<div className='text-sm text-gray-500'>
+							Balance:{" "}
+							{isETH(tokenB)
+								? balanceB?.formatted
+								: formatBalance(balanceB, tokenBDecimals)}
 						</div>
-					</div>
-				</Box>
-			</Modal>
-
-			<div className='text-sm text-gray-500'>
-				Balance:{" "}
-				{isETH(tokenA)
-					? balanceA?.formatted
-					: formatBalance(balanceA, tokenADecimals)}
-			</div>
-			<input
-				placeholder='Amount A'
-				value={amountA}
-				type='number'
-				onChange={(e) => {
-					setAmountA(e.target.value);
-					setInputSource("A");
-				}}
-				className='w-full border p-2 rounded'
-			/>
-
-			<button
-				onClick={() => {
-					handleOpen2();
-					setSearchB("");
-				}}
-			>
-				{tokenBSymbol || "Select Token"}
-			</button>
-
-			<Modal open={open2} onClose={handleClose2}>
-				<Box sx={style}>
-					<div className='flex flex-col gap-2'>
 						<input
-							value={searchB}
-							onChange={(e) => setSearchB(e.target.value)}
-							placeholder='Search token address...'
+							placeholder='Amount B'
+							value={amountB}
+							onChange={(e) => {
+								setAmountB(e.target.value);
+								setInputSource("B");
+							}}
+							type='number'
 							className='w-full border p-2 rounded'
 						/>
 
-						<div className='border rounded max-h-40 overflow-auto bg-[#ffffe3]'>
-							{/* CASE 1: search result exists */}
-							{searchResultB ? (
-								<div
-									className='p-2 cursor-pointer hover:bg-gray-100'
-									onClick={() => {
-										setTokenB(searchResultB.address);
-										setTokenBSymbol(searchResultB.symbol);
-
-										if (tokenA === searchResultB?.address) {
-											setTokenA("");
-											setTokenASymbol("");
-										}
-
-										handleClose2();
-									}}
+						{/* APPROVE FOR TOKEN A */}
+						{!isETH(tokenA) &&
+							allowanceA !== undefined &&
+							amountA &&
+							BigInt(allowanceA.toString() || "0") <
+								parseUnits(convertToPlainString(amountA), tokenADecimals) && (
+								<button
+									onClick={handleApproveA}
+									className='mt-3 px-4 py-2 bg-yellow-500 text-white rounded w-full'
 								>
-									{searchResultB.symbol} — {searchResultB.address.slice(0, 6)}
-									...
-									{searchResultB.address.slice(-4)}
-								</div>
-							) : (
-								/* CASE 2: show user portfolio */
-								userPortfolio
-									?.filter((item) => item.token.address !== tokenA)
-									?.map((item) => (
-										<div
-											key={item.token.address}
-											className='p-2 cursor-pointer hover:bg-gray-100'
-											onClick={() => {
-												setTokenB(item.token.address);
-												setTokenBSymbol(item.token.symbol);
-
-												if (tokenA === searchResultB?.address) {
-													setTokenA("");
-													setTokenASymbol("");
-												}
-
-												handleClose2();
-											}}
-										>
-											{item.token.symbol} — {item.token.address.slice(0, 6)}...
-											{item.token.address.slice(-4)}
-										</div>
-									))
+									{pendingApproval === "A"
+										? "Approving..."
+										: `Approve ${getTokenName(tokenA)}`}
+								</button>
 							)}
-						</div>
+
+						{/* APPROVE FOR TOKEN B */}
+						{!isETH(tokenB) &&
+							allowanceB !== undefined &&
+							amountB &&
+							BigInt(allowanceB.toString() || "0") <
+								parseUnits(convertToPlainString(amountB), tokenBDecimals) && (
+								<button
+									onClick={handleApproveB}
+									className='mt-3 px-4 py-2 bg-yellow-500 text-white rounded w-full'
+								>
+									{pendingApproval === "B"
+										? "Approving..."
+										: `Approve ${getTokenName(tokenB)}`}
+								</button>
+							)}
+
+						{/* MAIN ADD LIQUIDITY BUTTON — ONLY SHOW WHEN BOTH APPROVED */}
+						{(isETH(tokenA) ||
+							allowanceA >=
+								parseUnits(
+									convertToPlainString(amountA) || "0",
+									tokenADecimals
+								)) &&
+							(isETH(tokenB) ||
+								allowanceB >=
+									parseUnits(
+										convertToPlainString(amountB) || "0",
+										tokenBDecimals
+									)) && (
+								<button
+									onClick={submit}
+									className='mt-3 px-4 py-2 bg-blue-500 text-white rounded w-full'
+								>
+									Add Liquidity
+								</button>
+							)}
+
+						{isLoading && <p>⏳ Waiting for transaction...</p>}
+						{isSuccess && <p>✅ Successfully added liquidity!</p>}
+						{isError && <p className='text-red-600'>❌ {error?.message}</p>}
+						{isApproveSuccess && (
+							<p className='text-green-500 text-sm'>
+								✅ {getTokenName(tokenA)} Approved!
+							</p>
+						)}
+
+						{isApproveFailed && (
+							<p className='text-red-500 text-sm'>
+								❌ {isApproveFailed?.message}
+							</p>
+						)}
 					</div>
-				</Box>
-			</Modal>
-
-			<div className='text-sm text-gray-500'>
-				Balance:{" "}
-				{isETH(tokenB)
-					? balanceB?.formatted
-					: formatBalance(balanceB, tokenBDecimals)}
+				)}
 			</div>
-			<input
-				placeholder='Amount B'
-				value={amountB}
-				onChange={(e) => {
-					setAmountB(e.target.value);
-					setInputSource("B");
-				}}
-				type='number'
-				className='w-full border p-2 rounded'
-			/>
-
-			{/* APPROVE FOR TOKEN A */}
-			{!isETH(tokenA) &&
-				allowanceA !== undefined &&
-				amountA &&
-				BigInt(allowanceA.toString() || "0") <
-					parseUnits(convertToPlainString(amountA), tokenADecimals) && (
-					<button
-						onClick={handleApproveA}
-						className='mt-3 px-4 py-2 bg-yellow-500 text-white rounded w-full'
-					>
-						{pendingApproval === "A"
-							? "Approving..."
-							: `Approve ${getTokenName(tokenA)}`}
-					</button>
-				)}
-
-			{/* APPROVE FOR TOKEN B */}
-			{!isETH(tokenB) &&
-				allowanceB !== undefined &&
-				amountB &&
-				BigInt(allowanceB.toString() || "0") <
-					parseUnits(convertToPlainString(amountB), tokenBDecimals) && (
-					<button
-						onClick={handleApproveB}
-						className='mt-3 px-4 py-2 bg-yellow-500 text-white rounded w-full'
-					>
-						{pendingApproval === "B"
-							? "Approving..."
-							: `Approve ${getTokenName(tokenB)}`}
-					</button>
-				)}
-
-			{/* MAIN ADD LIQUIDITY BUTTON — ONLY SHOW WHEN BOTH APPROVED */}
-			{(isETH(tokenA) ||
-				allowanceA >=
-					parseUnits(convertToPlainString(amountA) || "0", tokenADecimals)) &&
-				(isETH(tokenB) ||
-					allowanceB >=
-						parseUnits(
-							convertToPlainString(amountB) || "0",
-							tokenBDecimals
-						)) && (
-					<button
-						onClick={submit}
-						className='mt-3 px-4 py-2 bg-blue-500 text-white rounded w-full'
-					>
-						Add Liquidity
-					</button>
-				)}
-
-			{isLoading && <p>⏳ Waiting for transaction...</p>}
-			{isSuccess && <p>✅ Successfully added liquidity!</p>}
-			{isError && <p className='text-red-600'>❌ {error?.message}</p>}
-			{isApproveSuccess && (
-				<p className='text-green-500 text-sm'>
-					✅ {getTokenName(tokenA)} Approved!
-				</p>
-			)}
-
-			{isApproveFailed && (
-				<p className='text-red-500 text-sm'>❌ {isApproveFailed?.message}</p>
-			)}
 		</div>
 	);
 }
