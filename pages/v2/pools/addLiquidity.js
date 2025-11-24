@@ -6,28 +6,67 @@ import {
 	useWaitForTransactionReceipt,
 	useReadContract,
 } from "wagmi";
-import { parseEther, parseUnits, formatUnits } from "viem";
+import { parseEther, parseUnits, formatUnits, isAddress } from "viem";
 import abi from "../../../hooks/abi/uniswapv2.json";
 import erc20abi from "../../../hooks/abi/erc20.json";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPortfolio } from "../../../store/data";
 import { useAccount, useBalance } from "wagmi";
 import { setNavbarActive } from "../../../store/data";
+import { fetchSearchToken, fetchSearchTokenB } from "../../../store/data";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/router";
+
+const style = {
+	position: "absolute",
+	top: "50%",
+	left: "50%",
+	transform: "translate(-50%, -50%)",
+	width: 400,
+	bgcolor: "background.paper",
+	border: "2px solid #000",
+	boxShadow: 24,
+	p: 4,
+};
 
 const ETH_ADDRESS = "0x0000000000000000000000000000000000000000";
 
 export default function AddLiquidityUniversal() {
-	const [tokenA, setTokenA] = useState("");
-	const [tokenB, setTokenB] = useState("");
+	const router = useRouter();
+	const params = useSearchParams();
+	const tokenAParam = params?.get("tokenA");
+	const tokenASymbolParam = params?.get("tokenASymbol");
+	const tokenBParam = params?.get("tokenB");
+	const tokenBSymbolParam = params?.get("tokenBSymbol");
+	const [tokenA, setTokenA] = useState(tokenAParam || "");
+	const [tokenB, setTokenB] = useState(tokenBParam || "");
+	const [tokenASymbol, setTokenASymbol] = useState(tokenASymbolParam || "");
+	const [tokenBSymbol, setTokenBSymbol] = useState(tokenBSymbolParam || "");
 	const [amountA, setAmountA] = useState("");
 	const [amountB, setAmountB] = useState("");
 	const [inputSource, setInputSource] = useState(null);
 	const dispatch = useDispatch();
-	const { portfolio } = useSelector((state) => state.data);
+	const { portfolio, searchToken, searchTokenB } = useSelector(
+		(state) => state.data
+	);
 	const { address } = useAccount();
 	const balance = useBalance({ address });
 	const [userPortfolio, setUserPortfolio] = useState([]);
 	const [pendingApproval, setPendingApproval] = useState(null);
+	const [search, setSearch] = useState("");
+	const [searchResult, setSearchResult] = useState("");
+	const [searchB, setSearchB] = useState("");
+	const [searchResultB, setSearchResultB] = useState(null);
+
+	const [open, setOpen] = useState(false);
+	const handleOpen = () => setOpen(true);
+	const handleClose = () => setOpen(false);
+
+	const [open2, setOpen2] = useState(false);
+	const handleOpen2 = () => setOpen2(true);
+	const handleClose2 = () => setOpen2(false);
 
 	function convertToPlainString(value) {
 		if (value === null || value === undefined) return "0";
@@ -121,10 +160,6 @@ export default function AddLiquidityUniversal() {
 
 	// Update opposite field when ratioAmount changes
 	useEffect(() => {
-		console.log("Calling ratio");
-		console.log(ratioAmount);
-		console.log(pairError);
-		console.log(isPairError);
 		if (!ratioAmount) return;
 		const ratio = ratioAmount.toString();
 		if (inputSource === "A") {
@@ -309,48 +344,163 @@ export default function AddLiquidityUniversal() {
 		return token?.token.symbol || "ETH";
 	};
 
-	useEffect(() => {
-		console.log("Check Allowance");
-		console.log(
-			!isETH(tokenA) &&
-				allowanceA !== undefined &&
-				amountA &&
-				BigInt(allowanceA || "0") <
-					parseUnits(convertToPlainString(amountA), tokenADecimals)
-		);
+	function fetchToken(searchAddress) {
+		if (isAddress(searchAddress)) {
+			dispatch(fetchSearchToken({ tokenAddress: searchAddress }));
+		}
+	}
 
-		console.log(!isETH(tokenA));
-		console.log(allowanceA !== undefined);
-		console.log(amountA);
-		console.log(
-			BigInt(allowanceA || "0") <
-				parseUnits(convertToPlainString(amountA), tokenADecimals)
+	useEffect(() => {
+		if (searchToken?.data?.tokens?.length > 0) {
+			setSearchResult(searchToken.data.tokens[0]);
+		} else {
+			setSearchResult(null);
+		}
+	}, [searchToken]);
+
+	useEffect(() => {
+		if (!search) {
+			setSearchResult(null);
+			return;
+		}
+
+		const timeout = setTimeout(() => {
+			if (isAddress(search)) {
+				fetchToken(search);
+			}
+		}, 500);
+
+		return () => clearTimeout(timeout);
+	}, [search]);
+
+	function fetchTokenB(searchAddress) {
+		if (isAddress(searchAddress)) {
+			dispatch(fetchSearchTokenB({ tokenAddress: searchAddress }));
+		}
+	}
+
+	useEffect(() => {
+		if (searchTokenB?.data?.tokens?.length > 0) {
+			setSearchResultB(searchTokenB.data.tokens[0]);
+		} else {
+			setSearchResultB(null);
+		}
+	}, [searchTokenB]);
+
+	useEffect(() => {
+		if (!searchB) {
+			setSearchResultB(null);
+			return;
+		}
+
+		const timeout = setTimeout(() => {
+			if (isAddress(searchB)) {
+				fetchTokenB(searchB);
+			}
+		}, 500);
+
+		return () => clearTimeout(timeout);
+	}, [searchB]);
+
+	useEffect(() => {
+		if (tokenAParam) {
+			setTokenA(tokenAParam);
+		}
+		if (tokenBParam) {
+			setTokenB(tokenBParam);
+		}
+		if (tokenASymbolParam) {
+			setTokenASymbol(tokenASymbolParam);
+		}
+		if (tokenBSymbolParam) {
+			setTokenBSymbol(tokenBSymbolParam);
+		}
+	}, [tokenAParam, tokenBParam, tokenASymbolParam, tokenBSymbolParam]);
+
+	const handleChange = (event, newValue) => {
+		router.push(
+			`/pools/addLiquidity${newValue}?tokenA=${tokenA}&tokenASymbol=${tokenASymbol}&tokenB=${tokenB}&tokenBSymbol=${tokenBSymbol}`
 		);
-		console.log(allowanceA);
-	}, [amountA, allowanceA, tokenADecimals, tokenA]);
+	};
 
 	return (
 		<div
 			className='p-10 max-w-2xl mx-auto space-y-6 mt-[4.5rem] flex flex-col items-center justify-center w-full'
 			style={{ minHeight: "calc(100vh - 200px)" }}
 		>
-			<h3 className='font-bold'>Add Liquidity</h3>
+			<div className='flex items-center justify-between'>
+				<h3 className='font-bold text-3xl'>New position</h3>
+			</div>
 
-			{/* Token A */}
-			<select
-				value={tokenA}
-				onChange={(e) => setTokenA(e.target.value)}
-				className='w-full border p-2 rounded'
+			<button
+				onClick={() => {
+					handleOpen();
+					setSearch("");
+				}}
 			>
-				<option value=''>Select token</option>
-				{userPortfolio
-					?.filter((item) => item.token.address !== tokenB)
-					?.map((item) => (
-						<option key={item.token.address} value={item.token.address}>
-							{item.token.symbol}
-						</option>
-					))}
-			</select>
+				{tokenASymbol || "Select Token"}
+			</button>
+
+			<Modal open={open} onClose={handleClose}>
+				<Box sx={style}>
+					<div className='flex flex-col gap-2'>
+						<input
+							value={search}
+							onChange={(e) => setSearch(e.target.value)}
+							placeholder='Search token address...'
+							className='w-full border p-2 rounded'
+						/>
+
+						<div className='border rounded max-h-40 overflow-auto bg-[#ffffe3]'>
+							{/* CASE 1: search result exists */}
+							{searchResult ? (
+								<div
+									className='p-2 cursor-pointer hover:bg-gray-100'
+									onClick={() => {
+										setTokenA(searchResult.address);
+										setTokenASymbol(searchResult.symbol);
+
+										if (tokenB === searchResult?.address) {
+											setTokenB("");
+											setTokenBSymbol("");
+										}
+
+										handleClose();
+									}}
+								>
+									{searchResult.symbol} — {searchResult.address.slice(0, 6)}...
+									{searchResult.address.slice(-4)}
+								</div>
+							) : (
+								/* CASE 2: show user portfolio */
+								userPortfolio
+									?.filter((item) => item.token.address !== tokenB)
+									?.map((item) => (
+										<div
+											key={item.token.address}
+											className='p-2 cursor-pointer hover:bg-gray-100'
+											onClick={() => {
+												setTokenA(item.token.address);
+												setTokenASymbol(item.token.symbol);
+
+												if (tokenB === searchResult?.address) {
+													setTokenB("");
+													setTokenBSymbol("");
+												}
+
+												handleClose();
+											}}
+										>
+											{item.token.symbol} — {item.token.address.slice(0, 6)}...
+											{item.token.address.slice(-4)}
+										</div>
+									))
+							)}
+						</div>
+					</div>
+				</Box>
+			</Modal>
+
 			<div className='text-sm text-gray-500'>
 				Balance:{" "}
 				{isETH(tokenA)
@@ -368,21 +518,76 @@ export default function AddLiquidityUniversal() {
 				className='w-full border p-2 rounded'
 			/>
 
-			{/* Token B */}
-			<select
-				value={tokenB}
-				onChange={(e) => setTokenB(e.target.value)}
-				className='w-full border p-2 rounded'
+			<button
+				onClick={() => {
+					handleOpen2();
+					setSearchB("");
+				}}
 			>
-				<option value=''>Select token</option>
-				{userPortfolio
-					?.filter((item) => item.token.address !== tokenA)
-					?.map((item) => (
-						<option key={item.token.address} value={item.token.address}>
-							{item.token.symbol}
-						</option>
-					))}
-			</select>
+				{tokenBSymbol || "Select Token"}
+			</button>
+
+			<Modal open={open2} onClose={handleClose2}>
+				<Box sx={style}>
+					<div className='flex flex-col gap-2'>
+						<input
+							value={searchB}
+							onChange={(e) => setSearchB(e.target.value)}
+							placeholder='Search token address...'
+							className='w-full border p-2 rounded'
+						/>
+
+						<div className='border rounded max-h-40 overflow-auto bg-[#ffffe3]'>
+							{/* CASE 1: search result exists */}
+							{searchResultB ? (
+								<div
+									className='p-2 cursor-pointer hover:bg-gray-100'
+									onClick={() => {
+										setTokenB(searchResultB.address);
+										setTokenBSymbol(searchResultB.symbol);
+
+										if (tokenA === searchResultB?.address) {
+											setTokenA("");
+											setTokenASymbol("");
+										}
+
+										handleClose2();
+									}}
+								>
+									{searchResultB.symbol} — {searchResultB.address.slice(0, 6)}
+									...
+									{searchResultB.address.slice(-4)}
+								</div>
+							) : (
+								/* CASE 2: show user portfolio */
+								userPortfolio
+									?.filter((item) => item.token.address !== tokenA)
+									?.map((item) => (
+										<div
+											key={item.token.address}
+											className='p-2 cursor-pointer hover:bg-gray-100'
+											onClick={() => {
+												setTokenB(item.token.address);
+												setTokenBSymbol(item.token.symbol);
+
+												if (tokenA === searchResultB?.address) {
+													setTokenA("");
+													setTokenASymbol("");
+												}
+
+												handleClose2();
+											}}
+										>
+											{item.token.symbol} — {item.token.address.slice(0, 6)}...
+											{item.token.address.slice(-4)}
+										</div>
+									))
+							)}
+						</div>
+					</div>
+				</Box>
+			</Modal>
+
 			<div className='text-sm text-gray-500'>
 				Balance:{" "}
 				{isETH(tokenB)

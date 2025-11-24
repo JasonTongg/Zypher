@@ -23,6 +23,11 @@ const initialState = {
 		loading: false,
 		error: null,
 	},
+	searchTokenB: {
+		data: [],
+		loading: false,
+		error: null,
+	},
 	navbarActive: "Dashboard",
 };
 
@@ -70,6 +75,20 @@ export const fetchPortfolio = createAsyncThunk(
 
 export const fetchSearchToken = createAsyncThunk(
 	"datas/fetchSearchToken",
+	async ({ tokenAddress }) => {
+		const res = await fetch("/api/searchToken", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ tokenAddress }),
+		});
+
+		if (!res.ok) throw new Error("Failed to search token");
+		return await res.json();
+	}
+);
+
+export const fetchSearchTokenB = createAsyncThunk(
+	"datas/fetchSearchTokenB",
 	async ({ tokenAddress }) => {
 		const res = await fetch("/api/searchToken", {
 			method: "POST",
@@ -149,6 +168,19 @@ const datas = createSlice({
 			.addCase(fetchSearchToken.rejected, (state, action) => {
 				state.searchToken.loading = false;
 				state.searchToken.error = action.error.message;
+			})
+			.addCase(fetchSearchTokenB.pending, (state) => {
+				state.searchTokenB.loading = true;
+				state.searchTokenB.error = null;
+			})
+			.addCase(fetchSearchTokenB.fulfilled, (state, action) => {
+				state.searchTokenB.loading = false;
+				state.searchTokenB.data = action.payload;
+				state.searchTokenB.error = null;
+			})
+			.addCase(fetchSearchTokenB.rejected, (state, action) => {
+				state.searchTokenB.loading = false;
+				state.searchTokenB.error = action.error.message;
 			});
 	},
 });
