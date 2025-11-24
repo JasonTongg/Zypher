@@ -14,7 +14,7 @@ export default function Navbar() {
 				transition={{ duration: 0.5 }}
 				className='max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center gap-2'
 			>
-				<p className='text-lg'>
+				<p className='text-lg text-center'>
 					&copy; {new Date().getFullYear()}{" "}
 					<span className='text-[#FF007A] font-semibold'>Zypher</span>. Make
 					with &hearts; by{" "}
