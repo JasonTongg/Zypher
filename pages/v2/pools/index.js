@@ -315,7 +315,7 @@ export default function RemoveLiquidityWithPositions() {
 				</p>
 				<div className='flex items-center justify-center sm:justify-start gap-4 flex-wrap'>
 					<button
-						className='py-2 px-6 border-[1px] border-gray-300 flex items-center justify-center rounded-[7px]'
+						className='py-2 px-6 border-[1px] border-gray-300 flex items-center justify-center rounded-[7px] cursor-pointer'
 						style={
 							poolType.toLowerCase() === "all pools"
 								? { background: "rgba(39,117,202,0.25)", color: "#2775CA" }
@@ -326,7 +326,7 @@ export default function RemoveLiquidityWithPositions() {
 						All Pools
 					</button>
 					<button
-						className='py-2 px-6 border-[1px] border-gray-300 flex items-center justify-center rounded-[7px]'
+						className='py-2 px-6 border-[1px] border-gray-300 flex items-center justify-center rounded-[7px] cursor-pointer'
 						style={
 							poolType.toLowerCase() === "v2"
 								? { background: "rgba(39,117,202,0.25)", color: "#2775CA" }
@@ -337,7 +337,7 @@ export default function RemoveLiquidityWithPositions() {
 						V2
 					</button>
 					<button
-						className='py-2 px-6 border-[1px] border-gray-300 flex items-center justify-center rounded-[7px] '
+						className='py-2 px-6 border-[1px] border-gray-300 flex items-center justify-center rounded-[7px] cursor-pointer'
 						style={
 							poolType.toLowerCase() === "v3"
 								? { background: "rgba(39,117,202,0.25)", color: "#2775CA" }
@@ -348,7 +348,7 @@ export default function RemoveLiquidityWithPositions() {
 						V3
 					</button>
 					<button
-						className='py-2 px-6 border-[1px] border-gray-300 flex items-center justify-center rounded-[7px] '
+						className='py-2 px-6 border-[1px] border-gray-300 flex items-center justify-center rounded-[7px] cursor-pointer'
 						style={
 							poolType.toLowerCase() === "v4"
 								? { background: "rgba(39,117,202,0.25)", color: "#2775CA" }
