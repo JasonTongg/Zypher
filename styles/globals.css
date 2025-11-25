@@ -1,0 +1,78 @@
+:root {
+	--primary-color: #1da1f2;
+	--secondary-color: #14171a;
+}
+
+@import "tailwindcss";
+
+@layer utilities {
+	.text-balance {
+		text-wrap: balance;
+	}
+}
+
+@font-face {
+	font-family: "Hashiba";
+	src: url("../public/assets/Hashiba.ttf") format("truetype");
+	font-weight: 700;
+	font-style: normal;
+}
+
+html {
+	scroll-behavior: smooth;
+	/* font-family: "Hashiba", sans-serif; */
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+	display: none;
+}
+
+img {
+	pointer-events: none;
+}
+
+.MuiList-padding {
+	padding: 0 !important;
+}
+
+/* Override RainbowKit Modal Background */
+[data-rk] .rk-dialog,
+[data-rk] .rk-dialog-content,
+[data-rk] .rk-modal,
+[data-rk] .rk-backdrop {
+	background: #ffffe3 !important;
+}
+
+/* Override Left Wallet List Background Panel */
+[data-rk] .rk-wallet-option-list {
+	background: #ffffe3 !important;
+}
+
+/* Override right panel text */
+[data-rk] .rk-text {
+	color: #2a2a2a !important;
+}
+
+/* Customize button pink + text cream */
+[data-rk] .rk-button {
+	background-color: #ff007a !important;
+	color: #ffffe3 !important;
+}
+
+/* Close button */
+[data-rk] .rk-dialog-close {
+	color: #ff007a !important;
+}
+
+/* Scrollbar handle */
+[data-rk] ::-webkit-scrollbar-thumb {
+	background-color: #ff007a !important;
+}
+
+/* Input fields, search etc */
+[data-rk] input {
+	background: #fffad5 !important;
+	color: #1e1e1e !important;
+}
