@@ -9,12 +9,39 @@ import { useTokenToETHSwap } from "@/hooks/useTokenToEthSwap";
 import { useETHToTokenSwap } from "@/hooks/useEthToTokenSwap";
 import { formatUnits } from "viem";
 import { setNavbarActive } from "../../store/data";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import { FaChevronDown } from "react-icons/fa";
+import { IoSearch } from "react-icons/io5";
+import { IoClose } from "react-icons/io5";
+import { GiTwoCoins } from "react-icons/gi";
+import Image from "next/image";
+import { useSearchParams } from "next/navigation";
+import { fetchSearchToken, fetchSearchTokenB } from "../../store/data";
+import { FaAngleDoubleDown } from "react-icons/fa";
+
+const style = {
+	position: "absolute",
+	top: "50%",
+	left: "50%",
+	transform: "translate(-50%, -50%)",
+	width: 400,
+	bgcolor: "#FFFFE3",
+	borderRadius: "10px",
+};
 
 const ETH_ADDRESS = "0x0000000000000000000000000000000000000000"; // Standard ETH placeholder
 
 export default function Swap() {
 	const dispatch = useDispatch();
-	const { portfolio } = useSelector((state) => state.data);
+	const params = useSearchParams();
+	const tokenAParam = params?.get("tokenA");
+	const tokenASymbolParam = params?.get("tokenASymbol");
+	const tokenBParam = params?.get("tokenB");
+	const tokenBSymbolParam = params?.get("tokenBSymbol");
+	const { portfolio, searchToken, searchTokenB, version } = useSelector(
+		(state) => state.data
+	);
 	const { address, isConnected } = useAccount();
 	const [tokenIn, setTokenIn] = useState("");
 	const [tokenOut, setTokenOut] = useState("");
@@ -22,6 +49,20 @@ export default function Swap() {
 	const [userPortfolio, setUserPortfolio] = useState(
 		portfolio?.data?.portfolio?.balances
 	);
+	const [search, setSearch] = useState("");
+	const [searchResult, setSearchResult] = useState("");
+	const [searchB, setSearchB] = useState("");
+	const [searchResultB, setSearchResultB] = useState(null);
+	const [tokenASymbol, setTokenASymbol] = useState(tokenASymbolParam || "");
+	const [tokenBSymbol, setTokenBSymbol] = useState(tokenBSymbolParam || "");
+
+	const [open, setOpen] = useState(false);
+	const handleOpen = () => setOpen(true);
+	const handleClose = () => setOpen(false);
+
+	const [open2, setOpen2] = useState(false);
+	const handleOpen2 = () => setOpen2(true);
+	const handleClose2 = () => setOpen2(false);
 
 	const tokenInDecimals = useMemo(() => {
 		if (tokenIn === ETH_ADDRESS) return 18;
@@ -81,6 +122,14 @@ export default function Swap() {
 		}
 	}, [swapType, tokenToTokenSwap, tokenToETHSwap, ethToTokenSwap]);
 
+	function resolveIPFS(url) {
+		if (!url) return "";
+		if (url.startsWith("ipfs://")) {
+			return `https://ipfs.io/ipfs/${url.replace("ipfs://", "")}`;
+		}
+		return url;
+	}
+
 	// Sync amount input with the active swap hook
 	useEffect(() => {
 		if (activeSwap && amountIn) {
@@ -116,8 +165,11 @@ export default function Swap() {
 
 	const handleSwapTokens = () => {
 		const tempIn = tokenIn;
+		const tempSymbol = tokenASymbol;
 		setTokenIn(tokenOut);
 		setTokenOut(tempIn);
+		setTokenASymbol(tokenBSymbol);
+		setTokenBSymbol(tempSymbol);
 	};
 
 	const handleApprove = () => {
@@ -145,107 +197,383 @@ export default function Swap() {
 			case "token-to-token":
 				return tokenToTokenSwap.expectedOut?.toString();
 			case "token-to-eth":
-				return tokenToETHSwap.expectedETH?.toString() + " wei";
+				return tokenToETHSwap.expectedETH?.toString();
 			case "eth-to-token":
-				return ethToTokenSwap.expectedTokenOut?.toString() + " tokens";
+				return ethToTokenSwap.expectedTokenOut?.toString();
 			default:
 				return null;
 		}
 	};
+
+	function fetchToken(searchAddress) {
+		dispatch(fetchSearchToken({ tokenAddress: searchAddress }));
+	}
+
+	useEffect(() => {
+		if (searchToken?.data?.tokens?.length > 0) {
+			setSearchResult(searchToken.data.tokens[0]);
+		} else {
+			setSearchResult(null);
+		}
+	}, [searchToken]);
+
+	useEffect(() => {
+		if (!search) {
+			setSearchResult(null);
+			return;
+		}
+
+		const timeout = setTimeout(() => {
+			fetchToken(search);
+		}, 500);
+
+		return () => clearTimeout(timeout);
+	}, [search]);
+
+	function fetchTokenB(searchAddress) {
+		dispatch(fetchSearchTokenB({ tokenAddress: searchAddress }));
+	}
+
+	useEffect(() => {
+		if (searchTokenB?.data?.tokens?.length > 0) {
+			setSearchResultB(searchTokenB.data.tokens[0]);
+		} else {
+			setSearchResultB(null);
+		}
+	}, [searchTokenB]);
+
+	useEffect(() => {
+		if (!searchB) {
+			setSearchResultB(null);
+			return;
+		}
+
+		const timeout = setTimeout(() => {
+			fetchTokenB(searchB);
+		}, 500);
+
+		return () => clearTimeout(timeout);
+	}, [searchB]);
 
 	return (
 		<div
 			className='p-10 max-w-2xl mx-auto space-y-6 mt-[4.5rem] w-full flex flex-col items-center justify-center'
 			style={{ minHeight: "calc(100vh - 200px)" }}
 		>
+			<Modal open={open} onClose={handleClose}>
+				<Box sx={style}>
+					<div className='flex flex-col gap-2 p-4'>
+						<div className='flex justify-between items-center'>
+							<h2 className='text-lg font-semibold'>Select a token</h2>
+							<IoClose
+								className='text-2xl cursor-pointer'
+								onClick={handleClose}
+							/>
+						</div>
+						<div className='flex items-center justify-start gap-1 bg-[rgba(39,117,202,0.1)] rounded-[100px] px-4'>
+							<IoSearch className='text-2xl text-gray-500'></IoSearch>
+							<input
+								value={search}
+								onChange={(e) => setSearch(e.target.value)}
+								placeholder='Search token address...'
+								className='w-full p-2 outline-none '
+							/>
+						</div>
+
+						<div className='rounded max-h-[500px] overflow-auto bg-[#ffffe3] remove-scrollbar'>
+							{searchResult ? (
+								<div>
+									<div className='flex items-center justify-start gap-1'>
+										<IoSearch />
+										<p>Search results</p>
+									</div>
+									<div
+										className='p-2 cursor-pointer hover:bg-gray-100'
+										onClick={() => {
+											setTokenIn(searchResult.address);
+											setTokenASymbol(searchResult.symbol);
+
+											if (tokenOut === searchResult?.address) {
+												setTokenOut("");
+												setTokenBSymbol("");
+											}
+
+											handleClose();
+										}}
+									>
+										<div className='flex gap-2 items-center justify-start'>
+											<div className='w-10 h-10 rounded-[100px] flex items-center justify-center bg-gray-200 overflow-hidden font-bold text-2xl'>
+												{searchResult?.symbol.slice(0, 1).toUpperCase()}
+											</div>
+											<div className='flex flex-col'>
+												<p className='text-base font-semibold'>
+													{searchResult?.name}
+												</p>
+												<div className='flex items-center gap-1'>
+													<p className='text-base'>{searchResult?.symbol}</p>
+													<p className='text-sm text-gray-600'>
+														{searchResult?.address?.slice(0, 6)}
+														...
+														{searchResult?.address?.slice(-4)}
+													</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							) : (
+								<div className='flex flex-col gap-1 overflow-auto'>
+									<div className='flex items-center justify-start gap-1'>
+										<GiTwoCoins />
+										<p>Your tokens</p>
+									</div>
+									{userPortfolio
+										?.filter((item) => item.token.address !== tokenOut)
+										?.map((item) => (
+											<div
+												key={item?.token?.address}
+												className='cursor-pointer hover:bg-gray-100 flex items-center justify-between'
+												onClick={() => {
+													setTokenIn(item?.token?.address);
+													setTokenASymbol(item?.token?.symbol);
+													if (tokenOut === searchResult?.address) {
+														setTokenOut("");
+														setTokenBSymbol("");
+													}
+
+													handleClose();
+												}}
+											>
+												<div className='flex gap-2 items-center justify-start'>
+													<Image
+														src={resolveIPFS(item?.token?.metadata?.logoUrl)}
+														alt={item?.token?.symbol}
+														width={35}
+														height={35}
+													/>
+													<div className='flex flex-col'>
+														<p className='text-base font-semibold'>
+															{item?.token?.name}
+														</p>
+														<div className='flex items-center gap-1'>
+															<p className='text-base'>{item?.token?.symbol}</p>
+															<p className='text-sm text-gray-600'>
+																{item?.token?.address?.slice(0, 6)}
+																...
+																{item?.token?.address?.slice(-4)}
+															</p>
+														</div>
+													</div>
+												</div>
+												<p className='text-base font-semibold'>
+													{item?.amount?.amount?.toFixed(4)}
+												</p>
+											</div>
+										))}
+								</div>
+							)}
+						</div>
+					</div>
+				</Box>
+			</Modal>
+			<Modal open={open2} onClose={handleClose2}>
+				<Box sx={style}>
+					<div className='flex flex-col gap-2 p-4'>
+						<div className='flex justify-between items-center'>
+							<h2 className='text-lg font-semibold'>Select a token</h2>
+							<IoClose
+								className='text-2xl cursor-pointer'
+								onClick={handleClose2}
+							/>
+						</div>
+						<div className='flex items-center justify-start gap-1 bg-[rgba(39,117,202,0.1)] rounded-[100px] px-4'>
+							<IoSearch className='text-2xl text-gray-500'></IoSearch>
+							<input
+								value={searchB}
+								onChange={(e) => setSearchB(e.target.value)}
+								placeholder='Search token address...'
+								className='w-full p-2 outline-none '
+							/>
+						</div>
+
+						<div className='rounded max-h-[500px] overflow-auto bg-[#ffffe3] remove-scrollbar'>
+							{searchResultB ? (
+								<div>
+									<div className='flex items-center justify-start gap-1'>
+										<IoSearch />
+										<p>Search results</p>
+									</div>
+									<div
+										className='p-2 cursor-pointer hover:bg-gray-100'
+										onClick={() => {
+											setTokenOut(searchResultB.address);
+											setTokenBSymbol(searchResultB.symbol);
+
+											if (tokenIn === searchResultB?.address) {
+												setTokenIn("");
+												setTokenASymbol("");
+											}
+
+											handleClose2();
+										}}
+									>
+										<div className='flex gap-2 items-center justify-start'>
+											<div className='w-10 h-10 rounded-[100px] flex items-center justify-center bg-gray-200 overflow-hidden font-bold text-2xl'>
+												{searchResultB?.symbol.slice(0, 1).toUpperCase()}
+											</div>
+											<div className='flex flex-col'>
+												<p className='text-base font-semibold'>
+													{searchResultB?.name}
+												</p>
+												<div className='flex items-center gap-1'>
+													<p className='text-base'>{searchResultB?.symbol}</p>
+													<p className='text-sm text-gray-600'>
+														{searchResultB?.address?.slice(0, 6)}
+														...
+														{searchResultB?.address?.slice(-4)}
+													</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							) : (
+								<div className='flex flex-col gap-1 overflow-auto'>
+									<div className='flex items-center justify-start gap-1'>
+										<GiTwoCoins />
+										<p>Your tokens</p>
+									</div>
+									{userPortfolio
+										?.filter((item) => item.token.address !== tokenIn)
+										?.map((item) => (
+											<div
+												key={item?.token?.address}
+												className='cursor-pointer hover:bg-gray-100 flex items-center justify-between'
+												onClick={() => {
+													setTokenOut(item?.token?.address);
+													setTokenBSymbol(item?.token?.symbol);
+													if (tokenIn === searchResultB?.address) {
+														setTokenIn("");
+														setTokenASymbol("");
+													}
+
+													handleClose2();
+												}}
+											>
+												<div className='flex gap-2 items-center justify-start'>
+													<Image
+														src={resolveIPFS(item?.token?.metadata?.logoUrl)}
+														alt={item?.token?.symbol}
+														width={35}
+														height={35}
+													/>
+													<div className='flex flex-col'>
+														<p className='text-base font-semibold'>
+															{item?.token?.name}
+														</p>
+														<div className='flex items-center gap-1'>
+															<p className='text-base'>{item?.token?.symbol}</p>
+															<p className='text-sm text-gray-600'>
+																{item?.token?.address?.slice(0, 6)}
+																...
+																{item?.token?.address?.slice(-4)}
+															</p>
+														</div>
+													</div>
+												</div>
+												<p className='text-base font-semibold'>
+													{item?.amount?.amount?.toFixed(4)}
+												</p>
+											</div>
+										))}
+								</div>
+							)}
+						</div>
+					</div>
+				</Box>
+			</Modal>
 			<div className='flex flex-col items-center justify-center space-y-4 w-full max-w-md'>
-				<h2 className='text-2xl font-bold'>Token Swap</h2>
-
-				<div className='w-full p-4 border rounded-lg space-y-4'>
-					{/* Token In Selection */}
-					<div>
-						<label className='block text-sm font-medium mb-2'>From</label>
-						<select
-							value={tokenIn}
-							onChange={(e) => {
-								if (e.target.value === tokenOut) {
-									handleSwapTokens();
-								} else {
-									setTokenIn(e.target.value);
-								}
-							}}
-							className='w-full border p-2 rounded'
-						>
-							<option value=''>Select token</option>
-							{portfolioWithETH?.map((item) => (
-								<option key={item.token.address} value={item.token.address}>
-									{item.token.symbol}
-								</option>
-							))}
-						</select>
-					</div>
-
-					{/* Amount Input */}
-					<div>
-						<label className='block text-sm font-medium mb-2'>Amount</label>
-						<input
-							type='number'
-							placeholder='0.0'
-							value={amountIn}
-							onChange={(e) => setAmountIn(e.target.value)}
-							className='w-full border p-2 rounded'
-						/>
-						{activeSwap?.balance !== undefined && (
-							<p className='text-sm text-gray-600 mt-1'>
-								Balance:{" "}
-								{formatUnits(
-									activeSwap.balance.value ?? activeSwap.balance,
-									tokenInDecimals
+				<div className='flex items-center justify-between gap-2 w-full'>
+					<h2 className='text-3xl font-bold'>Swap</h2>
+					<span>Version</span>
+				</div>
+				<div className='w-full relative flex flex-col gap-1 mb-[5px]'>
+					<div className='flex flex-col items-start justify-center gap-1 bg-[#fffad5] border-[1px] border-gray-300 rounded-[25px] p-4'>
+						<p className='text-lg font-bold'>Sell</p>
+						<div className='flex items-center justify-between '>
+							<input
+								type='number'
+								placeholder='0.0'
+								value={amountIn}
+								onChange={(e) => setAmountIn(e.target.value)}
+								className='w-full border-none outline-none rounded text-3xl font-semibold'
+							/>
+							<div className='flex flex-col items-end justify-center gap-1'>
+								<button
+									onClick={() => {
+										handleOpen();
+										setSearch("");
+									}}
+									className='bg-[rgba(39,117,202,0.25)] text-[#2775CA] gap-2 rounded-[100px] py-[0.3rem] px-[15px] flex justify-center items-center cursor-pointer min-w-[100px]'
+								>
+									<p className='whitespace-nowrap'>
+										{tokenASymbol || "Select Token"}
+									</p>
+									<FaChevronDown className='text-[0.85rem] font-semibold' />
+								</button>
+								{activeSwap?.balance !== undefined && (
+									<p className='text-sm text-gray-600 mt-1'>
+										{Number(
+											formatUnits(
+												activeSwap.balance.value ?? activeSwap.balance,
+												tokenInDecimals
+											)
+										).toFixed(2)}{" "}
+										{tokenASymbol}
+									</p>
 								)}
-							</p>
-						)}
+							</div>
+						</div>
 					</div>
 
-					{/* Swap Button */}
-					<div className='flex justify-center'>
+					<div className='flex justify-center absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%]'>
 						<button
 							onClick={handleSwapTokens}
-							className='bg-gray-200 hover:bg-gray-300 p-2 rounded-full'
+							className='bg-gray-200 p-2 rounded-[10px] cursor-pointer'
 						>
-							↕️
+							<FaAngleDoubleDown className='text-3xl' />
 						</button>
 					</div>
 
-					{/* Token Out Selection */}
-					<div>
-						<label className='block text-sm font-medium mb-2'>To</label>
-						<select
-							value={tokenOut}
-							onChange={(e) => {
-								if (e.target.value === tokenIn) {
-									handleSwapTokens();
-								} else {
-									setTokenOut(e.target.value);
-								}
-							}}
-							className='w-full border p-2 rounded'
-						>
-							<option value=''>Select token</option>
-							{portfolioWithETH?.map((item) => (
-								<option key={item.token.address} value={item.token.address}>
-									{item.token.symbol}
-								</option>
-							))}
-						</select>
-					</div>
-
-					{/* Expected Output */}
-					{getExpectedOutput() && (
-						<div className='bg-gray-50 p-3 rounded'>
-							<p className='text-sm text-gray-600'>Expected Output:</p>
-							<p className='font-medium'>{getExpectedOutput()}</p>
+					<div className='flex flex-col items-start justify-center gap-1 bg-[#fffad5] border-[1px] border-gray-300 rounded-[25px] p-4'>
+						<p className='text-lg font-bold'>Buy</p>
+						<div className='flex items-center justify-between w-full'>
+							<h2 className='w-full border-none outline-none rounded text-3xl font-semibold'>
+								{(getExpectedOutput() &&
+									Number(
+										formatUnits(getExpectedOutput(), tokenOutDecimals)
+									).toFixed(9)) ||
+									"0.0"}
+							</h2>
+							<div className='flex flex-col items-end justify-center gap-1'>
+								<button
+									onClick={() => {
+										handleOpen2();
+										setSearchB("");
+									}}
+									className='bg-[rgba(39,117,202,0.25)] text-[#2775CA] gap-2 rounded-[100px] py-[0.3rem] px-[15px] flex justify-center items-center cursor-pointer min-w-[100px]'
+								>
+									<p className='whitespace-nowrap'>
+										{tokenBSymbol || "Select Token"}
+									</p>
+									<FaChevronDown className='text-[0.85rem] font-semibold' />
+								</button>
+								{activeSwap?.balance !== undefined && (
+									<p className='text-sm text-gray-600 mt-1 opacity-0'>000</p>
+								)}
+							</div>
 						</div>
-					)}
+					</div>
 				</div>
 
 				{/* Error Display */}
@@ -271,7 +599,7 @@ export default function Swap() {
 						<button
 							onClick={handleApprove}
 							disabled={!activeSwap || activeSwap?.isApproveLoading}
-							className='flex-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-gray-400'
+							className='flex-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-[25px] disabled:bg-gray-400'
 						>
 							{activeSwap?.isApproveLoading ? "Approving..." : "Approve"}
 						</button>
@@ -283,7 +611,7 @@ export default function Swap() {
 								activeSwap?.isSwapLoading ||
 								!activeSwap
 							}
-							className='flex-1 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded disabled:bg-gray-400'
+							className='flex-1 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-[25px] disabled:bg-gray-400'
 						>
 							{activeSwap?.isSwapLoading ? "Swapping..." : "Swap"}
 						</button>
