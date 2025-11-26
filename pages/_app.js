@@ -21,50 +21,61 @@ const config = getDefaultConfig({
 });
 
 // ⭐ Custom theme
-const customTheme = lightTheme({
-	accentColor: "#FF007A",
-	accentColorForeground: "#FFFFE3",
-
-	actionButtonBorder: "#FF007A",
-	actionButtonBorderMobile: "#FF007A",
-	actionButtonSecondaryBackground: "#FFFFE3",
-
-	closeButton: "#FF007A",
-	closeButtonBackground: "#FFFFE3",
-
-	connectButtonBackground: "#FF007A",
-	connectButtonBackgroundError: "#FC4A71",
-	connectButtonInnerBackground: "#FF2A90",
-	connectButtonText: "#FFFFE3",
-	connectButtonTextError: "#FFFFE3",
-
-	connectionIndicator: "#31DBB1",
-
-	downloadBottomCardBackground: "#FFFFE3",
-	downloadTopCardBackground: "#FFF6D5",
-
-	error: "#FC4A71",
-
-	generalBorder: "#FF007A",
-	generalBorderDim: "#FF7FBF",
-
-	menuItemBackground: "#FFFFE3",
-	modalBackdrop: "rgba(0, 0, 0, 0.4)",
-
-	modalBackground: "#FFFFE3",
-	modalBorder: "#FF007A",
-
-	modalText: "#000000",
-	modalTextDim: "#4a4a4a",
-	modalTextSecondary: "#6a6a6a",
-
-	profileAction: "#FFF0D5",
-	profileActionHover: "#FFE3BC",
-	profileForeground: "#FFFFE3",
-
-	selectedOptionBorder: "#FF007A",
-	standby: "#FFDC30",
-});
+const customTheme = {
+	blurs: {
+		modalOverlay: "6px",
+	},
+	colors: {
+		accentColor: "#ff4c9a",
+		accentColorForeground: "#FFFFFF",
+		actionButtonBorder: "#dadada",
+		actionButtonBorderMobile: "#dadada",
+		actionButtonSecondaryBackground: "#efefd5",
+		closeButton: "#5e6a5e",
+		closeButtonBackground: "#ffffe3",
+		connectButtonBackground: "#ff4c9a",
+		connectButtonBackgroundError: "#ff4c9a",
+		connectButtonInnerBackground: "#ff4c9a",
+		connectButtonText: "#FFFFFF",
+		connectButtonTextError: "#FFFFFF",
+		connectionIndicator: "#26a17b",
+		downloadBottomCardBackground: "#efefd5",
+		downloadTopCardBackground: "#ffffe3",
+		error: "#ff4c9a",
+		generalBorder: "#dadada",
+		generalBorderDim: "#adad9b",
+		menuItemBackground: "#efefd5",
+		modalBackdrop: "rgba(0, 0, 0, 0.75)",
+		modalBackground: "#ffffe3",
+		modalBorder: "#dadada",
+		modalText: "#0e100e",
+		modalTextDim: "#5e6a5e",
+		modalTextSecondary: "#adad9b",
+		profileAction: "#efefd5",
+		profileActionHover: "#ff4c9a",
+		profileForeground: "#ffffe3",
+		selectedOptionBorder: "#ff4c9a",
+		standby: "#ff4c9a",
+	},
+	fonts: {
+		body: "",
+	},
+	radii: {
+		actionButton: "4px",
+		connectButton: "4px",
+		menuButton: "4px",
+		modal: "6px",
+		modalMobile: "6px",
+	},
+	shadows: {
+		connectButton: "",
+		dialog: "0px 10px 20px rgba(0, 0, 0, 0.3)",
+		profileDetailsAction: "0px 2px 5px rgba(0, 0, 0, 0.2)",
+		selectedOption: "0px 0px 6px rgba(255, 0, 122, 0.6)",
+		selectedWallet: "0px 0px 10px rgba(255, 0, 122, 0.8)",
+		walletLogo: "0px 2px 4px rgba(0, 0, 0, 0.2)",
+	},
+};
 
 function MyApp({ Component, pageProps }) {
 	const queryClient = new QueryClient();

@@ -1,10 +1,133 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 :root {
 	--primary-color: #1da1f2;
 	--secondary-color: #14171a;
+}
+
+@theme {
+	--color-background: #ffffe3;
+	--color-surface: #efefd5;
+
+	--color-accent-pink: #ff007a;
+	--color-accent-blue: #2775ca;
+	--color-accent-green: #26a17b;
+	--color-accent-yellow: #f7931a;
+	--color-accent-purple: #800080;
+
+	--color-opacity-pink: rgba(255, 0, 122, 0.2);
+	--color-opacity-blue: rgba(39, 117, 202, 0.2);
+	--color-opacity-green: rgba(38, 161, 123, 0.2);
+	--color-opacity-yellow: rgba(247, 147, 26, 0.2);
+	--color-opacity-purple: rgba(128, 0, 128, 0.6);
+
+	--color-opacity2-pink: rgba(255, 0, 122, 0.4);
+	--color-opacity2-blue: rgba(39, 117, 202, 0.4);
+	--color-opacity2-green: rgba(38, 161, 123, 0.4);
+	--color-opacity2-yellow: rgba(247, 147, 26, 0.4);
+	--color-opacity2-purple: rgba(128, 0, 128, 0.8);
+
+	--color-border: #dadada;
+	--color-border2: #c9c9c9;
+	--color-primary: #0e100e;
+	--color-secondary: #8d8d83;
+	--color-muted: #adad9b;
+
+	--breakpoint-sx: 450px;
+}
+
+/* GLOBAL STYLE */
+* {
+	scroll-behavior: smooth;
+}
+
+.poolListGrid {
+	grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+
+	@media only screen and (max-width: 450px) {
+		grid-template-columns: 1fr;
+	}
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+input[type="number"] {
+	-moz-appearance: textfield;
+}
+
+/* SKELETON LOADER */
+.custom_shimmer {
+	overflow: hidden;
+	position: relative;
+	background-color: #efefd5;
+	mask-image: -webkit-radial-gradient(white, black);
+
+	&::after {
+		content: "";
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 100%;
+		width: 100%;
+		background-repeat: no-repeat;
+		background: linear-gradient(
+			to right,
+			#efefd5 0%,
+			#d6d6b6 50%,
+			#efefd5 100%
+		);
+
+		transform: translateX(-100%);
+		animation-name: shimmer;
+		animation-direction: normal;
+		animation-duration: 1.5s;
+		animation-iteration-count: infinite;
+		animation-timing-function: linear;
+	}
+}
+
+@keyframes shimmer {
+	0% {
+		transform: translateX(-100%);
+	}
+	40% {
+		transform: translateX(100%);
+	}
+	100% {
+		transform: translateX(200%);
+	}
+}
+
+@keyframes pulse {
+	0% {
+		transform: scale(1);
+		opacity: 1;
+	}
+	50% {
+		transform: scale(1.2);
+		opacity: 0.7;
+	}
+	100% {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+
+@keyframes ring {
+	0% {
+		transform: scale(1);
+		opacity: 1;
+	}
+	100% {
+		transform: scale(2);
+		opacity: 0;
+	}
 }
 
 @layer utilities {

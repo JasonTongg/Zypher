@@ -7,13 +7,13 @@ import {
 	useReadContract,
 } from "wagmi";
 import { parseEther, parseUnits, formatUnits } from "viem";
-import abi from "../../../hooks/abi/uniswapv2.json";
-import erc20abi from "../../../hooks/abi/erc20.json";
+import abi from "../../hooks/abi/uniswapv2.json";
+import erc20abi from "../../hooks/abi/erc20.json";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPortfolio } from "../../../store/data";
+import { fetchPortfolio } from "../../store/data";
 import { useAccount, useBalance } from "wagmi";
-import { setNavbarActive } from "../../../store/data";
-import { fetchSearchToken, fetchSearchTokenB } from "../../../store/data";
+import { setNavbarActive } from "../../store/data";
+import { fetchSearchToken, fetchSearchTokenB } from "../../store/data";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { useSearchParams } from "next/navigation";

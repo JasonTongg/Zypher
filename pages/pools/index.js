@@ -20,12 +20,13 @@ import {
 	Stack,
 	Slider,
 } from "@mui/material";
-import { setNavbarActive } from "../../../store/data";
-import { fetchListPositions } from "../../../store/data";
+import { setNavbarActive } from "../../store/data";
+import { fetchListPositions } from "../../store/data";
 import { formatUnits } from "viem";
 import { IoMdClose } from "react-icons/io";
 import { toast } from "react-toastify";
 import { FaWaterLadder } from "react-icons/fa6";
+import { useRouter } from "next/router";
 
 const erc20Abi = [
 	{
@@ -81,6 +82,7 @@ const routerAbi = [
 ];
 
 export default function RemoveLiquidityWithPositions() {
+	const router = useRouter();
 	const { address } = useAccount();
 	const contractAddress = process.env.NEXT_PUBLIC_SWAP_CONTRACT;
 	const dispatch = useDispatch();
@@ -444,16 +446,48 @@ export default function RemoveLiquidityWithPositions() {
 									</div>
 								</div>
 							)}
-							<button
-								className='p-2 text-center bg-[rgba(39,117,202,0.25)] text-[#2775CA] w-full rounded-[5px] disabled:opacity-30'
-								onClick={() => openRemoveModal(pos)}
-								disabled={
-									getVersion(pos.protocolVersion) === "V3" ||
-									getVersion(pos.protocolVersion) === "V4"
-								}
-							>
-								Remove Liquidity
-							</button>
+							<div className='flex flex-col items-center justify-center gap-1 w-full'>
+								<button
+									className='p-2 text-center bg-[rgba(39,117,202,0.25)] text-[#2775CA] w-full rounded-[5px] disabled:opacity-30 cursor-pointer'
+									onClick={() =>
+										router.push(
+											`/v2/addLiquidity?tokenA=${
+												pos?.v2Pair?.token0?.address ||
+												pos?.v3Position?.token0?.address ||
+												pos?.v4Position?.poolPosition?.token0?.address
+											}&tokenASymbol=${
+												pos?.v2Pair?.token0?.symbol ||
+												pos?.v3Position?.token0?.symbol ||
+												pos?.v4Position?.poolPosition?.token0?.symbol
+											}&tokenB=${
+												pos?.v2Pair?.token1?.address ||
+												pos?.v3Position?.token1?.address ||
+												pos?.v4Position?.poolPosition?.token1?.address
+											}&tokenBSymbol=${
+												pos?.v2Pair?.token1?.symbol ||
+												pos?.v3Position?.token1?.symbol ||
+												pos?.v4Position?.poolPosition?.token1?.symbol
+											}`
+										)
+									}
+									disabled={
+										getVersion(pos.protocolVersion) === "V3" ||
+										getVersion(pos.protocolVersion) === "V4"
+									}
+								>
+									Add Liquidity
+								</button>
+								<button
+									className='p-2 text-center bg-[rgba(39,117,202,0.25)] text-[#2775CA] w-full rounded-[5px] disabled:opacity-30 cursor-pointer'
+									onClick={() => openRemoveModal(pos)}
+									disabled={
+										getVersion(pos.protocolVersion) === "V3" ||
+										getVersion(pos.protocolVersion) === "V4"
+									}
+								>
+									Remove Liquidity
+								</button>
+							</div>
 						</div>
 					))}
 				</div>

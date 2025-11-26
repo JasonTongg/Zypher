@@ -25,7 +25,7 @@ export default function Navbar() {
 					<Image src={Logo} className='w-[140px]' />
 				</Link>
 				<Link
-					href='/v2/pools/'
+					href='/pools/'
 					className='text-lg font-semibold'
 					style={
 						navbarActive.toLowerCase() === "dashboard"
@@ -47,7 +47,7 @@ export default function Navbar() {
 					Swap
 				</Link>
 				<Link
-					href='/v2/pools/addLiquidity'
+					href='/v2/addLiquidity'
 					className='text-lg font-semibold'
 					style={
 						navbarActive.toLowerCase() === "liquidity"
@@ -78,13 +78,13 @@ export default function Navbar() {
 							<Image src={Logo} className='w-[140px]' />
 						</MenuItem>
 					</Link>
-					<Link href='/v2/pools/' onClick={handleClose}>
+					<Link href='/pools/' onClick={handleClose}>
 						<MenuItem>Dashboard</MenuItem>
 					</Link>
-					<Link href='/v2/swap' onClick={handleClose}>
+					<Link href='/swap' onClick={handleClose}>
 						<MenuItem>Swap</MenuItem>
 					</Link>
-					<Link href='/v2/pools/addLiquidity' onClick={handleClose}>
+					<Link href='/v2/addLiquidity' onClick={handleClose}>
 						<MenuItem>Liquidity</MenuItem>
 					</Link>
 				</div>
