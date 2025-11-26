@@ -1,11 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
 	--primary-color: #1da1f2;
 	--secondary-color: #14171a;
 }
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 @layer utilities {
 	.text-balance {
@@ -14,33 +14,15 @@
 }
 
 @font-face {
-	font-family: "KingFont";
+	font-family: "Hashiba";
 	src: url("../public/assets/Hashiba.ttf") format("truetype");
 	font-weight: 700;
 	font-style: normal;
 }
 
-@font-face {
-	font-family: "Beleren";
-	src: url("../public/assets/Beleren2016.ttf") format("truetype");
-	font-weight: 700;
-	font-style: normal;
-}
-
-.beleren {
-	font-family: "Beleren", sans-serif;
-}
-
-* {
-	padding: 0;
-	margin: 0;
-	box-sizing: border-box;
-	font-family: "KingFont", sans-serif;
-}
-
 html {
 	scroll-behavior: smooth;
-	font-family: "KingFont", sans-serif;
+	/* font-family: "Hashiba", sans-serif; */
 	-ms-overflow-style: none;
 	scrollbar-width: none;
 }
@@ -57,125 +39,63 @@ img {
 	padding: 0 !important;
 }
 
-.bg-home {
-	background-image: url("/assets/HomeBackgroundDesktop.png");
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: center;
-
-	@media only screen and (max-width: 640px) {
-		background-image: url("/assets/HomeBackgroundMobile.png");
-	}
+/* Override RainbowKit Modal Background */
+[data-rk] .rk-dialog,
+[data-rk] .rk-dialog-content,
+[data-rk] .rk-modal,
+[data-rk] .rk-backdrop {
+	background: #ffffe3 !important;
 }
 
-.bg-game {
-	background-image: url("/assets/jokesBackgroundDesktop.png");
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: center;
-
-	@media only screen and (max-width: 640px) {
-		background-image: url("/assets/JokesBackgroundMobile.png");
-	}
+/* Override Left Wallet List Background Panel */
+[data-rk] .rk-wallet-option-list {
+	background: #ffffe3 !important;
 }
 
-.bg-landing {
-	background-image: url("/assets/LandingBackground1.png");
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: center top;
+/* Override right panel text */
+[data-rk] .rk-text {
+	color: #2a2a2a !important;
 }
 
-.bg-landing::before {
-	content: "";
-	position: absolute;
-	inset: 0;
-	background: rgba(0, 0, 0, 0.4);
-	z-index: 0;
+/* Customize button pink + text cream */
+[data-rk] .rk-button {
+	background-color: #ff007a !important;
+	color: #ffffe3 !important;
 }
 
-.bg-landing > * {
-	position: relative;
-	z-index: 1;
+/* Close button */
+[data-rk] .rk-dialog-close {
+	color: #ff007a !important;
 }
 
-.bg-jokes {
-	background-image: url("/assets/jokesBackgroundDesktop.png");
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: center;
-
-	@media only screen and (max-width: 640px) {
-		background-image: url("/assets/JokesBackgroundMobile.png");
-	}
+/* Scrollbar handle */
+[data-rk] ::-webkit-scrollbar-thumb {
+	background-color: #ff007a !important;
 }
 
-.bg-jokes::before {
-	content: "";
-	position: absolute;
-	inset: 0;
-	background: rgba(0, 0, 0, 0.4);
-	z-index: 0;
+/* Input fields, search etc */
+[data-rk] input {
+	background: #fffad5 !important;
+	color: #1e1e1e !important;
 }
 
-.bg-jokes > * {
-	position: relative;
-	z-index: 1;
-}
-
-.bg-game::before {
-	content: "";
-	position: absolute;
-	inset: 0;
-	background: rgba(0, 0, 0, 0.4);
-	z-index: 0;
-}
-
-.bg-game > * {
-	position: relative;
-	z-index: 1;
-}
-
-.bg-leaderboard {
-	background-image: url("../public/assets/Leaderboard.png");
-	background-position: center;
-	background-size: contain;
-	background-repeat: no-repeat;
-}
-
-*::-webkit-scrollbar {
+.remove-scrollbar::-webkit-scrollbar {
 	display: none;
 }
 
-* {
-	-ms-overflow-style: none;
-	scrollbar-width: none;
+/* Hide scrollbar for IE, Edge and Firefox */
+.remove-scrollbar {
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
 }
 
-.elfsight-app-b27e497a-dbc2-496a-b155-1dbbec5b5041 {
-	background: transparent !important;
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
 }
 
-/* Remove any inner container backgrounds inside widget */
-.elfsight-app-b27e497a-dbc2-496a-b155-1dbbec5b5041 * {
-	background: transparent !important;
-	font-family: "Beleren", sans-serif !important;
-	font-size: 18px !important;
-	line-height: 25px !important;
-}
-
-.eapps-widget-toolbar,
-.eapps-widget-toolbar + a,
-a[title="Free Twitter Feed widget"], a[href="https://elfsight.com/twitter-feed-widget/?utm_source=websites&utm_medium=clients&utm_content=eapps-twitter-feed&utm_term=localhost&utm_campaign=free-widget"]
-{
-	display: none !important;
-}
-
-a[title="Free Twitter Feed widget"], a[href="https://elfsight.com/twitter-feed-widget/?utm_source=websites&utm_medium=clients&utm_content=eapps-twitter-feed&utm_term=localhost&utm_campaign=free-widget"]
-{
-	display: none !important;
-	visibility: hidden !important;
-	width: 0 !important;
-	height: 0 !important;
-	overflow: hidden !important;
+/* Firefox */
+input[type="number"] {
+	-moz-appearance: textfield;
 }
