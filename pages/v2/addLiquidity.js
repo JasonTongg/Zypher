@@ -506,7 +506,7 @@ export default function AddLiquidityUniversal() {
 
 	const handleChange = (event, newValue) => {
 		router.push(
-			`/${newValue}/pools/addLiquidity?tokenA=${tokenA}&tokenASymbol=${tokenASymbol}&tokenB=${tokenB}&tokenBSymbol=${tokenBSymbol}`
+			`/${newValue}/addLiquidity?tokenA=${tokenA}&tokenASymbol=${tokenASymbol}&tokenB=${tokenB}&tokenBSymbol=${tokenBSymbol}`
 		);
 	};
 
