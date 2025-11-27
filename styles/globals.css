@@ -218,7 +218,65 @@ input::-webkit-inner-spin-button {
 	margin: 0;
 }
 
-/* Firefox */
 input[type="number"] {
 	-moz-appearance: textfield;
+}
+
+.glass-base {
+	border: 1px solid rgba(255, 255, 255, 0.35);
+	backdrop-filter: blur(18px) saturate(160%);
+	-webkit-backdrop-filter: blur(18px) saturate(160%);
+	box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+	border-radius: 18px;
+	padding: 24px;
+	background: linear-gradient(
+		135deg,
+		rgba(255, 255, 255, 0.25) 0%,
+		rgba(255, 255, 255, 0.05) 10%
+	);
+}
+
+.glass-blue {
+	background: linear-gradient(
+			135deg,
+			rgba(100, 150, 255, 0.28),
+			rgba(100, 150, 255, 0.05)
+		),
+		rgba(255, 255, 255, 0.08);
+}
+
+.glass-green {
+	background: linear-gradient(
+			135deg,
+			rgba(120, 200, 150, 0.28),
+			rgba(120, 200, 150, 0.05)
+		),
+		rgba(255, 255, 255, 0.08);
+}
+
+.glass-yellow {
+	background: linear-gradient(
+			135deg,
+			rgba(255, 200, 120, 0.32),
+			rgba(255, 200, 120, 0.05)
+		),
+		rgba(255, 255, 255, 0.08);
+}
+
+.red-button {
+	background-color: rgba(255, 0, 122, 0.2);
+	color: #ff007a;
+}
+
+.red-button:hover {
+	background-color: rgba(255, 0, 122, 0.3);
+}
+
+.blue-button {
+	background-color: rgba(39, 117, 202, 0.25);
+	color: #2775ca;
+}
+
+.blue-button:hover {
+	background-color: rgba(39, 117, 202, 0.35);
 }

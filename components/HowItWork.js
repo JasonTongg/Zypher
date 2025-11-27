@@ -159,7 +159,7 @@ const HowItWork = () => {
 				</div>
 			</div>
 
-			<div className='mt-6 flex flex-row flex-wrap items-stretch justify-center gap-3 md:gap-8'>
+			<div className='mt-6 flex flex-row flex-wrap items-stretch justify-center gap-3 md:gap-8 sm:px-10'>
 				{filteredSteps.map((item, index) => (
 					<div
 						key={index}

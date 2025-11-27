@@ -628,7 +628,7 @@ export default function AddLiquidityUniversal() {
 									handleOpen();
 									setSearch("");
 								}}
-								className='bg-[rgba(39,117,202,0.25)] text-[#2775CA] rounded-[5px] py-[1rem] px-[10px] flex justify-between items-center cursor-pointer'
+								className='bg-[rgba(0,0,0,0.05)] rounded-[5px] py-[1rem] px-[10px] flex justify-between items-center cursor-pointer'
 							>
 								<p>{tokenASymbol || "Select Token"}</p>
 								<FaChevronDown className='text-[1rem] font-semibold' />
@@ -639,7 +639,7 @@ export default function AddLiquidityUniversal() {
 									handleOpen2();
 									setSearchB("");
 								}}
-								className='bg-[rgba(39,117,202,0.25)] text-[#2775CA] rounded-[5px] py-[1rem] px-[10px] flex justify-between items-center cursor-pointer'
+								className='bg-[rgba(0,0,0,0.05)] rounded-[5px] py-[1rem] px-[10px] flex justify-between items-center cursor-pointer'
 							>
 								<p>{tokenBSymbol || "Select Token"}</p>
 								<FaChevronDown className='text-[1rem] font-semibold' />
@@ -651,7 +651,7 @@ export default function AddLiquidityUniversal() {
 							0.3% fees. For more options, provide liquidity on v4.
 						</p>
 						<button
-							className='bg-[rgba(39,117,202,0.25)] text-[#2775CA] rounded-[10px] p-[1rem] w-full font-semibold disabled:opacity-30 cursor-pointer'
+							className='blue-button rounded-[10px] p-[1rem] w-full font-semibold disabled:opacity-30 cursor-pointer'
 							onClick={handleNext}
 							disabled={!tokenA || !tokenB}
 						>
@@ -910,13 +910,13 @@ export default function AddLiquidityUniversal() {
 								<h2 className='text-xl font-semibold'>
 									{tokenASymbol} / {tokenBSymbol}
 								</h2>
-								<h2 className='text-sm bg-[rgba(39,117,202,0.25)] text-[#2775CA] py-1 px-2 rounded-[5px]'>
+								<h2 className='text-sm blue-button py-1 px-2 rounded-[5px]'>
 									{version}
 								</h2>
 							</div>
 							<button
 								onClick={handleBack}
-								className='cursor-pointer flex items-center justify-center gap-1 font-semibold py-2 px-3 rounded-[10px] bg-[rgba(39,117,202,0.25)] text-[#2775CA]'
+								className='cursor-pointer flex items-center justify-center gap-1 font-semibold py-2 px-3 rounded-[10px] blue-button'
 							>
 								<FaRegEdit className='text-xl' />
 								<p>Edit</p>
@@ -976,7 +976,7 @@ export default function AddLiquidityUniversal() {
 						<button
 							onClick={handleClick}
 							disabled={pendingApproval}
-							className='mt-3 px-4 py-2 bg-[rgba(39,117,202,0.25)] text-[#2775CA] rounded w-full disabled:opacity-50 cursor-pointer'
+							className='mt-3 px-4 py-2 blue-button rounded w-full disabled:opacity-50 cursor-pointer'
 						>
 							{getButtonLabel()}
 						</button>

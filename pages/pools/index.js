@@ -317,45 +317,41 @@ export default function RemoveLiquidityWithPositions() {
 				</p>
 				<div className='flex items-center justify-center sm:justify-start gap-4 flex-wrap'>
 					<button
-						className='py-2 px-6 border-[1px] border-gray-300 flex items-center justify-center rounded-[7px] cursor-pointer'
-						style={
+						className={`py-2 px-6 border-[1px] border-gray-300 flex items-center justify-center rounded-[7px] cursor-pointer ${
 							poolType.toLowerCase() === "all pools"
-								? { background: "rgba(39,117,202,0.25)", color: "#2775CA" }
-								: { background: "transparent", color: "black" }
-						}
+								? "blue-button"
+								: "bg-transparent text-black"
+						}`}
 						onClick={() => setPoolType("all pools")}
 					>
 						All Pools
 					</button>
 					<button
-						className='py-2 px-6 border-[1px] border-gray-300 flex items-center justify-center rounded-[7px] cursor-pointer'
-						style={
+						className={`py-2 px-6 border-[1px] border-gray-300 flex items-center justify-center rounded-[7px] cursor-pointer ${
 							poolType.toLowerCase() === "v2"
-								? { background: "rgba(39,117,202,0.25)", color: "#2775CA" }
-								: { background: "transparent", color: "black" }
-						}
+								? "blue-button"
+								: "bg-transparent text-black"
+						}`}
 						onClick={() => setPoolType("v2")}
 					>
 						V2
 					</button>
 					<button
-						className='py-2 px-6 border-[1px] border-gray-300 flex items-center justify-center rounded-[7px] cursor-pointer'
-						style={
+						className={`py-2 px-6 border-[1px] border-gray-300 flex items-center justify-center rounded-[7px] cursor-pointer ${
 							poolType.toLowerCase() === "v3"
-								? { background: "rgba(39,117,202,0.25)", color: "#2775CA" }
-								: { background: "transparent", color: "black" }
-						}
+								? "blue-button"
+								: "bg-transparent text-black"
+						}`}
 						onClick={() => setPoolType("v3")}
 					>
 						V3
 					</button>
 					<button
-						className='py-2 px-6 border-[1px] border-gray-300 flex items-center justify-center rounded-[7px] cursor-pointer'
-						style={
+						className={`py-2 px-6 border-[1px] border-gray-300 flex items-center justify-center rounded-[7px] cursor-pointer ${
 							poolType.toLowerCase() === "v4"
-								? { background: "rgba(39,117,202,0.25)", color: "#2775CA" }
-								: { background: "transparent", color: "black" }
-						}
+								? "blue-button"
+								: "bg-transparent text-black"
+						}`}
 						onClick={() => setPoolType("v4")}
 					>
 						V4
@@ -371,7 +367,7 @@ export default function RemoveLiquidityWithPositions() {
 					{filterVersion().map((pos, i) => (
 						<div
 							key={i}
-							className='p-4 border rounded-xl flex justify-center flex-col items-center gap-2'
+							className='p-4 border-[1px] border-gray-300 rounded-xl flex justify-center flex-col items-center gap-2'
 						>
 							<div className='flex items-center justify-between w-full'>
 								<p className='text-2xl'>
@@ -384,16 +380,16 @@ export default function RemoveLiquidityWithPositions() {
 										pos?.v4Position?.poolPosition?.token1?.symbol}
 								</p>
 								<div className='flex items-center justify-start gap-1'>
-									<p className='bg-[rgba(39,117,202,0.25)] text-[#2775CA] px-2 py-1 rounded-[5px] text-xs'>
+									<p className='blue-button px-2 py-1 rounded-[5px] text-xs'>
 										{getVersion(pos.protocolVersion)}
 									</p>
-									<p className='bg-[rgba(39,117,202,0.25)] text-[#2775CA] px-2 py-1 rounded-[5px] text-xs'>
+									<p className='blue-button px-2 py-1 rounded-[5px] text-xs'>
 										0.3%
 									</p>
 								</div>
 							</div>
 							{getVersion(pos.protocolVersion) === "V2" ? (
-								<div className='bg-[rgba(39,117,202,0.25)] flex flex-col items-center justify-center gap-2 p-2 w-full rounded-[5px] my-2'>
+								<div className='bg-[rgba(0,0,0,0.03)] flex flex-col items-center justify-center gap-2 p-3 w-full rounded-[5px] my-2'>
 									<div className='flex items-center justify-between w-full'>
 										<p>My Position</p>
 										<p>{formatNumber(pos?.v2Pair?.liquidity)}</p>
@@ -404,7 +400,7 @@ export default function RemoveLiquidityWithPositions() {
 									</div>
 								</div>
 							) : getVersion(pos.protocolVersion) === "V4" ? (
-								<div className='bg-[rgba(39,117,202,0.25)] flex flex-col items-center justify-center gap-2 p-2 w-full rounded-[5px] my-2'>
+								<div className='bg-[rgba(0,0,0,0.03)] flex flex-col items-center justify-center gap-2 p-3 w-full rounded-[5px] my-2'>
 									<div className='flex items-center justify-between w-full'>
 										<p>
 											{pos?.v4Position?.poolPosition?.token0?.symbol} Amount
@@ -427,7 +423,7 @@ export default function RemoveLiquidityWithPositions() {
 									</div>
 								</div>
 							) : (
-								<div className='bg-[rgba(39,117,202,0.25)] flex flex-col items-center justify-center gap-2 p-2 w-full rounded-[5px] my-2'>
+								<div className='bg-[rgba(0,0,0,0.03)] flex flex-col items-center justify-center gap-2 p-3 w-full rounded-[5px] my-2'>
 									<div className='flex items-center justify-between w-full'>
 										<p>{pos?.v3Position?.token0?.symbol} Amount</p>
 										<p>
@@ -448,7 +444,7 @@ export default function RemoveLiquidityWithPositions() {
 							)}
 							<div className='flex flex-col items-center justify-center gap-1 w-full'>
 								<button
-									className='p-2 text-center bg-[rgba(39,117,202,0.25)] text-[#2775CA] w-full rounded-[5px] disabled:opacity-30 cursor-pointer'
+									className='p-2 text-center blue-button w-full rounded-[5px] disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer'
 									onClick={() =>
 										router.push(
 											`/v2/addLiquidity?tokenA=${
@@ -478,7 +474,7 @@ export default function RemoveLiquidityWithPositions() {
 									Add Liquidity
 								</button>
 								<button
-									className='p-2 text-center bg-[rgba(39,117,202,0.25)] text-[#2775CA] w-full rounded-[5px] disabled:opacity-30 cursor-pointer'
+									className='p-2 text-center red-button w-full rounded-[5px] disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer'
 									onClick={() => openRemoveModal(pos)}
 									disabled={
 										getVersion(pos.protocolVersion) === "V3" ||
@@ -493,7 +489,7 @@ export default function RemoveLiquidityWithPositions() {
 				</div>
 			) : (
 				<div className='flex flex-col items-center justify-center gap-2 border-[1px] rounded-[10px] border-gray-300 w-full min-h-[450px]'>
-					<div className='bg-[rgba(39,117,202,0.25)] text-[#2775CA] w-[50px] h-[50px] rounded-[5px] flex items-center justify-center'>
+					<div className='blue-button w-[50px] h-[50px] rounded-[5px] flex items-center justify-center'>
 						<FaWaterLadder className='text-[1.7rem]' />
 					</div>
 					<h2 className='font-semibold text-[1.15rem]'>
@@ -502,7 +498,7 @@ export default function RemoveLiquidityWithPositions() {
 					<p className='text-gray-600'>
 						Add liquidity to a pool and view your positions here
 					</p>
-					<button className='bg-[rgba(39,117,202,0.25)] text-[#2775CA] py-[6px] px-[30px] rounded-[5px]'>
+					<button className='blue-button py-[6px] px-[30px] rounded-[5px]'>
 						Add Liquidity
 					</button>
 				</div>
@@ -540,7 +536,7 @@ export default function RemoveLiquidityWithPositions() {
 										selectedPos?.v3Position?.token1?.symbol ||
 										selectedPos?.v4Position?.poolPosition?.token1?.symbol}
 								</p>
-								<p className='bg-[rgba(39,117,202,0.25)] text-[#2775CA] px-2 py-1 rounded-[5px] text-xs'>
+								<p className='blue-button px-2 py-1 rounded-[5px] text-xs'>
 									{getVersion(selectedPos.protocolVersion)}
 								</p>
 							</div>
@@ -622,7 +618,7 @@ export default function RemoveLiquidityWithPositions() {
 							isRemovalSuccess ||
 							percentage === 0
 						}
-						className='w-full bg-[rgba(39,117,202,0.25)] text-[#2775CA] py-2 px-4 text-center font-semibold'
+						className='w-full blue-button py-2 px-4 text-center font-semibold'
 					>
 						{buttonText}
 					</button>

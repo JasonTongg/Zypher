@@ -1,9 +1,6 @@
 import React from "react";
-
 import Image from "next/image";
 import Link from "next/link";
-
-import classNames from "classnames";
 import { MoveRightIcon } from "lucide-react";
 
 import Button from "@/components/Button/Button";

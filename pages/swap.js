@@ -545,67 +545,43 @@ export default function Swap() {
 				<div className='flex items-center justify-between gap-2 w-full'>
 					<div className='flex items-center justify-center gap-2 flex-wrap'>
 						<button
-							className='w-[70px] py-1 px-3 rounded-[100px]'
-							style={
+							className={`w-[70px] py-1 px-3 rounded-[100px] cursor-pointer disabled:cursor-not-allowed ${
 								tabActive === 0
-									? { background: "rgba(39,117,202,0.25)", color: "#2775CA" }
-									: {
-											color: "#2775CA",
-											background: "transparent",
-											borderWidth: "1px",
-											borderColor: "rgba(39,117,202,0.25)",
-									  }
-							}
+									? "blue-button"
+									: "text-[#2775ca] bg-transparent border-[1px] border-[rgba(39,117,202,0.25)]"
+							}`}
 							onClick={() => setTabActive(0)}
 						>
 							Swap
 						</button>
 						<button
-							className='w-[70px] py-1 px-3 rounded-[100px] disabled:opacity-50'
-							style={
+							className={`w-[70px] py-1 px-3 rounded-[100px] cursor-pointer disabled:cursor-not-allowed ${
 								tabActive === 1
-									? { background: "rgba(39,117,202,0.25)", color: "#2775CA" }
-									: {
-											color: "#2775CA",
-											background: "transparent",
-											borderWidth: "1px",
-											borderColor: "rgba(39,117,202,0.25)",
-									  }
-							}
+									? "blue-button"
+									: "text-[#2775ca] bg-transparent border-[1px] border-[rgba(39,117,202,0.25)]"
+							}`}
 							onClick={() => setTabActive(1)}
 							disabled
 						>
 							Limit
 						</button>
 						<button
-							className='w-[70px] py-1 px-3 rounded-[100px] disabled:opacity-50'
-							style={
+							className={`w-[70px] py-1 px-3 rounded-[100px] cursor-pointer disabled:cursor-not-allowed ${
 								tabActive === 2
-									? { background: "rgba(39,117,202,0.25)", color: "#2775CA" }
-									: {
-											color: "#2775CA",
-											background: "transparent",
-											borderWidth: "1px",
-											borderColor: "rgba(39,117,202,0.25)",
-									  }
-							}
+									? "blue-button"
+									: "text-[#2775ca] bg-transparent border-[1px] border-[rgba(39,117,202,0.25)]"
+							}`}
 							onClick={() => setTabActive(2)}
 							disabled
 						>
 							Buy
 						</button>
 						<button
-							className='w-[70px] py-1 px-3 rounded-[100px] disabled:opacity-50'
-							style={
+							className={`w-[70px] py-1 px-3 rounded-[100px] cursor-pointer disabled:cursor-not-allowed ${
 								tabActive === 3
-									? { background: "rgba(39,117,202,0.25)", color: "#2775CA" }
-									: {
-											color: "#2775CA",
-											background: "transparent",
-											borderWidth: "1px",
-											borderColor: "rgba(39,117,202,0.25)",
-									  }
-							}
+									? "blue-button"
+									: "text-[#2775ca] bg-transparent border-[1px] border-[rgba(39,117,202,0.25)]"
+							}`}
 							onClick={() => setTabActive(3)}
 							disabled
 						>
@@ -630,7 +606,7 @@ export default function Swap() {
 										handleOpen();
 										setSearch("");
 									}}
-									className='bg-[rgba(39,117,202,0.25)] text-[#2775CA] gap-2 rounded-[100px] py-[0.3rem] px-[15px] flex justify-center items-center cursor-pointer min-w-[100px]'
+									className='blue-button gap-2 rounded-[100px] py-[0.3rem] px-[15px] flex justify-center items-center cursor-pointer min-w-[100px]'
 								>
 									<p className='whitespace-nowrap'>
 										{tokenASymbol || "Select Token"}
@@ -678,7 +654,7 @@ export default function Swap() {
 										handleOpen2();
 										setSearchB("");
 									}}
-									className='bg-[rgba(39,117,202,0.25)] text-[#2775CA] gap-2 rounded-[100px] py-[0.3rem] px-[15px] flex justify-center items-center cursor-pointer min-w-[100px]'
+									className='blue-button gap-2 rounded-[100px] py-[0.3rem] px-[15px] flex justify-center items-center cursor-pointer min-w-[100px]'
 								>
 									<p className='whitespace-nowrap'>
 										{tokenBSymbol || "Select Token"}
@@ -715,7 +691,7 @@ export default function Swap() {
 						<button
 							onClick={handleApprove}
 							disabled={!activeSwap || activeSwap?.isApproveLoading}
-							className='flex-1 bg-[rgba(39,117,202,0.25)] text-[#2775CA] font-bold py-2 px-4 rounded-[25px]'
+							className='flex-1 blue-button font-bold py-2 px-4 rounded-[25px]'
 						>
 							{activeSwap?.isApproveLoading ? "Approving..." : "Approve"}
 						</button>
@@ -727,7 +703,7 @@ export default function Swap() {
 								activeSwap?.isSwapLoading ||
 								!activeSwap
 							}
-							className='flex-1 bg-[rgba(39,117,202,0.25)] text-[#2775CA] font-bold py-2 px-4 rounded-[25px]'
+							className='flex-1 blue-button font-bold py-2 px-4 rounded-[25px]'
 						>
 							{activeSwap?.isSwapLoading ? "Swapping..." : "Swap"}
 						</button>
