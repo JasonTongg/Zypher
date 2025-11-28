@@ -1,3 +1,6 @@
+<img width="1549" height="584" alt="image" src="https://github.com/user-attachments/assets/1753c2c8-56c5-4242-8762-cb8ffd84d05d" />
+
+
 # Zypher
 
 Zypher DEX is a next-generation DeFi interface that enables **liquidity management**, **token swaps**, and **portfolio insights** across Uniswap V2, V3, and V4 — all from a single seamless dashboard.
