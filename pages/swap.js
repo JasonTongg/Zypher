@@ -20,6 +20,9 @@ import { useSearchParams } from "next/navigation";
 import { fetchSearchToken, fetchSearchTokenB } from "../store/data";
 import { FaAngleDoubleDown } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { useReadContract } from "wagmi";
+import erc20Abi from "../hooks/abi/erc20.json";
+import { useBalance } from "wagmi";
 
 const style = {
 	position: "absolute",
@@ -132,7 +135,6 @@ export default function Swap() {
 		return url;
 	}
 
-	// Sync amount input with the active swap hook
 	useEffect(() => {
 		if (activeSwap && amountIn) {
 			activeSwap?.setAmountIn(amountIn);
@@ -141,8 +143,9 @@ export default function Swap() {
 
 	useEffect(() => {
 		if (address) {
-			console.log("Address changed:", address);
 			dispatch(fetchPortfolio({ address }));
+			refetchBalance();
+			refetch();
 		}
 	}, [address]);
 
@@ -160,7 +163,6 @@ export default function Swap() {
 		dispatch(setNavbarActive("swap"));
 	}, []);
 
-	// Create portfolio with ETH option
 	const portfolioWithETH = useMemo(() => {
 		return [...(userPortfolio || [])];
 	}, [userPortfolio]);
@@ -175,7 +177,7 @@ export default function Swap() {
 	};
 
 	const handleApprove = () => {
-		if (swapType === "eth-to-token") return; // No approval needed for ETH
+		if (swapType === "eth-to-token") return;
 		activeSwap?.approveToken();
 		toast.info("Approving...");
 	};
@@ -281,6 +283,8 @@ export default function Swap() {
 		if (activeSwap?.swapConfirmed) {
 			toast.success("Swap Completed!...");
 			setAmountIn("");
+			refetchBalance();
+			refetch();
 
 			if (swapType !== "eth-to-token") activeSwap?.refetchBalance();
 		}
@@ -303,6 +307,22 @@ export default function Swap() {
 			toast.success("Approved!...");
 		}
 	}, [activeSwap?.approveConfirmed]);
+
+	const {
+		data: balance,
+		error: balanceError,
+		refetch: refetchBalance,
+	} = useReadContract({
+		address: tokenOut,
+		abi: erc20Abi,
+		functionName: "balanceOf",
+		args: [address],
+		query: { enabled: !!address },
+	});
+
+	const { data, refetch } = useBalance({
+		address,
+	});
 
 	return (
 		<div
@@ -457,6 +477,8 @@ export default function Swap() {
 										onClick={() => {
 											setTokenOut(searchResultB.address);
 											setTokenBSymbol(searchResultB.symbol);
+											refetchBalance();
+											refetch();
 
 											if (tokenIn === searchResultB?.address) {
 												setTokenIn("");
@@ -501,6 +523,8 @@ export default function Swap() {
 												onClick={() => {
 													setTokenOut(item?.token?.address);
 													setTokenBSymbol(item?.token?.symbol);
+													refetchBalance();
+													refetch();
 													if (tokenIn === searchResultB?.address) {
 														setTokenIn("");
 														setTokenASymbol("");
@@ -600,7 +624,79 @@ export default function Swap() {
 								onChange={(e) => setAmountIn(e.target.value)}
 								className='w-full border-none outline-none rounded text-3xl font-semibold'
 							/>
-							<div className='flex flex-col items-end justify-center gap-1'>
+							<div className='flex flex-col items-end justify-center gap-3'>
+								<div className='flex items-center justify-center gap-2'>
+									<button
+										className='text-sm px-2 py-[1px] rounded-[100px] border-[1px] border-[#2775ca] text-[#2775ca] cursor-pointer'
+										onClick={() =>
+											setAmountIn(
+												String(
+													Number(
+														formatUnits(
+															activeSwap?.balance.value ?? activeSwap?.balance,
+															tokenInDecimals
+														)
+													).toFixed(2) / 4
+												)
+											)
+										}
+									>
+										25%
+									</button>
+									<button
+										className='text-sm px-2 py-[1px] rounded-[100px] border-[1px] border-[#2775ca] text-[#2775ca] cursor-pointer'
+										onClick={() =>
+											setAmountIn(
+												String(
+													Number(
+														formatUnits(
+															activeSwap?.balance.value ?? activeSwap?.balance,
+															tokenInDecimals
+														)
+													).toFixed(2) / 2
+												)
+											)
+										}
+									>
+										50%
+									</button>
+									<button
+										className='text-sm px-2 py-[1px] rounded-[100px] border-[1px] border-[#2775ca] text-[#2775ca] cursor-pointer'
+										onClick={() =>
+											setAmountIn(
+												String(
+													(Number(
+														formatUnits(
+															activeSwap?.balance.value ?? activeSwap?.balance,
+															tokenInDecimals
+														)
+													).toFixed(2) *
+														3) /
+														4
+												)
+											)
+										}
+									>
+										75%
+									</button>
+									<button
+										className='text-sm px-2 py-[1px] rounded-[100px] border-[1px] border-[#2775ca] text-[#2775ca] cursor-pointer'
+										onClick={() =>
+											setAmountIn(
+												String(
+													Number(
+														formatUnits(
+															activeSwap?.balance.value ?? activeSwap?.balance,
+															tokenInDecimals
+														)
+													).toFixed(2)
+												)
+											)
+										}
+									>
+										MAX
+									</button>
+								</div>
 								<button
 									onClick={() => {
 										handleOpen();
@@ -614,7 +710,7 @@ export default function Swap() {
 									<FaChevronDown className='text-[0.85rem] font-semibold' />
 								</button>
 								{activeSwap?.balance !== undefined && (
-									<p className='text-sm text-gray-600 mt-1'>
+									<p className='text-sm text-gray-600'>
 										{Number(
 											formatUnits(
 												activeSwap?.balance.value ?? activeSwap?.balance,
@@ -627,8 +723,7 @@ export default function Swap() {
 							</div>
 						</div>
 					</div>
-
-					<div className='flex justify-center absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%]'>
+					<div className='flex justify-center absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-20%]'>
 						<button
 							onClick={handleSwapTokens}
 							className='bg-[#2775CA] p-2 rounded-[10px] cursor-pointer'
@@ -636,7 +731,6 @@ export default function Swap() {
 							<FaAngleDoubleDown className='text-xl sm:text-3xl text-[#fffad5]' />
 						</button>
 					</div>
-
 					<div className='flex flex-col items-start justify-center gap-1 bg-[#fffad5] border-[1px] border-gray-300 rounded-[25px] p-4'>
 						<p className='text-lg font-bold'>Buy</p>
 						<div className='flex items-center justify-between w-full'>
@@ -648,7 +742,7 @@ export default function Swap() {
 									).toFixed(9)) ||
 									"0.0"}
 							</h2>
-							<div className='flex flex-col items-end justify-center gap-1'>
+							<div className='flex flex-col items-end justify-center gap-3'>
 								<button
 									onClick={() => {
 										handleOpen2();
@@ -661,8 +755,16 @@ export default function Swap() {
 									</p>
 									<FaChevronDown className='text-[0.85rem] font-semibold' />
 								</button>
-								{activeSwap?.balance !== undefined && (
-									<p className='text-sm text-gray-600 mt-1 opacity-0'>000</p>
+								{balance !== undefined && tokenBSymbol !== "ETH" && (
+									<p className='text-sm text-gray-600 '>
+										{Number(formatUnits(balance, tokenOutDecimals)).toFixed(2)}{" "}
+										{tokenBSymbol}
+									</p>
+								)}
+								{data?.formatted !== undefined && tokenBSymbol === "ETH" && (
+									<p className='text-sm text-gray-600 '>
+										{Number(data?.formatted).toFixed(2)} {tokenBSymbol}
+									</p>
 								)}
 							</div>
 						</div>
@@ -691,7 +793,7 @@ export default function Swap() {
 						<button
 							onClick={handleApprove}
 							disabled={!activeSwap || activeSwap?.isApproveLoading}
-							className='flex-1 blue-button font-bold py-2 px-4 rounded-[25px]'
+							className='flex-1 blue-button font-bold py-2 px-4 rounded-[25px] cursor-pointer'
 						>
 							{activeSwap?.isApproveLoading ? "Approving..." : "Approve"}
 						</button>
