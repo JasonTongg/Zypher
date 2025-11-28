@@ -669,7 +669,7 @@ export default function Swap() {
 					</div>
 				</div>
 
-				{/* Error Display */}
+				{/* Error Display
 				{activeSwap &&
 					(activeSwap?.balanceError ||
 						activeSwap?.expectedOutError ||
@@ -684,7 +684,7 @@ export default function Swap() {
 									activeSwap?.expectedTokenError?.message}
 							</p>
 						</div>
-					)}
+					)} */}
 
 				<div className='flex space-x-4 w-full'>
 					{activeSwap?.isApproved === false ? (
@@ -703,7 +703,7 @@ export default function Swap() {
 								activeSwap?.isSwapLoading ||
 								!activeSwap
 							}
-							className='flex-1 blue-button font-bold py-2 px-4 rounded-[25px]'
+							className='flex-1 blue-button font-bold py-2 px-4 rounded-[25px] cursor-pointer'
 						>
 							{activeSwap?.isSwapLoading ? "Swapping..." : "Swap"}
 						</button>
