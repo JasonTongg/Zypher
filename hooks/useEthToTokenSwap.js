@@ -23,7 +23,6 @@ export function useETHToTokenSwap({
 		address: user,
 	});
 
-	// Expected token output for ETH input
 	const { data: expectedTokenOut, error: expectedTokenError } = useReadContract(
 		{
 			address: swapContract,
@@ -49,14 +48,13 @@ export function useETHToTokenSwap({
 			tokenOut,
 			"0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14",
 			amountIn,
-		], // tokenIn as selectedSwapToken
+		],
 		query: {
 			enabled: !!user && amountIn > 0n,
 			refetchInterval: 2000,
 		},
 	});
 
-	// SWAP ETH FOR TOKEN
 	const {
 		writeContract: swap,
 		data: swapHash,
@@ -75,17 +73,12 @@ export function useETHToTokenSwap({
 		},
 	});
 
-	console.log("useEthToETHSwap hook initialized with:");
-
 	const executeSwapETHForToken = () => {
 		if (amountIn <= 0n) return toast.error("Enter ETH amount first!");
 
 		if (!enoughLiquidity) {
 			return toast.error("Not enough liquidity for this trade!");
 		}
-
-		console.log("💧 Swap ETH for token clicked");
-
 		try {
 			swap({
 				address: swapContract,

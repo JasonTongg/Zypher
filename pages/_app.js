@@ -20,7 +20,6 @@ const config = getDefaultConfig({
 	ssr: true,
 });
 
-// ⭐ Custom theme
 const customTheme = {
 	blurs: {
 		modalOverlay: "6px",

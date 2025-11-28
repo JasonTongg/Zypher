@@ -23,7 +23,6 @@ export function useTokenSwap({
 	const { address: user } = useAccount();
 	const [isApproved, setIsApproved] = useState(false);
 
-	// 1. Read token balance
 	const {
 		data: balance,
 		error: balanceError,
@@ -36,7 +35,6 @@ export function useTokenSwap({
 		query: { enabled: !!user },
 	});
 
-	// 2. Read allowance
 	const {
 		data: allowance,
 		error: allowanceError,
@@ -49,7 +47,6 @@ export function useTokenSwap({
 		query: { enabled: !!user && !!swapContract, refetchInterval: 1000 },
 	});
 
-	// 3. Expected output with error handling
 	const { data: expectedOut, error: expectedOutError } = useReadContract({
 		address: swapContract,
 		abi: swapAbi,
@@ -68,14 +65,13 @@ export function useTokenSwap({
 		address: swapContract,
 		abi: swapAbi,
 		functionName: "_checkEnoughLiquidity",
-		args: [tokenIn, tokenOut, tokenIn, amountIn], // tokenIn as selectedSwapToken
+		args: [tokenIn, tokenOut, tokenIn, amountIn],
 		query: {
 			enabled: !!user && amountIn > 0n,
 			refetchInterval: 2000,
 		},
 	});
 
-	// 4. APPROVE
 	const {
 		writeContract: approve,
 		data: approveHash,
@@ -90,7 +86,6 @@ export function useTokenSwap({
 	} = useWaitForTransactionReceipt({
 		hash: approveHash,
 		onSuccess: () => {
-			console.log("✅ Approval confirmed, refetching allowance");
 			refetchAllowance();
 		},
 	});
@@ -98,24 +93,11 @@ export function useTokenSwap({
 	const approveToken = async () => {
 		if (amountIn <= 0n) return toast.error("Enter amount first!");
 
-		// Check if already approved
 		if (isApproved) {
-			console.log("✅ Allowance already sufficient, no approval needed");
 			return;
 		}
 
-		console.log("🔥 Approve clicked with details:", {
-			swapContract,
-			tokenIn,
-			tokenOut,
-			amountIn,
-			user,
-			currentAllowance: allowance?.toString(),
-			requiredAllowance: amountIn.toString(),
-		});
-
 		try {
-			// Validate inputs
 			if (!tokenIn || !swapContract) {
 				throw new Error("Missing required contract addresses");
 			}
@@ -124,22 +106,17 @@ export function useTokenSwap({
 				throw new Error("ERC20 ABI is invalid");
 			}
 
-			console.log("Sending approve transaction...");
-
 			approve({
 				address: tokenIn,
 				abi: erc20Abi,
 				functionName: "approve",
 				args: [swapContract, amountIn],
 			});
-
-			console.log("Approve transaction sent successfully");
 		} catch (error) {
 			console.error("Approve error:", error);
 		}
 	};
 
-	// 5. SWAP
 	const {
 		writeContract: swap,
 		data: swapHash,
@@ -154,7 +131,6 @@ export function useTokenSwap({
 	} = useWaitForTransactionReceipt({
 		hash: swapHash,
 		onSuccess: () => {
-			console.log("✅ Approval confirmed, refetching allowance");
 			refetchAllowance();
 			refetchLiquidity();
 		},
@@ -167,15 +143,11 @@ export function useTokenSwap({
 			return toast.error("Not enough liquidity for this trade!");
 		}
 
-		// Check if approved (either via previous allowance or recent approval)
 		if (!isApproved && !approveConfirmed) {
 			return toast.error("Approve first!");
 		}
 
-		console.log("💧 Swap clicked");
-
 		try {
-			// Validate swap ABI
 			if (!swapAbi || !Array.isArray(swapAbi)) {
 				throw new Error("Swap ABI is invalid or not loaded");
 			}
@@ -184,22 +156,17 @@ export function useTokenSwap({
 				throw new Error("Swap contract address is missing");
 			}
 
-			console.log("Sending swap transaction...");
-
 			swap({
 				address: swapContract,
 				abi: swapAbi,
 				functionName: "swapToken",
 				args: [tokenIn, tokenOut, amountIn],
 			});
-
-			console.log("Swap transaction sent successfully");
 		} catch (error) {
 			console.error("Swap error:", error);
 		}
 	};
 
-	// Log errors for debugging
 	if (balanceError) console.error("Balance error:", balanceError);
 	if (allowanceError) console.error("Allowance error:", allowanceError);
 	if (expectedOutError) console.error("Expected out error:", expectedOutError);
@@ -214,7 +181,7 @@ export function useTokenSwap({
 		balance,
 		allowance,
 		expectedOut,
-		isApproved: isApproved, // Consider approved if allowance is sufficient OR approval was confirmed
+		isApproved: isApproved,
 		approveToken,
 		executeSwap,
 		approveConfirmed,
@@ -236,11 +203,8 @@ export function useTokenSwap({
 		refetchBalance,
 		setAmountIn: (v) => {
 			try {
-				console.log("set amount in");
-				console.log(v);
 				setAmountIn(parseUnits(v, tokenInDecimals));
 			} catch (error) {
-				console.error("Error parsing amount:", error);
 				setAmountIn(0n);
 			}
 		},

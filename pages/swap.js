@@ -34,7 +34,7 @@ const style = {
 	borderRadius: "10px",
 };
 
-const ETH_ADDRESS = "0x0000000000000000000000000000000000000000"; // Standard ETH placeholder
+const ETH_ADDRESS = "0x0000000000000000000000000000000000000000";
 
 export default function Swap() {
 	const dispatch = useDispatch();
@@ -83,7 +83,6 @@ export default function Swap() {
 		return token?.token.decimals || 18;
 	}, [tokenOut, userPortfolio]);
 
-	// Initialize all three swap hooks
 	const tokenToTokenSwap = useTokenSwap({
 		swapContract: process.env.NEXT_PUBLIC_SWAP_CONTRACT,
 		tokenIn: tokenIn,
@@ -104,7 +103,6 @@ export default function Swap() {
 		tokenOutDecimals: tokenOutDecimals,
 	});
 
-	// Determine swap type based on selected tokens
 	const swapType = useMemo(() => {
 		if (tokenIn === ETH_ADDRESS) return "eth-to-token";
 		if (tokenOut === ETH_ADDRESS) return "token-to-eth";
@@ -113,7 +111,6 @@ export default function Swap() {
 		return "token-to-eth";
 	}, [tokenIn, tokenOut]);
 
-	// Select the appropriate swap hook based on swap type
 	const activeSwap = useMemo(() => {
 		switch (swapType) {
 			case "token-to-token":
@@ -197,7 +194,6 @@ export default function Swap() {
 		}
 	};
 
-	// Get expected output based on swap type
 	const getExpectedOutput = () => {
 		switch (swapType) {
 			case "token-to-token":
