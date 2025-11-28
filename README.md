@@ -91,6 +91,6 @@ Zypher integrates custom liquidity logic with Uniswap’s routers and SDKs to de
 
 **Jason Tong**  
 
-**Product:** [ccip-crosschain.vercel.app](https://ccip-crosschain.vercel.app/)  
-**GitHub:** [JasonTongg]([https://github.com/yourusername/ccip-crosschain](https://github.com/JasonTongg))
-**Linkedin:** [Jason Tong](https://www.linkedin.com/in/jason-tong-42600319a/)
+- **Product:** [Zypher](https://zypher-dex.vercel.app/).
+- **GitHub:** [JasonTongg](https://github.com/JasonTongg).
+- **Linkedin:** [Jason Tong](https://www.linkedin.com/in/jason-tong-42600319a/).
