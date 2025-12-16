@@ -7,7 +7,7 @@ Zypher DEX is a next-generation DeFi interface that enables **liquidity manageme
 The platform simplifies complex LP workflows using automated range-strategy helpers, smart routing, token conversions, and real-time on-chain analytics.
 
 - **Live Product:** [Zypher](https://zypher-dex.vercel.app/)
-- **Smart Contract using Foundry:** [Uniswap Smart Contract](https://github.com/JasonTongg/Uniswap-V2)
+- **Smart Contract using Foundry:** [Zypher Smart Contract](https://github.com/JasonTongg/Uniswap-V2)
 
 ## Project Overview
 
